@@ -1,6 +1,9 @@
-import { FC } from 'react'
-import Link from 'next/link'
+'use client'
+
+import { cn } from '@/lib/utils'
 import { Category } from '@prisma/client'
+import Link from 'next/link'
+import { FC } from 'react'
 import { buttonVariants } from '../../ui/Button'
 
 interface Props {
@@ -8,13 +11,23 @@ interface Props {
 }
 
 const CategoryCard: FC<Props> = ({category}) => {
+
   return(
-    
-    <Link 
-    href={`/dashboard/view-a-category/${category.name}`} 
-    className={buttonVariants({className:'text-center p-2 border border-slate-800 rounded-md'})}>
-      {category.name}
-    </Link>
+    <tr className='h-[50px]'>
+      <td className='relative h-full border border-black'>
+        <div className='absolute inset-0 flex'>
+          <p className='text-sm overflow-hidden px-4 whitespace-nowrap text-ellipsis my-auto'>
+            {category.name}
+          </p>
+        </div>  
+      </td>
+      <td className='hidden h-full text-center border border-black min-[455px]:table-cell'>Products Count</td>
+      <td className='h-full text-center border border-black'>
+        <Link href={`/dashboard/categories/edit/${category.id}`} className={cn(buttonVariants(),'py-1 text-xs')}>
+          Edit
+        </Link>
+      </td>
+    </tr>
   )
 }
 

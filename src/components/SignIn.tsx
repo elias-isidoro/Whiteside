@@ -6,10 +6,10 @@ const SignIn = () => {
   return(
     <div className='flex flex-col space-y-2 text-center max-w-[300px]'>
       
-      <Icons.logo className='mx-auto h-6 w-6'/>
+      <Icons.whiteside className='mx-auto h-11 w-11'/>
       <h1 className='text-2xl font-semibold tracking-tight'>Sign in</h1>
       <p className='text-sm'>
-        By continuing, you are setting up a reddit account and agree to our User Agreement and Privacy Policy.
+        By continuing, you are setting up a whiteside account and agree to our User Agreement and Privacy Policy.
       </p>
 
       <UserAuthForm/>

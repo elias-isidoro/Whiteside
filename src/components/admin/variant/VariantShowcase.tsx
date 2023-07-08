@@ -10,7 +10,7 @@ const VariantShowcase = () => {
 
   return(
     <div className='flex flex-row flex-wrap w-full gap-2'>
-      <Link href={`/dashboard/create-a-variant`} className={buttonVariants({className:'aspect-square flex flex-row justify-center items-center h-[80px] p-2'})}>
+      <Link href={`/dashboard/variants/create`} className={buttonVariants({className:'aspect-square flex flex-row justify-center items-center h-[80px] p-2'})}>
         <Plus className='h-full w-full'/>
       </Link>
 

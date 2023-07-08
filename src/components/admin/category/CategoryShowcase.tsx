@@ -1,40 +1,55 @@
-import type { Category, Product, Variant } from '@prisma/client';
-import { Plus } from 'lucide-react';
-import Link from 'next/link';
-import { FC, useMemo } from 'react';
+import { FC } from 'react';
+import type { Category } from '@prisma/client';
+import { Folder, Plus } from 'lucide-react';
 import { buttonVariants } from '@/components/ui/Button';
-import ProductCard from '../product/ProductCard';
+import CategoryCard from './CategoryCard';
+import Link from 'next/link';
+import { cn } from '@/lib/utils';
 
 interface Props {
-  category: Category & {
-    products: (Product & {
-      variants: Variant[]
-    })[];
-}
+  categories: Category[]
 }
 
-const CategoryShowcase: FC<Props> = ({category}) => {
 
-  const invisibleChildren = useMemo(() => Array.from({length:5},(_, i) => <ProductCard key={`invisible_${i}`} isInvisible={true}/>), []);
-    
-  if(!category) return null
+const CategoryShowcase: FC<Props> = ({categories}) => {
 
-  return(
-    <div className='flex flex-wrap h-full w-full py-4 gap-2'>
+  if(!categories) return null
 
-      <Link 
-      href={`/dashboard/categorize-a-product/${category.name}`} 
-      className={buttonVariants({
-        className:`relative aspect-square flex flex-grow basis-1/3 min-[500px]:basis-1/4 min-[750px]:basis-1/5 justify-center items-center h-full rounded-md`
-      })}>
-        <Plus className='p-0'/>
-      </Link>
+  return (
+    <div className='w-full pb-12'>
+      <div className='flex flex-row gap-2 p-4 pt-0 w-full'>
+        <Folder/>
+        <h1 className='font-semibold'>Categories</h1>
+      </div>
 
-      {category.products.map((product)=>{
-        return (<ProductCard key={`product_${product.id}`} product={product}/>)
-      })}
+      <div className='flex flex-col w-full p-4 border border-black gap-4'>
 
-      {invisibleChildren}
+
+        <div className='flex flex-row w-full'>
+          <Link href={'/dashboard/categories/create'} className={cn(buttonVariants(),'gap-2 pl-2')}>
+            <Plus className='h-6 w-6'/>
+            <p className='text-xs'>Create new category</p>
+          </Link>
+        </div>
+
+        <span className='h-[1px] bg-gray-300'/>
+
+        <div className='w-full text-sm'>
+          <table className='w-full border-collapse'>
+            <thead>
+              <tr className='h-[35px]'>
+                <td width={'50%'} className='h-full font-semibold text-center border border-black'>Name</td>
+                <td width={'30%'} className='hidden h-full font-semibold text-center border border-black min-[455px]:table-cell'>Product Count</td>
+                <td width={'20%'} className='h-full font-semibold text-center border border-black'>Action</td>
+              </tr>
+            </thead>
+            <tbody>
+              {categories.map((category)=>(<CategoryCard key={category.id} category={category}/>))}
+            </tbody>
+          </table>
+        </div>
+
+      </div>
     </div>
   )
 }

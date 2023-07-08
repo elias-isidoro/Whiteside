@@ -1,3 +1,8 @@
+import StoreFront from "@/components/StoreFront";
+
+
 export default function Home() {
-  return <Home/>
+  return (
+    <StoreFront/>
+  )
 }

@@ -30,7 +30,7 @@ const page: FC<Props> = ({}) => {
                 {`The dashboard is designed to give you an overview of your ecommerce website's sales and activity.`}
               </p>
             </div>
-            <Link className={buttonVariants({className:'w-full mt-4 mb-6'})} href='/dashboard/view-a-category'>View Categories</Link>
+            <Link className={buttonVariants({className:'w-full mt-4 mb-6'})} href='/dashboard/categories/view/all'>View Categories</Link>
           </div>
         </div>
 

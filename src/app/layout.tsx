@@ -6,8 +6,8 @@ import '@/styles/globals.css'
 import { Inter } from 'next/font/google'
 
 export const metadata = {
-  title: 'Breadit',
-  description: 'A Reddit clone built with Next.js and TypeScript.',
+  title: 'Whiteside',
+  description: 'Shop for clothes!',
 }
 
 const inter = Inter({ subsets: ['latin'] })
@@ -15,11 +15,11 @@ const inter = Inter({ subsets: ['latin'] })
 export default function RootLayout({ 
   children, 
   authModal, 
-  createModal 
+  crudModal,
 }:{ 
   children: React.ReactNode, 
   authModal: React.ReactNode, 
-  createModal: React.ReactNode 
+  crudModal: React.ReactNode, 
 }){
   return (
     <html lang='en' className={cn('bg-white text-slate-900 antialiased', inter.className)}>
@@ -29,9 +29,9 @@ export default function RootLayout({
           <NavBar/>
 
           {authModal}
-          {createModal}
+          {crudModal}
 
-          <div className={cn('container max-w-[800px] mx-auto h-full pt-12 min-w-[280px]')}>
+          <div className={cn('container max-w-7xl mx-auto h-full pt-10 min-w-[280px]')}>
             {children}
           </div>
 

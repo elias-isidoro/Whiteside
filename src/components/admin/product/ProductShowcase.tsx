@@ -23,9 +23,9 @@ const ProductShowcase: FC<Props> = ({products}) => {
 
         {products.map((product)=>(<ProductCard key={`product_${product.id}`} product={product}/>))}
 
-        <div className='group relative aspect-square flex flex-col flex-grow basis-1/3 min-[500px]:basis-1/4 min-[750px]:basis-1/5 justify-center items-center h-full rounded-md hover:shadow-md'>
+        <div className='group relative aspect-square flex flex-col flex-grow basis-1/3 min-[500px]:basis-1/4 min-[750px]:basis-1/5 min-[1000px]:basis-1/6 min-[1250px]:basis-1/7 justify-center items-center h-full rounded-md hover:shadow-md'>
           <Link 
-          href={`/dashboard/create-a-product`} 
+          href={`/dashboard/products/create`} 
           className={`flex w-full flex-grow border-2 border-gray-600 rounded-md group-hover:border-black`}>
             <Plus className='h-6 w-6 p-0 m-auto text-gray-600 group-hover:text-black'/>
           </Link>

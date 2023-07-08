@@ -50,7 +50,7 @@ const ProductCard: FC<Props> = ({isInvisible=false, product}) => {
 
   return(
     <div 
-    className={`relative aspect-square flex flex-col flex-grow basis-1/3 min-[500px]:basis-1/4 min-[750px]:basis-1/5 justify-center items-center h-full rounded-md ${!isInvisible&&'hover:shadow-md'}`}
+    className={`relative aspect-square flex flex-col flex-grow basis-1/3 min-[500px]:basis-1/4 min-[750px]:basis-1/5 min-[1000px]:basis-1/6 min-[1250px]:basis-1/7 justify-center items-center h-full rounded-md ${!isInvisible&&'hover:shadow-md'}`}
     style={{
     height:isInvisible?'0px':undefined, 
     cursor:isInvisible?'none':'pointer'}}>
@@ -58,7 +58,7 @@ const ProductCard: FC<Props> = ({isInvisible=false, product}) => {
         <>
         <div className='absolute w-full h-full flex flex-col items-center justify-center gap-1 rounded-md bg-zinc-900/0 opacity-0 hover:opacity-100'>
           <button onClick={handleClickX} className='absolute right-0 top-0' disabled={isDeletingProduct}>
-            <X className='h-6 w-6 bg-black rounded-full border p-1 border-white m-0.5 text-white hover:text-black hover:border-black hover:bg-white'/>
+            <X className='h-6 w-6 bg-white rounded-full border p-1 border-black m-0.5 text-black hover:text-red-800 hover:border-gray-700'/>
           </button>
         </div>
 

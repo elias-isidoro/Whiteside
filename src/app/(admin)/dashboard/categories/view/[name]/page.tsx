@@ -1,5 +1,3 @@
-
-import CategoryShowcase from '@/components/admin/category/CategoryShowcase'
 import { INFINITE_SCROLLING_PAGINATION_RESULTS } from '@/config'
 import { getAuthSession } from '@/lib/auth'
 import { db } from '@/lib/db'
@@ -35,7 +33,7 @@ const page  = async ({params: {name}}: Props) => {
         {category.name}
       </h1>
 
-      <CategoryShowcase category={category}/>
+      {/* <CategoryShowcase category={category}/> */}
     </>
   )
 }

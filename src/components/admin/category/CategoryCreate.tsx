@@ -7,8 +7,9 @@ import { useState } from "react"
 import { useMutation } from '@tanstack/react-query'
 import axios, { AxiosError } from 'axios'
 import { CreateCategoryPayload } from "@/lib/validators/category";
-import { toast } from "@/hooks/use-toast";
 import { useCustomToast } from "@/hooks/use-custom-toast";
+import { toastDefault, toastError } from "@/lib/utils";
+import { Pencil } from "lucide-react";
 
 const CreateCategory = () => {
   const [input, setInput] = useState('');
@@ -26,19 +27,11 @@ const CreateCategory = () => {
     onError: (err) => {
       if(err instanceof AxiosError) {
         if(err.response?.status === 409){
-          return toast({
-            title: 'Category already exists',
-            description: 'Please choose a different category name.',
-            variant: 'destructive'
-          })
+          return toastError('Category already exists',  'Please choose a different category name.')
         }
 
         if(err.response?.status === 422){
-          return toast({
-            title: 'Invalid category name',
-            description: err.response.data[0].message || 'Please choose a different category name.',
-            variant: 'destructive'
-          })
+          return toastError('Invalid category name',err.response.data[0].message || 'Please choose a different category name.')
         }
 
         if(err.response?.status === 401){
@@ -46,51 +39,48 @@ const CreateCategory = () => {
         }
       }
 
-      toast({
-        title: 'There was an error.',
-        description: 'Could not create category.',
-        variant: 'destructive'
-      })
+      toastError('There was an error.', 'Could not create category.')
     },
 
     onSuccess: () => {
       router.back()
       router.refresh()
+      toastDefault('Cheers', 'A new category has been successfully created')
     }
 
   })
 
 
   return(
-    <div className='flex items-center h-full max-w-3xl min-w-[100px]'>
-      <div className='relative bg-white w-full h-fit rounded-lg space-y-5'>
-        <div className='flex justify-between items-center'>
-          <h1 className='text-xl font-semibold'>Create a Category</h1>
-        </div>
+    <div className='flex flex-col w-full max-w-md gap-5'>
+      <div className='flex flex-row gap-2 items-center '>
+        <Pencil/>
+        <p className='text-lg font-semibold'>Create a Category</p>
+      </div>
+      <hr className='bg-zinc-500 h-px'/>
 
-        <hr className='bg-zinc-500 h-px'/>
+      <div className='flex flex-col w-full'>
+        <p className="text-lg font-semibold">Name</p>
+        <p className="text-xs text-gray-500">{`You can change this later`}</p>
+      </div>
 
-        <div>
-          <p className="text-lg font-medium">Category Name</p>
-          <p className="text-xs text-gray-500">{`You can change this later`}</p>
-        </div>
+      <Input 
+      value={input}
+      onChange={(e)=>{ setInput(e.target.value) }}
+      className='border border-slate-700'/>
 
-        <Input 
-        value={input}
-        onChange={(e)=>{ setInput(e.target.value) }}
-        className='border border-slate-700'/>
+      <hr className='bg-zinc-500 h-px'/>
 
-        <div className="flex justify-center md:justify-end gap-4 ">
-          <Button variant='subtle' onClick={()=>router.back()}>Cancel</Button>
-          <Button 
-          type='submit'
-          isLoading={isLoading} 
-          disabled={input.length === 0}
-          onClick={()=>createCategory()}>
-            Create
-          </Button>
-        </div>
-
+      <div className="flex justify-center md:justify-end gap-2">
+        <Button variant='subtle' onClick={()=>router.back()} className="text-sm">Cancel</Button>
+        <Button 
+        type='submit'
+        isLoading={isLoading} 
+        disabled={input.length === 0}
+        onClick={()=>createCategory()}
+        className="text-sm">
+          Create
+        </Button>
       </div>
     </div>
   )

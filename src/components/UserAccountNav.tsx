@@ -1,28 +1,43 @@
 'use client'
 
-import { User } from 'next-auth'
+import { Session } from 'next-auth'
+import { signOut } from 'next-auth/react'
+import Link from 'next/link'
 import { FC } from 'react'
 import UserAvatar from './UserAvatar'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from './ui/DropdownMenu'
-import Link from 'next/link'
-import { signOut } from 'next-auth/react'
+import LoginButtons from './LoginButtons'
+import LoginDropdown from './LoginDropdown'
 
 interface Props {
-  user: Pick<User, 'name' | 'image' | 'email'>
+  session?: Session | null
 }
 
-const UserAccountNav: FC<Props> = ({user}) => {
+const UserAccountNav: FC<Props> = ({session}) => {
+
+
+  if(!session || !session.user){
+    return (
+      <>
+      <LoginButtons/>
+      <LoginDropdown/>
+      </>
+    )
+  }
+
+  const {user} = session
+
   return(
     <DropdownMenu>
       <DropdownMenuTrigger>
         <div className='flex flex-row items-center gap-2'>
           <UserAvatar 
-            className='h-8 w-8'
+            className='h-8 w-8 border border-black'
             user={{
               name: user.name || null,
               image: user.image || null,
             }}/>
-          <p className='text-sm text-gray-700'>{user.name}</p>
+          <p className='hidden text-sm text-gray-700 font-medium min-[600px]:block'>{user.name}</p>
         </div>
       </DropdownMenuTrigger>
 
@@ -31,7 +46,7 @@ const UserAccountNav: FC<Props> = ({user}) => {
         <div className='flex items-center justify-start gap-2 p-2'>
           <div className='flex flex-col space-y-1 leading-none'>
             {user.name && <p className='font-medium'>{user.name}</p>}
-            {user.email && <p className='w-[200px truncate text-sm text-zinc-700'>{user.email}</p>}
+            {user.email && <p className='w-[200px] truncate text-sm text-zinc-700'>{user.email}</p>}
           </div>
         </div>
 
