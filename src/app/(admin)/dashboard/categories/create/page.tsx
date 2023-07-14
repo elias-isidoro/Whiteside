@@ -1,9 +1,10 @@
-'use client'
-
 import CreateCategory from "@/components/admin/category/CategoryCreate";
+import checkAuthorization from "@/lib/authorizer";
 
+const page = async () => {
 
-const Page = () => {
+  await checkAuthorization()
+  
   return (
     <div className="flex w-full justify-center">
       <CreateCategory/>
@@ -11,4 +12,4 @@ const Page = () => {
   )
 }
 
-export default Page
+export default page

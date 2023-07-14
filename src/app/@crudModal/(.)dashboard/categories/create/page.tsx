@@ -1,11 +1,15 @@
 import CreateCategory from '@/components/admin/category/CategoryCreate'
-import ModalLayout from '@/layouts/ModalLayout'
+import CrudModal from '@/layouts/CrudModal'
+import checkAuthorization from '@/lib/authorizer'
 
-const page = () => {
+const page = async () => {
+
+  await checkAuthorization()
+
   return(
-    <ModalLayout>
+    <CrudModal>
       <CreateCategory/>
-    </ModalLayout>
+    </CrudModal>
   )
 }
 

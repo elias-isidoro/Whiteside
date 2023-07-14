@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import checkAuthorization from "@/lib/authorizer"
 
 interface Props {
   params: {
@@ -6,7 +6,10 @@ interface Props {
   }
 }
 
-const page: FC<Props> = ({params: {name}}) => {
+const page = async ({params: {name}}: Props) => {
+
+  await checkAuthorization()
+  
   return(
     <div className=''>
       {name}

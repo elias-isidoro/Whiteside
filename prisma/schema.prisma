@@ -68,7 +68,7 @@ model Category {
 
 model Product {
   id          String    @id @default(cuid())
-  name        String
+  name        String    @unique
   description String
   variants    Variant[]
 
@@ -79,10 +79,10 @@ model Product {
 }
 
 model Variant {
-  id          String  @id @default(cuid())
-  price       Float
-  tags        String
-  imageUrl    String
+  id       String @id @default(cuid())
+  price    Float
+  tags     String
+  imageUrl String
 
   product   Product @relation(fields: [productId], references: [id])
   productId String

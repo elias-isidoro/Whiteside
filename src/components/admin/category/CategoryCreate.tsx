@@ -2,54 +2,23 @@
 
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
-import { useRouter } from "next/navigation";
-import { useState } from "react"
-import { useMutation } from '@tanstack/react-query'
-import axios, { AxiosError } from 'axios'
-import { CreateCategoryPayload } from "@/lib/validators/category";
-import { useCustomToast } from "@/hooks/use-custom-toast";
-import { toastDefault, toastError } from "@/lib/utils";
+import useCreateCategory from "@/queries/categories/useCreateCategory";
+import useFetchAllCategories from "@/queries/categories/useFetchAllCategories";
 import { Pencil } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 const CreateCategory = () => {
-  const [input, setInput] = useState('');
-  const router = useRouter();
-  const {loginToast} = useCustomToast();
+  const router = useRouter()
+  const [input, setInput] = useState('')
+  const {refetch: refetchCategories} = useFetchAllCategories()
 
-  const { mutate: createCategory, isLoading } = useMutation({
-    mutationFn: async () => {
-      const payload: CreateCategoryPayload = {
-        name: input
-      }
-      const {data} = await axios.post('/api/category', payload)
-      return data as string
-    },
-    onError: (err) => {
-      if(err instanceof AxiosError) {
-        if(err.response?.status === 409){
-          return toastError('Category already exists',  'Please choose a different category name.')
-        }
-
-        if(err.response?.status === 422){
-          return toastError('Invalid category name',err.response.data[0].message || 'Please choose a different category name.')
-        }
-
-        if(err.response?.status === 401){
-          return loginToast()
-        }
-      }
-
-      toastError('There was an error.', 'Could not create category.')
-    },
-
-    onSuccess: () => {
+  const { mutate: createCategory, isLoading } = useCreateCategory({
+    onSuccessCallback: () => {
       router.back()
-      router.refresh()
-      toastDefault('Cheers', 'A new category has been successfully created')
+      refetchCategories()
     }
-
   })
-
 
   return(
     <div className='flex flex-col w-full max-w-md gap-5'>
@@ -77,7 +46,7 @@ const CreateCategory = () => {
         type='submit'
         isLoading={isLoading} 
         disabled={input.length === 0}
-        onClick={()=>createCategory()}
+        onClick={()=>createCategory(input)}
         className="text-sm">
           Create
         </Button>

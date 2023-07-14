@@ -1,7 +1,34 @@
 import { z } from "zod";
 import { db } from "@/lib/db";
 import { getAuthSession } from "@/lib/auth";
-import { CategoryValidator, UpdateCategoryValidator } from "@/lib/validators/category";
+import { CreateCategoryValidator, UpdateCategoryValidator } from "@/lib/validators/category";
+import { NextResponse } from "next/server";
+
+export async function GET (req: Request) {
+  try {
+    const session = await getAuthSession()
+
+    if(!session?.user){
+      return new Response('Unauthorized', {status: 401})
+    }
+
+    const { searchParams } = new URL(req.url)
+    const id = searchParams.get('id') || ''
+
+    const category = await db.category.findFirst({ 
+      where: { id }});
+      
+    if(category){
+      return NextResponse.json({ category })
+    }else{
+      return new Response('Category does not exist.', {status: 200})
+    }
+
+  }catch(error){
+    return new Response('Could not fetch the category', {status: 500})
+  }
+}
+
 
 export async function POST (req: Request) {
   try{
@@ -13,7 +40,7 @@ export async function POST (req: Request) {
     }
 
     const body = await req.json()
-    const { name } = CategoryValidator.parse(body)
+    const { name } = CreateCategoryValidator.parse(body)
 
     const categoryExists = await db.category.findFirst({ where: {name} })
 

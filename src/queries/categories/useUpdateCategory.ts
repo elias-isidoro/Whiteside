@@ -3,11 +3,14 @@ import { toastDefault, toastError } from "@/lib/utils"
 import { UpdateCategoryPayload } from "@/lib/validators/category";
 import { useMutation } from "@tanstack/react-query"
 import axios, { AxiosError } from "axios";
-import { useRouter } from "next/navigation";
 
-const useUpdateCategory = () => {
+interface Props {
+  onSuccessCallback?: () => void,
+  onErrorCallback?: () => void
+}
+
+const useUpdateCategory = ({onSuccessCallback, onErrorCallback}:Props = {}) => {
   
-  const router = useRouter();
   const {loginToast} = useCustomToast();
 
   const query = useMutation({
@@ -24,11 +27,12 @@ const useUpdateCategory = () => {
           return toastError('Category name already exists', err.response.data[0].message || 'Please choose a different category name.')
         }
       }
+      onErrorCallback&&onErrorCallback()
       return toastError('There was an error.', 'Could not update category.')
     },
 
     onSuccess: () => {
-      router.refresh()
+      onSuccessCallback&&onSuccessCallback()
       toastDefault('Cheers!','Category has been successfully updated!')
     }
   })

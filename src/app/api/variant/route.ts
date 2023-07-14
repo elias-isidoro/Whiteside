@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { db } from "@/lib/db";
 import { getAuthSession } from "@/lib/auth";
-import { ProductValidator } from "@/lib/validators/product";
+import { CreateProductValidator } from "@/lib/validators/product";
 
 export async function POST (req: Request) {
   try{
@@ -13,7 +13,7 @@ export async function POST (req: Request) {
     }
 
     const body = await req.json()
-    const { name, description } = ProductValidator.parse(body)
+    const { name, description } = CreateProductValidator.parse(body)
 
     const productExists = await db.product.findFirst({ where: {name} })
 

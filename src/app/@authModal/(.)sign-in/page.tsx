@@ -1,11 +1,11 @@
 import SignIn from '@/components/SignIn'
-import ModalLayout from '@/layouts/ModalLayout'
+import CrudModal from '@/layouts/CrudModal'
 
 const page = () => {
   return(
-    <ModalLayout>
+    <CrudModal>
       <SignIn/>
-    </ModalLayout>
+    </CrudModal>
   )
 }
 

@@ -75,6 +75,8 @@
   },
   "devDependencies": {
     "@types/editorjs__header": "^2.6.0",
-    "@types/lodash.debounce": "^4.0.7"
+    "@types/lodash.debounce": "^4.0.7",
+    "prettier": "^3.0.0",
+    "prettier-plugin-tailwindcss": "^0.3.0"
   }
 }

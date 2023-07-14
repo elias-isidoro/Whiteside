@@ -1,7 +1,36 @@
 import { z } from "zod";
 import { db } from "@/lib/db";
 import { getAuthSession } from "@/lib/auth";
-import { ProductValidator } from "@/lib/validators/product";
+import { CreateProductValidator } from "@/lib/validators/product";
+import { NextResponse } from "next/server";
+
+
+export async function GET (req: Request) {
+  try {
+    const session = await getAuthSession()
+
+    if(!session?.user){
+      return new Response('Unauthorized', {status: 401})
+    }
+
+    const { searchParams } = new URL(req.url)
+    const id = searchParams.get('id') || ''
+
+    const product = await db.product.findFirst({ 
+      where: { id },
+      include: { variants: true }
+    });
+
+    if(product){
+      return NextResponse.json({ product })
+    }else{
+      return new Response('Product does not exist.', {status: 200})
+    }
+
+  }catch(error){
+    return new Response('Could not fetch the product', {status: 500})
+  }
+}
 
 export async function POST (req: Request) {
   
@@ -15,7 +44,7 @@ export async function POST (req: Request) {
 
     const body = await req.json()
 
-    const { id, name, description, variants } = ProductValidator.parse(body)
+    const { id, name, description, variants } = CreateProductValidator.parse(body)
 
     const variantsData = variants.map((variant)=>({...variant, productId:id}))
 
@@ -28,6 +57,8 @@ export async function POST (req: Request) {
     const product = await db.product.create({ data:{ name, description, id } })
 
     await db.variant.createMany({ data: variantsData });
+
+    
 
     return new Response(product.name)
     

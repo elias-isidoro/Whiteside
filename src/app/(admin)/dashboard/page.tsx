@@ -1,13 +1,11 @@
 import { buttonVariants } from '@/components/ui/Button'
+import checkAuthorization from '@/lib/authorizer'
 import { LayoutDashboard } from 'lucide-react'
 import Link from 'next/link'
-import { FC } from 'react'
 
-interface Props {
-  
-}
+const page = async () => {
 
-const page: FC<Props> = ({}) => {
+  await checkAuthorization()
 
   return(
     <>
@@ -30,7 +28,7 @@ const page: FC<Props> = ({}) => {
                 {`The dashboard is designed to give you an overview of your ecommerce website's sales and activity.`}
               </p>
             </div>
-            <Link className={buttonVariants({className:'w-full mt-4 mb-6'})} href='/dashboard/categories/view/all'>View Categories</Link>
+            <Link className={buttonVariants({className:'w-full mt-4 mb-6'})} href='/dashboard/categories'>View Categories</Link>
           </div>
         </div>
 

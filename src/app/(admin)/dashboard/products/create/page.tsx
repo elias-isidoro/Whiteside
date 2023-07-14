@@ -1,9 +1,11 @@
-'use client'
-
 import CreateProduct from "@/components/admin/product/ProductCreate"
+import checkAuthorization from "@/lib/authorizer"
 
 
-const Page = () => {
+const Page = async () => {
+
+  await checkAuthorization()
+
   return (
     <CreateProduct/>
   )

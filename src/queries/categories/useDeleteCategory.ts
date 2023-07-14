@@ -1,13 +1,16 @@
 import axios, { AxiosError } from "axios"
-import { useRouter } from "next/navigation"
 import { useMutation } from "@tanstack/react-query"
 import { toastDefault, toastError } from "@/lib/utils"
 import { useCustomToast } from "@/hooks/use-custom-toast"
 import { DeleteCategoryPayload } from "@/lib/validators/category"
 
-const useDeleteCategory = () => {
+interface Props {
+  onSuccessCallback?: () => void,
+  onErrorCallback?: () => void
+}
+
+const useDeleteCategory = ({onSuccessCallback, onErrorCallback}:Props = {}) => {
   
-  const router = useRouter();
   const {loginToast} = useCustomToast();
 
   const query = useMutation({
@@ -21,12 +24,12 @@ const useDeleteCategory = () => {
           return loginToast()
         }
       }
+      onErrorCallback&&onErrorCallback()
       return toastError('There was an error.', 'Could not delete category.')
     },
 
     onSuccess: () => {
-      router.back()
-      router.refresh()
+      onSuccessCallback&&onSuccessCallback()
       toastDefault('Cheers!','Category has been successfully deleted!')
     }
   })

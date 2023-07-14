@@ -23,7 +23,7 @@ const CategoryCard: FC<Props> = ({category}) => {
       </td>
       <td className='hidden h-full text-center border border-black min-[455px]:table-cell'>Products Count</td>
       <td className='h-full text-center border border-black'>
-        <Link href={`/dashboard/categories/edit/${category.id}`} className={cn(buttonVariants(),'py-1 text-xs')}>
+        <Link key={`edit_${category.id}${category.name}`} href={`/dashboard/categories/edit/${category.id}`} className={cn(buttonVariants(),'py-1 text-xs')}>
           Edit
         </Link>
       </td>

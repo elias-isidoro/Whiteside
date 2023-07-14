@@ -1,16 +1,18 @@
 import CloseModal from '@/components/ui/CloseModal'
+import CreateProduct from "@/components/admin/product/ProductCreate"
+import checkAuthorization from '@/lib/authorizer'
 
-const page = () => {
+const page = async () => {
+
+  await checkAuthorization()
+
   return(
-    <div className='fixed inset-0 bg-zinc-900/20 z-10'>
-      <div className='container flex items-center h-full max-w-lg mx-auto gap-2'>
-        <div className='relative bg-white w-full h-fit py-20 rounded-lg'>
-          <div className='absolute top-4 right-4'>
-            <CloseModal/>
-          </div>
-
-          {/* <SignIn/> */}
+    <div className='fixed inset-0 flex p-4 bg-zinc-900/20 z-10 min-w-[280px] overflow-y-auto overflow-x-hidden'>
+      <div className='flex flex-col h-fit bg-white w-full max-w-[800px] items-center justify-center p-3 pb-8 pt-3 rounded-lg m-auto'>
+        <div className='flex items-center w-full h-4'>
+          <CloseModal />
         </div>
+        <CreateProduct/>
       </div>
     </div>
   )

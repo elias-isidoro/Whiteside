@@ -1,30 +1,23 @@
-import { FC } from 'react';
-import type { Category } from '@prisma/client';
-import { Folder, Plus } from 'lucide-react';
+'use client'
+
+import { Plus } from 'lucide-react';
 import { buttonVariants } from '@/components/ui/Button';
 import CategoryCard from './CategoryCard';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
+import useFetchAllCategories from '@/queries/categories/useFetchAllCategories';
 
-interface Props {
-  categories: Category[]
-}
+export const revalidate = 0
+export const dynamic = 'force-dynamic'
+export const fetchCache = 'force-no-store'
 
+const CategoryShowcase = () => {
 
-const CategoryShowcase: FC<Props> = ({categories}) => {
-
-  if(!categories) return null
+  const {data: categories, isLoading: isFetchingCategories} = useFetchAllCategories()
 
   return (
     <div className='w-full pb-12'>
-      <div className='flex flex-row gap-2 p-4 pt-0 w-full'>
-        <Folder/>
-        <h1 className='font-semibold'>Categories</h1>
-      </div>
-
       <div className='flex flex-col w-full p-4 border border-black gap-4'>
-
-
         <div className='flex flex-row w-full'>
           <Link href={'/dashboard/categories/create'} className={cn(buttonVariants(),'gap-2 pl-2')}>
             <Plus className='h-6 w-6'/>
@@ -44,11 +37,20 @@ const CategoryShowcase: FC<Props> = ({categories}) => {
               </tr>
             </thead>
             <tbody>
-              {categories.map((category)=>(<CategoryCard key={category.id} category={category}/>))}
+              {isFetchingCategories?
+                <tr className='h-[50px]'>
+                  <td colSpan={3} className='relative h-full border border-black text-center'>
+                    <p>{'Fetching categories...'}</p>
+                  </td>
+                </tr>
+              :
+                <>
+                  {categories&&categories.map((category)=>(<CategoryCard key={`${category.id}${category.name}`} category={category}/>))}
+                </>
+              }
             </tbody>
           </table>
         </div>
-
       </div>
     </div>
   )

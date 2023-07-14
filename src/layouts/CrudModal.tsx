@@ -5,10 +5,10 @@ interface Props {
   children: React.ReactNode
 }
 
-const ModalLayout: FC<Props> = ({children}) => {
+const CrudModal: FC<Props> = ({children}) => {
   return(
     <div className='fixed inset-0 bg-zinc-900/20 z-10 min-w-[280px]'>
-      <div className='container flex items-center justify-center h-full max-w-lg mx-auto'>
+      <div className='container flex items-center justify-center h-full max-w-lg'>
         <div className='flex flex-col bg-white h-fit p-2 rounded-lg'>
           <div className='flex items-center w-full h-4'>
             <CloseModal/>
@@ -23,4 +23,4 @@ const ModalLayout: FC<Props> = ({children}) => {
   )
 }
 
-export default ModalLayout
+export default CrudModal

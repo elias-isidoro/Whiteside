@@ -38,18 +38,14 @@ const VariantCreate = () => {
     })
 
     router.back()
-    router.refresh()
   }
 
   return(
-    <div className="flex flex-col w-full items-center justify-center gap-2  ">
+    <div className="flex flex-col w-full items-center justify-center gap-2 px-4">
 
       <div className="flex flex-col w-full max-w-[300px] gap-2">
-        <div>
-          <p className="text-lg font-medium">Create a Variant</p>
-        </div>
+        <p className="text-lg font-medium">Create a Variant</p>
 
-        
         <div className="relative flex flex-row items-center">
           <div className="flex min-w-[50px] items-center"><p>{`Price:`}</p></div>
           <Input 

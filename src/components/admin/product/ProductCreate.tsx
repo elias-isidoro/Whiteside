@@ -1,107 +1,74 @@
 'use client'
 
-import axios, { AxiosError } from 'axios';
+import { nanoid } from "nanoid";
 import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
-import { useMutation } from '@tanstack/react-query';
-import { useCustomToast } from "@/hooks/use-custom-toast";
-import { CreateProductPayload } from "@/lib/validators/product";
 import VariantShowcase from "../variant/VariantShowcase";
-import { toastDefault, toastError } from "@/lib/utils";
 import useImageUploader from "@/hooks/use-image-uploader";
+import useCreateProduct from '@/queries/products/useCreateProduct';
 import { useUnsavedProductStore } from "@/hooks/use-unsaved-product-store";
-import { nanoid } from "nanoid";
-
+import useFetchAllProducts from "@/queries/products/useFetchAllProducts";
+import { Pencil } from "lucide-react";
 
 const ProductCreate = () => {
 
   const router = useRouter();
-  const {loginToast} = useCustomToast();
+  const {refetch: refetchProductList} = useFetchAllProducts()
+
   const {uploadImages, isUploading} = useImageUploader({toastOnSuccess: false})
   const {
     productName, 
     unsavedVariants, 
     productDescription, 
     setProductName,
-    resetUnsavedStates,
+    resetStates,
     setProductDescription, 
   } = useUnsavedProductStore()
 
   const handleSubmit = async () => {
-
-    const files = unsavedVariants.map(({image,id})=>({file:image,id}))
-
-    const uploadResults = await uploadImages(files).catch(()=>{ return })
-
-    if(!uploadResults || files.length !== uploadResults.length) return
-
-    const variants = []
-
-    for (let i = 0; i < unsavedVariants.length; i++) {
-
-      const imageUrl = uploadResults[i].url
-      const { id, tags, price } = unsavedVariants[i]
-      variants.push({ id, tags, price, imageUrl })
-      
-    }
+    const uploadResults = await uploadImages(
+      unsavedVariants.map(({ image, id }) => ({ file: image, id }))
+    );
     
-    const payload: CreateProductPayload = {
+    if (!uploadResults || unsavedVariants.length !== uploadResults.length) return;
+    
+    const variants = unsavedVariants.map((unsavedVariant, index) => ({
+      id: unsavedVariant.id,
+      tags: unsavedVariant.tags,
+      price: unsavedVariant.price,
+      imageUrl: uploadResults[index].url,
+    }));
+    
+    createProduct({
       variants,
       id: nanoid(),
       name: productName,
       description: productDescription,
-    }
+    });
+  };
 
-    createProduct(payload)
-    
-  }
-
-  const { mutate: createProduct, isLoading: isCreatingProduct } = useMutation({
-    mutationFn: async (payload:CreateProductPayload) => {
-      const {data} = await axios.post('/api/product', payload)
-      return data as string
-    },
-    onError: (err) => {
-      if(err instanceof AxiosError) {
-        if(err.response?.status === 409){
-          return toastError('Product already exists','Please choose a different product name.')
-        }
-
-        if(err.response?.status === 422){
-          return toastError('Invalid product name', 
-            err.response.data[0].message || 'Please choose a different product name.')
-        }
-
-        if(err.response?.status === 401){
-          return loginToast()
-        }
-      }
-      return toastError('There was an error.','Could not create product.')
-    },
-
-    onSuccess: () => {
+  const { mutate: createProduct, isLoading: isCreatingProduct } = useCreateProduct({
+    onSuccessCallback: ()=> {
+      resetStates()
       router.back()
-      router.refresh()
-      resetUnsavedStates()
-      toastDefault('Cheers!','A new product has been successfully created!')
+      refetchProductList()
     }
-
   })
 
   return(
-    
     <div className='flex justify-center items-center w-full'>
       <div className='flex items-center h-full w-full max-w-2xl min-w-[100px]'>
         <div className='relative bg-white w-full h-fit rounded-lg space-y-5'>
-          <div className='flex justify-between items-center'>
-            <h1 className='text-xl font-semibold'>Create a Product</h1>
+          <div className='flex gap-2 items-center'>
+            <Pencil/>
+            <h1 className='text-lg font-semibold'>Create a Product</h1>
           </div>
 
           <hr className='bg-zinc-500 h-px'/>
 
           <div>
-            <p className="text-lg">Product Name</p>
+            <p className="text-md">Name</p>
             <p className="text-xs text-gray-500">{`You can change this later`}</p>
           </div>
 
@@ -111,7 +78,7 @@ const ProductCreate = () => {
           className='border border-slate-700'/>
 
           <div>
-            <p className="text-lg">Product Description</p>
+            <p className="text-md">Description</p>
             <p className="text-xs text-gray-500">{`You can change this later`}</p>
           </div>
 
@@ -121,7 +88,7 @@ const ProductCreate = () => {
           className='border border-slate-700'/>
 
           <div>
-            <p className="text-lg">Product Variants</p>
+            <p className="text-md">Variants</p>
             <p className="text-xs text-gray-500">{`You can change this later`}</p>
           </div>
 
@@ -143,7 +110,6 @@ const ProductCreate = () => {
         </div>
       </div>
     </div>
-    
   )
 }
 
