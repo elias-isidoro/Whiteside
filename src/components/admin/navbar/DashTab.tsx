@@ -10,7 +10,7 @@ interface Props {
 
 const DashTab: FC<Props> = ({focus, text, href}) => {
   return(
-    <Link href={href} className='w-fit h-full bg-white flex-grow basis-1/3 min-[420px]:basis-1/5'>
+    <Link href={href} className='w-fit h-full bg-white flex-grow basis-1/3 min-[300px]:basis-1/6'>
       <p className={`px-4 py-2 h-full text-sm ${focus===text&&'bg-black text-white'}`}>
         {text}
       </p>

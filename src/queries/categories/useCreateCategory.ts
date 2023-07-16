@@ -14,10 +14,7 @@ const useCreateCategory = ({onSuccessCallback, onErrorCallback}:Props = {}) => {
   const {loginToast} = useCustomToast();
 
   const query = useMutation({
-    mutationFn: async (input:string) => {
-      const payload: CreateCategoryPayload = {
-        name: input
-      }
+    mutationFn: async (payload:CreateCategoryPayload) => {
       const {data} = await axios.post('/api/category', payload)
       return data as string
     },

@@ -2,11 +2,15 @@ import axios, { AxiosError } from "axios"
 import { useMutation } from "@tanstack/react-query"
 import { toastDefault, toastError } from "@/lib/utils"
 import { useCustomToast } from "@/hooks/use-custom-toast"
-import { DeleteCategoryPayload } from "@/lib/validators/category"
 
 interface Props {
   onSuccessCallback?: () => void,
   onErrorCallback?: () => void
+}
+
+
+type DeleteByIdPayload = {
+  id: string
 }
 
 const useDeleteCategory = ({onSuccessCallback, onErrorCallback}:Props = {}) => {
@@ -14,7 +18,7 @@ const useDeleteCategory = ({onSuccessCallback, onErrorCallback}:Props = {}) => {
   const {loginToast} = useCustomToast();
 
   const query = useMutation({
-    mutationFn: async (payload:DeleteCategoryPayload) => {
+    mutationFn: async (payload:DeleteByIdPayload) => {
       const {data} = await axios.delete('/api/category', {params: payload})
       return data as string
     },

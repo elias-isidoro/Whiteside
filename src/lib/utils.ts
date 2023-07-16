@@ -5,11 +5,86 @@ import locale from 'date-fns/locale/en-US'
 import { nanoid } from 'nanoid';
 import { toast } from '@/hooks/use-toast';
 
-export const checkIfInputIsValidPrice = (input: string): boolean => {
-  const regex = /^[0-9]+(\.[0-9]+)?$/;
+export const stringToArray = <T>(input: string): T[] => {
+  try {
+    const array = JSON.parse(input);
+    if (Array.isArray(array)) {
+      return array;
+    } else {
+      return [];
+    }
+  } catch (error) {
+    return [];
+  }
+};
 
-  return regex.test(input);
+export const stringToPriceFormat = (input: string): string => {
+
+  const maxDigits = 15; 
+  const maxLength = 20; 
+
+  const dotCount = countDots(input);
+  const badCommaCount = countConsecutiveCommas(input);
+
+  const inputTail = input.slice(-1)
+
+  if(input===''){
+    return "0"
+  }
+
+  if (inputTail !== ',' && inputTail !== '.' && !/\d/.test(inputTail)) {
+    return input.slice(0, input.length - 1);
+  }
+
+  if (dotCount === 1 && inputTail === ',' || dotCount > 1 || badCommaCount > 0 ) {
+    return input.slice(0, input.length - 1);
+  }
+  if (inputTail === ',' || inputTail === '.') {
+    return input;
+  }
+  
+  // Remove commas and dots from input string
+  const digitsOnly = input.replace(/[,.]/g, '');
+
+  if (input.length > maxLength || digitsOnly.length > maxDigits) {
+    return input.slice(0, input.length - 1); // Return the input, remove the addition, stop going further
+  }
+
+  const number = Number(input.replace(/,/g, ''));
+  return number.toLocaleString(undefined, { maximumFractionDigits: 2 });
+};
+
+export function numberToPriceFormat(price: number): string {
+  return price.toLocaleString(undefined, { minimumFractionDigits: 2 });
 }
+
+export const checkIfInputIsValidPrice = (input: string) => {
+  const patternWithoutCommas = /^\d+(\.\d+)?$/;
+  const patternWithComma = /^\d{1,3}(,\d{3})*(\.\d+)?$/;
+
+  return patternWithComma.test(input) || patternWithoutCommas.test(input);
+};
+
+export const parsePrice = (input: string): number => {
+  const withoutCommas = input.replace(/,/g, '');
+  return parseFloat(withoutCommas);
+};
+
+export const countDots = (input: string): number => {
+  const dots = input.match(/\./g);
+  return dots ? dots.length : 0;
+};
+
+export const countCommas = (input: string) => {
+  const commas = input.match(/,/g);
+  return commas ? commas.length : 0;
+};
+
+export const countConsecutiveCommas = (input: string) => {
+  const matches = input.match(/,{2,}/g);
+  return matches ? matches.length : 0;
+};
+
 
 export const toastError = (title: string, description: string) => {
   toast({title, description, variant: 'destructive'});

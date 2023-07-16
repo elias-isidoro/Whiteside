@@ -1,21 +1,25 @@
 import { buttonVariants } from '@/components/ui/Button'
-import { useUnsavedProductStore } from '@/hooks/use-unsaved-product-store'
+import { Variant } from '@/hooks/use-unsaved-product-store'
 import { Plus } from 'lucide-react'
 import Link from 'next/link'
 import VariantCard from './VariantCard'
 
-const VariantShowcase = () => {
+interface Props {
+  productId?: string
+  variants: Variant[]
+}
+
+const VariantShowcase = ({productId, variants}:Props) => {
   
-  const {unsavedVariants} = useUnsavedProductStore()
 
   return(
     <div className='flex flex-row flex-wrap w-full gap-2'>
-      <Link href={`/dashboard/variants/create`} className={buttonVariants({className:'aspect-square flex flex-row justify-center items-center h-[80px] p-2'})}>
+      <Link href={!productId?`/dashboard/variants/create`:`/dashboard/products/edit/${productId}/create-variant`} className={buttonVariants({className:'aspect-square flex flex-row justify-center items-center h-[80px] p-2'})}>
         <Plus className='h-full w-full'/>
       </Link>
 
-      {unsavedVariants.map((variant,i)=>(
-        <VariantCard key={i} variant={variant}/>
+      {variants.map((variant,i)=>(
+        <VariantCard key={i} productId={productId} variant={variant}/>
       ))}
     </div>
   )

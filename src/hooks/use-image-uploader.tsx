@@ -32,6 +32,8 @@ const useImageUploader = ({ toastOnSuccess = true }:Props = {}) => {
       return;
     }
 
+    if(inputs.length===0) return []
+
     const allowedTypes = ['image/jpeg', 'image/png'];
     const imagesToUpload = inputs.filter(input => allowedTypes.includes(input.file.type));
 
@@ -55,6 +57,7 @@ const useImageUploader = ({ toastOnSuccess = true }:Props = {}) => {
               } else {
                 resolve(result as UploadResponse);
               }
+              setIsUploading(false);
             }
           );
         });

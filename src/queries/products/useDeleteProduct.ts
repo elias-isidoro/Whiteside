@@ -1,6 +1,5 @@
 import { useCustomToast } from "@/hooks/use-custom-toast";
 import { toastDefault, toastError } from "@/lib/utils";
-import { DeleteProductPayload } from "@/lib/validators/product";
 import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 
@@ -9,12 +8,16 @@ interface Props {
   onErrorCallback?: () => void
 }
 
+type DeleteByIdPayload = {
+  id: string
+}
+
 const useDeleteProduct = ({onSuccessCallback, onErrorCallback}:Props = {}) => {
   
   const {loginToast} = useCustomToast();
 
   const query = useMutation({
-    mutationFn: async (payload:DeleteProductPayload) => {
+    mutationFn: async (payload: DeleteByIdPayload) => {
       const {data} = await axios.delete('/api/product', {params:payload})
       return data as string
     },

@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { db } from "@/lib/db";
 import { getAuthSession } from "@/lib/auth";
-import { CreateProductValidator } from "@/lib/validators/product";
+import { CreateProductValidator, UpdateProductValidator } from "@/lib/validators/product";
 import { NextResponse } from "next/server";
 
 
@@ -44,7 +44,7 @@ export async function POST (req: Request) {
 
     const body = await req.json()
 
-    const { id, name, description, variants } = CreateProductValidator.parse(body)
+    const { id, name, description, variants, categoryId } = CreateProductValidator.parse(body)
 
     const variantsData = variants.map((variant)=>({...variant, productId:id}))
 
@@ -54,12 +54,11 @@ export async function POST (req: Request) {
       return new Response('Product Already Exists', {status: 409})
     }
 
-    const product = await db.product.create({ data:{ name, description, id } })
+    const product = await db.product.create({ data:{ name, description, id, categoryId } })
 
     await db.variant.createMany({ data: variantsData });
 
     
-
     return new Response(product.name)
     
   }catch(error){
@@ -70,6 +69,43 @@ export async function POST (req: Request) {
 
     return new Response('Could not create product', {status: 500})
 
+  }
+}
+
+export async function PUT(req: Request) {
+  try {
+    const session = await getAuthSession();
+
+    if (!session?.user) {
+      return new Response('Unauthorized', { status: 401 });
+    }
+
+    const body = await req.json();
+    const { id, name, categoryId, description, variants} = UpdateProductValidator.parse(body);
+
+    await db.product.update({
+      where: { id },
+      data: { name, categoryId, description },
+    });
+
+    const existingVariants = await db.variant.findMany({ where: { productId: id } });
+
+    const newVariants = variants
+      .filter((variant) => !existingVariants
+      .some((existingVariant) => existingVariant.id === variant.id));
+
+    const deletedVariantIds = existingVariants
+      .filter((existingVariant) => !variants
+      .some((variant) => variant.id === existingVariant.id))
+      .map((existingVariant) => existingVariant.id);
+
+    await db.variant.deleteMany({ where: { id: { in: deletedVariantIds } } });
+
+    await db.variant.createMany({ data: newVariants.map((variant) => ({ ...variant, productId: id })) });
+
+    return new Response('Product updated successfully:');
+  } catch (error) {
+    return new Response('Error', { status: 500 });
   }
 }
 

@@ -4,20 +4,19 @@ import { RefObject, useState } from "react";
 
 interface Props{
   previewRef: RefObject<HTMLImageElement>
+  value?: string | File | null
 }
 
-const useImageInputManager = ({previewRef}:Props) => {
+const useImageInputManager = ({previewRef, value=null}:Props) => {
 
-  
-  const [image, setImage] = useState<File | null>(null);
+  const [image, setImage] = useState<File | null | string>(value);
 
-  const handleInputChange = (file: File) => {
-    if(!file) return
+  const handleInputChange = (input: File | string) => {
+    if(!input) return
     if(!previewRef.current) return
-    previewRef.current.src = URL.createObjectURL(file)
-    setImage(file);
+    previewRef.current.src = input instanceof File ? URL.createObjectURL(input) : input
+    setImage(input);
   };
-
 
   return { image, handleInputChange, setImage }
 

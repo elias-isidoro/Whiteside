@@ -1,19 +1,19 @@
 'use client'
 
-import { Button } from "@/components/ui/Button";
-import { Input } from "@/components/ui/Input";
-import useTagManager from "@/hooks/use-tag-manager";
-import { checkIfInputIsValidPrice, toastError } from "@/lib/utils";
-import { ImagePlus, Plus } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useRef, useState } from "react";
-import { FileUploader } from 'react-drag-drop-files';
+import { nanoid } from "nanoid";
 import VariantTag from "./VariantTag";
+import { useRef, useState } from "react";
+import { useRouter } from "next/navigation";
+import { Input } from "@/components/ui/Input";
+import { ImagePlus, Plus } from "lucide-react";
+import { Button } from "@/components/ui/Button";
+import useTagManager from "@/hooks/use-tag-manager";
+import { FileUploader } from 'react-drag-drop-files';
+import { faPesoSign } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useImageInputManager from "@/hooks/use-image-input-manager";
 import { useUnsavedProductStore } from "@/hooks/use-unsaved-product-store";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPesoSign } from "@fortawesome/free-solid-svg-icons";
-import { nanoid } from "nanoid";
+import { checkIfInputIsValidPrice, stringToPriceFormat, parsePrice, toastError } from "@/lib/utils";
 
 const VariantCreate = () => {
 
@@ -22,18 +22,18 @@ const VariantCreate = () => {
   const [price, setPrice] = useState('')
   const {addTag, removeTag, setNewTag, tags, newTag} = useTagManager()
   const {handleInputChange, image} = useImageInputManager({previewRef})
-  const {addUnsavedVariant} = useUnsavedProductStore()
+  const {addProductVariant} = useUnsavedProductStore()
 
-  const cacheVariant = () => {
+  const createVariant = () => {
     if(!checkIfInputIsValidPrice(price)){
-      toastError('Invalid Price', 'Please only input numbers and decimals')
+      toastError('Invalid Price', 'Please follow the proper price format.')
       return
     }
 
-    addUnsavedVariant({
+    addProductVariant({
       image: image!,
       tags: JSON.stringify(tags),
-      price: parseFloat(price),
+      price: parsePrice(price),
       id: nanoid()
     })
 
@@ -50,7 +50,7 @@ const VariantCreate = () => {
           <div className="flex min-w-[50px] items-center"><p>{`Price:`}</p></div>
           <Input 
           value={price}
-          onChange={(e)=>{ setPrice(e.target.value) }}
+          onChange={(e)=>{ setPrice(stringToPriceFormat(e.target.value)) }}
           placeholder="99.99"
           className='border-2 border-slate-700 h-[40px] rounded-none pr-[50px]'/>
           <div
@@ -108,8 +108,7 @@ const VariantCreate = () => {
           Cancel
         </Button>
 
-        <Button onClick={cacheVariant} disabled={!image || tags.length==0 || price.length==0}>
-          {/* {isUploading ? 'Creating...' : 'Create'} */}
+        <Button onClick={createVariant} disabled={!image || tags.length==0 || price.length==0}>
           Create
         </Button>
       </div>

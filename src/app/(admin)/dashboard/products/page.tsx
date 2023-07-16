@@ -8,8 +8,8 @@ const page  = async () => {
   
   return(
     <div className="w-full pb-12">
-    <DashNav focus={'Products'}/>
-    <ProductShowcase/>
+      <DashNav focus={'Products'}/>
+      <ProductShowcase/>
     </div>
   )
 }

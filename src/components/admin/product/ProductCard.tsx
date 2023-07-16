@@ -3,6 +3,7 @@
 import type { FC } from 'react';
 import type { Product, Variant } from '@prisma/client';
 import Link from 'next/link';
+import { numberToPriceFormat } from '@/lib/utils';
 
 interface Props {
   isInvisible?: boolean
@@ -14,7 +15,7 @@ interface Props {
 const ProductCard: FC<Props> = ({isInvisible=false, product}) => {
 
   return(
-    <Link href={`${product&&`/dashboard/products/view/${product.id}`}`} className={`group relative  ${isInvisible?'h-0':'aspect-[5/6]'} flex flex-col flex-grow outline-[1px] basis-1/2 min-[400px]:basis-1/3 min-[600px]:basis-1/4 min-[800px]:basis-1/5 min-[1000px]:basis-1/6 justify-center items-center h-full rounded-md ${isInvisible?'cursor-none':'cursor-pointer'} ${!isInvisible&&'hover:outline'}`}>
+    <Link href={`${product&&`/dashboard/products/edit/${product.id}`}`} className={`group relative  ${isInvisible?'h-0':'aspect-[5/6]'} flex flex-col flex-grow outline-[1px] basis-1/2 min-[400px]:basis-1/3 min-[600px]:basis-1/4 min-[800px]:basis-1/5 min-[1000px]:basis-1/6 justify-center items-center h-full rounded-md ${isInvisible?'cursor-none':'cursor-pointer'} ${!isInvisible&&'hover:outline'}`}>
       {(!isInvisible&&product&&product.variants.length>0) && (
         <>
           <div className='relative w-full flex-grow'>
@@ -35,7 +36,7 @@ const ProductCard: FC<Props> = ({isInvisible=false, product}) => {
                 {product.description}
               </p>
               <p className='text-sm overflow-hidden whitespace-nowrap text-ellipsis my-auto'>
-                ₱ {product.variants[0].price}
+                ₱ {numberToPriceFormat(product.variants[0].price)}
               </p>
             </div>
           </div>

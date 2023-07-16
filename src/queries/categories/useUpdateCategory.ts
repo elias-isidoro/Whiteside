@@ -9,6 +9,7 @@ interface Props {
   onErrorCallback?: () => void
 }
 
+
 const useUpdateCategory = ({onSuccessCallback, onErrorCallback}:Props = {}) => {
   
   const {loginToast} = useCustomToast();
@@ -22,9 +23,6 @@ const useUpdateCategory = ({onSuccessCallback, onErrorCallback}:Props = {}) => {
       if(err instanceof AxiosError) {
         if(err.response?.status === 401){
           return loginToast()
-        }
-        if(err.response?.status === 400){
-          return toastError('Category name already exists', err.response.data[0].message || 'Please choose a different category name.')
         }
       }
       onErrorCallback&&onErrorCallback()

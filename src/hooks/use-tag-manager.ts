@@ -1,11 +1,14 @@
 import { toastError } from "@/lib/utils";
 import { useState } from "react";
 
+interface Props {
+  value?: string[]
+}
 
-const useTagManager = () => {
+const useTagManager = ({value=[]}:Props = {}) => {
   
   const [newTag, setNewTag] = useState('');
-  const [tags, setTags] = useState<string[]>([]);
+  const [tags, setTags] = useState<string[]>(value);
 
   const addTag = () => {
     const lowerCaseTags = tags.map(tag => tag.toLowerCase());
@@ -27,7 +30,7 @@ const useTagManager = () => {
     setTags(() => [])
   }
 
-  return { tags, addTag, removeTag, clearTags, setNewTag, newTag }
+  return { tags, addTag, removeTag, clearTags, setNewTag, newTag, setTags }
 
 }
 

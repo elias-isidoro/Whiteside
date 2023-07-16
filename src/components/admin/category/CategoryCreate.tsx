@@ -13,7 +13,7 @@ const CreateCategory = () => {
   const [input, setInput] = useState('')
   const {refetch: refetchCategories} = useFetchAllCategories()
 
-  const { mutate: createCategory, isLoading } = useCreateCategory({
+  const { mutate: createCategory, isLoading: isCreatingCategory } = useCreateCategory({
     onSuccessCallback: () => {
       router.back()
       refetchCategories()
@@ -41,12 +41,19 @@ const CreateCategory = () => {
       <hr className='bg-zinc-500 h-px'/>
 
       <div className="flex justify-center md:justify-end gap-2">
-        <Button variant='subtle' onClick={()=>router.back()} className="text-sm">Cancel</Button>
+        <Button 
+        variant='subtle' 
+        className="text-sm"
+        onClick={()=>router.back()} 
+        disabled={isCreatingCategory}>
+          Cancel
+        </Button>
+        
         <Button 
         type='submit'
-        isLoading={isLoading} 
-        disabled={input.length === 0}
-        onClick={()=>createCategory(input)}
+        isLoading={isCreatingCategory} 
+        disabled={input.length === 0 || isCreatingCategory}
+        onClick={()=>createCategory({name:input})}
         className="text-sm">
           Create
         </Button>

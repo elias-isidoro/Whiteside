@@ -1,4 +1,4 @@
-import ProductView from '@/components/admin/product/ProductView'
+import ProductEdit from '@/components/admin/product/ProductEdit'
 import checkAuthorization from '@/lib/authorizer'
 
 interface Props {
@@ -12,7 +12,7 @@ const page = async ({params: {id}}: Props) => {
   await checkAuthorization()
 
   return (
-    <ProductView productId={id}/>
+    <ProductEdit productId={id}/>
   )
 }
 

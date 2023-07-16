@@ -4,17 +4,17 @@ import { Input } from '@/components/ui/Input'
 import { useCategorizerStore } from '@/hooks/use-categorizer-store'
 import { cn } from '@/lib/utils'
 import useDeleteCategory from '@/queries/categories/useDeleteCategory'
-import useUncategorizeProducts from '@/queries/categorizer/useUncategorizeProducts'
+import useFetchAllCategories from '@/queries/categories/useFetchAllCategories'
+import useFetchCategory from '@/queries/categories/useFetchCategory'
 import useUpdateCategory from '@/queries/categories/useUpdateCategory'
 import useFetchProductsUnder from '@/queries/categorizer/useFetchProductsUnder'
+import useUncategorizeProducts from '@/queries/categorizer/useUncategorizeProducts'
 import { Edit2, MinusCircle, Plus, Trash2 } from 'lucide-react'
 import Link from 'next/link'
 import { notFound, useRouter } from 'next/navigation'
 import { FC, useEffect, useMemo, useState } from 'react'
 import { Button, buttonVariants, } from '../../ui/Button'
 import CategorizerCard from './CategorizerCard'
-import useFetchAllCategories from '@/queries/categories/useFetchAllCategories'
-import useFetchCategory from '@/queries/categories/useFetchCategory'
 
 interface Props {
   categoryId: string
@@ -141,7 +141,13 @@ const CategoryEdit: FC<Props> = ({categoryId}) => {
           {!isDeletingCategory&&<Trash2 color='red' className='h-5 w-5 sm:h-6 sm:w-6'/>}
         </Button>
         <div className='flex-grow'/>
-        <Button variant='subtle' onClick={()=>router.back()} className='text-xs'>Cancel</Button>
+        <Button 
+        variant='subtle'  
+        className='text-xs'
+        onClick={()=>router.back()}
+        disabled={isDeletingCategory || isUpdatingCategory}>
+          Cancel
+        </Button>
         <Button 
         variant='secondary' 
         onClick={handleSave}
