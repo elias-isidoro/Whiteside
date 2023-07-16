@@ -10,10 +10,11 @@ export type UnsavedProduct = {
 }
 
 export type Variant = {
+  id: string,
   tags: string,
   price: number,
   image: File | string,
-  id: string
+  imageSignature: string,
 }
 
 interface UnsavedProductStates {
@@ -39,6 +40,7 @@ export const useUnsavedProductStore = create<UnsavedProductStates>()((set) => ({
   productCategoryId: '',
   productDescription: '',
   productVariants: [],
+  
   setProductName: ({value, isFirstValue=false}) => {
     set(({productName, ...rest}) => {
       if(isFirstValue && productName !== '')

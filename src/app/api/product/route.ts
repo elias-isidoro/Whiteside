@@ -3,6 +3,20 @@ import { db } from "@/lib/db";
 import { getAuthSession } from "@/lib/auth";
 import { CreateProductValidator, UpdateProductValidator } from "@/lib/validators/product";
 import { NextResponse } from "next/server";
+import ImageKit from "imagekit";
+import { Variant } from "@prisma/client";
+
+interface divisions { 
+  deletedImagesIds: string[]
+  updatedVariants: Variant[]
+  deletedVariantsIds: string[]
+}
+
+const imagekit = new ImageKit({
+  publicKey : process.env.IMAGEKIT_PUBLIC_KEY!,
+  privateKey : process.env.IMAGEKIT_PRIVATE_KEY!,
+  urlEndpoint : process.env.IMAGEKIT_URL_ENDPOINT!
+});
 
 
 export async function GET (req: Request) {
@@ -72,6 +86,7 @@ export async function POST (req: Request) {
   }
 }
 
+
 export async function PUT(req: Request) {
   try {
     const session = await getAuthSession();
@@ -81,7 +96,7 @@ export async function PUT(req: Request) {
     }
 
     const body = await req.json();
-    const { id, name, categoryId, description, variants} = UpdateProductValidator.parse(body);
+    const { id, name, categoryId, description, variants: incomingVariants } = UpdateProductValidator.parse(body);
 
     await db.product.update({
       where: { id },
@@ -90,20 +105,39 @@ export async function PUT(req: Request) {
 
     const existingVariants = await db.variant.findMany({ where: { productId: id } });
 
-    const newVariants = variants
-      .filter((variant) => !existingVariants
-      .some((existingVariant) => existingVariant.id === variant.id));
+    const newVariants = incomingVariants.filter((variant) => !existingVariants.some(({ id }) => id === variant.id));
 
-    const deletedVariantIds = existingVariants
-      .filter((existingVariant) => !variants
-      .some((variant) => variant.id === existingVariant.id))
-      .map((existingVariant) => existingVariant.id);
+    const { deletedVariantsIds, deletedImagesIds, updatedVariants } = existingVariants.reduce(
+      (acc: divisions, existingVariant) => {
+        const stayingVariant = incomingVariants.find((variant) => variant.id === existingVariant.id);
+        if (stayingVariant) {
+          if(stayingVariant.imageSignature !== existingVariant.imageSignature){
+            acc.deletedImagesIds.push(existingVariant.imageSignature);
+            acc.updatedVariants.push({ ...stayingVariant, id: existingVariant.id, productId: id });
+          }
+        }else{
+          acc.deletedVariantsIds.push(existingVariant.id);
+          acc.deletedImagesIds.push(existingVariant.imageSignature);
+        }
+        return acc;
+      },
+      { deletedVariantsIds: [], deletedImagesIds: [], updatedVariants: [] }
+    );
 
-    await db.variant.deleteMany({ where: { id: { in: deletedVariantIds } } });
+    try{
+      imagekit.bulkDeleteFiles(deletedImagesIds)
+    }catch(err){}
+
+    await db.variant.deleteMany({ where: { id: { in: deletedVariantsIds } } });
 
     await db.variant.createMany({ data: newVariants.map((variant) => ({ ...variant, productId: id })) });
 
+    for (const {id, imageSignature, imageUrl} of updatedVariants) {
+      await db.variant.update({ where: { id }, data: { imageSignature, imageUrl } });
+    }
+
     return new Response('Product updated successfully:');
+
   } catch (error) {
     return new Response('Error', { status: 500 });
   }

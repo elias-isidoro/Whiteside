@@ -39,7 +39,7 @@ const ProductEdit = ({productId}: Props) => {
 
   const {data: product, refetch: refetchProduct} = useFetchProduct({productId})
   const {data: categories, isLoading: isFetchingCategories} = useFetchAllCategories()
-  const {uploadImages, isUploading: isUploadingImages} = useImageUploader()
+  const {uploadImages, isUploading: isUploadingImages} = useImageUploader({toastOnSuccess:false})
   const {refetch: refetchAllProducts} = useFetchAllProducts()
 
   const {mutate: updateProduct, isLoading: isUpdatingProduct} = useUpdateProduct({
@@ -61,6 +61,7 @@ const ProductEdit = ({productId}: Props) => {
   useEffect(()=> {
     if(!product) return
     const {categoryId, description, name, variants} = product
+
     setProductName({value:name, isFirstValue: true})
     setProductCategoryId({value:categoryId, isFirstValue: true})
     setProductDescription({value:description, isFirstValue: true})
@@ -100,7 +101,10 @@ const ProductEdit = ({productId}: Props) => {
     
     const newlyUploadedVariants = newVariants
     // eslint-disable-next-line no-unused-vars
-    .map(({image,...rest}, index) => ({ imageUrl: uploadResults[index].url, ...rest }));
+    .map(({image, imageSignature, ...rest}, index) => {
+      const {url: imageUrl, fileId} = uploadResults[index]
+      return {imageUrl, imageSignature: fileId, ...rest}
+    });
 
     const oldAndKeptVariants = stringVariants
     .map(({image,...rest}) => ({ imageUrl: image as string, ...rest }));

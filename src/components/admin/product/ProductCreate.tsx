@@ -42,12 +42,11 @@ const ProductCreate = () => {
     
     if (!uploadResults || productVariants.length !== uploadResults.length) return;
     
-    const variants = productVariants.map((unsavedVariant, index) => ({
-      id: unsavedVariant.id,
-      tags: unsavedVariant.tags,
-      price: unsavedVariant.price,
-      imageUrl: uploadResults[index].url,
-    }));
+    // eslint-disable-next-line no-unused-vars
+    const variants = productVariants.map(({image, imageSignature, ...rest}, index) => {
+      const {url: imageUrl, fileId} = uploadResults[index]
+      return {imageUrl, imageSignature: fileId, ...rest}
+    });
     
     createProduct({
       variants,

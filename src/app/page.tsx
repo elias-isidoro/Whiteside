@@ -1,8 +1,8 @@
-import StoreFront from "@/components/StoreFront";
+import ProductShowcase from "@/components/customer/product/ProductShowcase";
 
 
 export default function Home() {
   return (
-    <StoreFront/>
+    <ProductShowcase/>
   )
 }

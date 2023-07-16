@@ -14,6 +14,7 @@ export const CreateProductValidator = z.object({
     tags: z.string(),
     price: z.number(),
     imageUrl: z.string(),
+    imageSignature: z.string(),
   }))
 });
 
@@ -27,6 +28,7 @@ export const UpdateProductValidator = z.object({
     tags: z.string(),
     price: z.number(),
     imageUrl: z.string(),
+    imageSignature: z.string(),
   }))
 });
 

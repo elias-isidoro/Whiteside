@@ -63,7 +63,7 @@ const useImageUploader = ({ toastOnSuccess = true }:Props = {}) => {
         });
       }));
       
-      const newUploadedImages = uploadedImages.map(({url}) => ({url}));
+      const newUploadedImages = uploadedImages.map(({url,fileId}) => ({url,fileId}));
       setUploadedImages(prevUrls => [...prevUrls, ...newUploadedImages]);
       toastOnSuccess && toastDefault('Cheers!', `${newUploadedImages.length>1?'Images have':'Image has'} been successfully uploaded.`);
       return newUploadedImages

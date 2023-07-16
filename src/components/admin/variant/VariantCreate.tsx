@@ -31,10 +31,11 @@ const VariantCreate = () => {
     }
 
     addProductVariant({
+      id: nanoid(),
       image: image!,
-      tags: JSON.stringify(tags),
+      imageSignature:nanoid(),
       price: parsePrice(price),
-      id: nanoid()
+      tags: JSON.stringify(tags),
     })
 
     router.back()
