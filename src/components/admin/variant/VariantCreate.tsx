@@ -36,6 +36,7 @@ const VariantCreate = () => {
       imageSignature:nanoid(),
       price: parsePrice(price),
       tags: JSON.stringify(tags),
+      imageOrientation: 'Landscape'
     })
 
     router.back()

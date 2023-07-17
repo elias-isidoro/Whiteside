@@ -38,11 +38,11 @@ export async function PUT(req: Request) {
     }
 
     const body = await req.json();
-    const { id, imageUrl, price, tags } = UpdateVariantValidator.parse(body);
+    const { id, ...variantData } = UpdateVariantValidator.parse(body);
 
     await db.variant.update({
       where: { id },
-      data: { imageUrl, price, tags },
+      data: { ...variantData },
     });
 
 
@@ -62,9 +62,9 @@ export async function POST (req: Request) {
     }
 
     const body = await req.json()
-    const { imageUrl, price, productId, tags } = CreateVariantValidator.parse(body)
+    const variantData = CreateVariantValidator.parse(body)
 
-    await db.variant.create({ data:{ imageUrl, price, tags, id: nanoid(), productId } })
+    await db.variant.create({ data:{ ...variantData, id: nanoid() } })
 
     return new Response('Variant has been successfully created!')
     

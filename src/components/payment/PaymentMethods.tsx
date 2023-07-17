@@ -20,8 +20,6 @@ const PaymentMethods: FC<Props> = ({}) => {
     return notFound()
   }
 
-  console.log(methods)
-
   return(
     <div className=''>
       PaymentMethods
