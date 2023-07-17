@@ -1,3 +1,4 @@
+import { ImageOrientation } from '@prisma/client';
 import { z } from 'zod'
 
 export const FetchProductValidator = z.object({ id: z.string() })
@@ -15,6 +16,7 @@ export const CreateProductValidator = z.object({
     price: z.number(),
     imageUrl: z.string(),
     imageSignature: z.string(),
+    imageOrientation: z.nativeEnum(ImageOrientation),
   }))
 });
 
@@ -29,6 +31,7 @@ export const UpdateProductValidator = z.object({
     price: z.number(),
     imageUrl: z.string(),
     imageSignature: z.string(),
+    imageOrientation: z.nativeEnum(ImageOrientation),
   }))
 });
 

@@ -61,7 +61,6 @@ const ProductEdit = ({productId}: Props) => {
   useEffect(()=> {
     if(!product) return
     const {categoryId, description, name, variants} = product
-
     setProductName({value:name, isFirstValue: true})
     setProductCategoryId({value:categoryId, isFirstValue: true})
     setProductDescription({value:description, isFirstValue: true})
@@ -101,9 +100,9 @@ const ProductEdit = ({productId}: Props) => {
     
     const newlyUploadedVariants = newVariants
     // eslint-disable-next-line no-unused-vars
-    .map(({image, imageSignature, ...rest}, index) => {
-      const {url: imageUrl, fileId} = uploadResults[index]
-      return {imageUrl, imageSignature: fileId, ...rest}
+    .map(({image, imageSignature, imageOrientation, ...rest}, index) => {
+      const {url: imageUrl, fileId, orientation} = uploadResults[index]
+      return {imageUrl, imageSignature: fileId, imageOrientation: orientation, ...rest}
     });
 
     const oldAndKeptVariants = stringVariants

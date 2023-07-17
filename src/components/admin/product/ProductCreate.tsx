@@ -43,9 +43,9 @@ const ProductCreate = () => {
     if (!uploadResults || productVariants.length !== uploadResults.length) return;
     
     // eslint-disable-next-line no-unused-vars
-    const variants = productVariants.map(({image, imageSignature, ...rest}, index) => {
-      const {url: imageUrl, fileId} = uploadResults[index]
-      return {imageUrl, imageSignature: fileId, ...rest}
+    const variants = productVariants.map(({image, imageSignature, imageOrientation, ...rest}, index) => {
+      const {url: imageUrl, fileId, orientation} = uploadResults[index]
+      return {imageUrl, imageSignature: fileId, imageOrientation: orientation, ...rest}
     });
     
     createProduct({

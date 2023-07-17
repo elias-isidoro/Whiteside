@@ -16,10 +16,12 @@ export default function RootLayout({
   children, 
   authModal, 
   crudModal,
+  mainModal,
 }:{ 
   children: React.ReactNode, 
   authModal: React.ReactNode, 
   crudModal: React.ReactNode, 
+  mainModal: React.ReactNode
 }){
   return (
     <html lang='en' className={cn('bg-white text-slate-900 antialiased', inter.className)}>
@@ -30,6 +32,7 @@ export default function RootLayout({
 
           {authModal}
           {crudModal}
+          {mainModal}
 
           <div className={cn('container max-w-7xl mx-auto h-full pt-10 min-w-[280px]')}>
             {children}

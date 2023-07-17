@@ -45,13 +45,26 @@ model Session {
   @@index([userId])
 }
 
+enum UserRoles {
+  Admin
+  Owner
+  Employee
+  Customer
+  Moderator
+  Analyst
+  Support
+  Salesperson
+  Developer
+  Manager
+}
+
 model User {
   id            String    @id @default(cuid())
   name          String?
   email         String?   @unique
   emailVerified DateTime?
-
-  username String? @unique
+  role          UserRoles @default(Customer)
+  username      String?   @unique
 
   image    String?
   accounts Account[]
@@ -78,12 +91,19 @@ model Product {
   @@index([categoryId])
 }
 
+enum ImageOrientation {
+  Portrait
+  Landscape
+  Square
+}
+
 model Variant {
-  id             String @id @default(cuid())
-  price          Float
-  tags           String
-  imageUrl       String
-  imageSignature String
+  id               String           @id @default(cuid())
+  price            Float
+  tags             String
+  imageUrl         String
+  imageSignature   String
+  imageOrientation ImageOrientation
 
   product   Product @relation(fields: [productId], references: [id])
   productId String

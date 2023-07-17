@@ -5,6 +5,7 @@ import { toastDefault, toastError } from '@/lib/utils';
 import { useCallback, useEffect, useState } from 'react';
 import { UploadResponse } from 'imagekit/dist/libs/interfaces';
 import { ImageKitCredsValidator } from '@/lib/validators/imagekit';
+import { ImageOrientation } from '@prisma/client';
 
 let imagekit: ImageKit | null = null;
 
@@ -63,7 +64,10 @@ const useImageUploader = ({ toastOnSuccess = true }:Props = {}) => {
         });
       }));
       
-      const newUploadedImages = uploadedImages.map(({url,fileId}) => ({url,fileId}));
+      const newUploadedImages = uploadedImages.map(({url,fileId,height,width}) => {
+        const orientation: ImageOrientation = (height===width) ? ImageOrientation.Square : (height>width) ? ImageOrientation.Portrait : ImageOrientation.Landscape
+        return ({url,fileId, orientation})
+      });
       setUploadedImages(prevUrls => [...prevUrls, ...newUploadedImages]);
       toastOnSuccess && toastDefault('Cheers!', `${newUploadedImages.length>1?'Images have':'Image has'} been successfully uploaded.`);
       return newUploadedImages

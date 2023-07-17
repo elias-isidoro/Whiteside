@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 
+import { ImageOrientation } from '@prisma/client';
 import { create } from 'zustand'
 
 export type UnsavedProduct = {
@@ -15,6 +16,7 @@ export type Variant = {
   price: number,
   image: File | string,
   imageSignature: string,
+  imageOrientation: ImageOrientation,
 }
 
 interface UnsavedProductStates {
