@@ -7,7 +7,10 @@ import { Inter } from 'next/font/google'
 
 export const metadata = {
   title: 'Whiteside',
-  description: 'Shop for clothes!',
+  description: 'Discover a world of possibilities at Whiteside, your ultimate online shopping destination! From trendy fashion to cutting-edge electronics and everything in between, we have it all. Find the latest styles, top-notch quality, and unbeatable prices, all in one convenient place. Shop with confidence, knowing that our secure checkout ensures your personal information is always protected. With fast shipping and exceptional customer service, your shopping experience at Whiteside will be nothing short of amazing. Start exploring now and unleash the joy of online shopping!',
+  openGraph: {
+    images: ['https://cdn.discordapp.com/attachments/815553316390043658/1091565328087138385/Lily_A4.png']
+  }
 }
 
 const inter = Inter({ subsets: ['latin'] })
