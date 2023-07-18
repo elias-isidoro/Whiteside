@@ -4,6 +4,9 @@ import { getAuthSession } from "@/lib/auth";
 import { CreateCategoryValidator, UpdateCategoryValidator } from "@/lib/validators/category";
 import { NextResponse } from "next/server";
 
+
+export const dynamic = 'force-dynamic'
+
 export async function GET (req: Request) {
   try {
 

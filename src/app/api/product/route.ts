@@ -6,6 +6,9 @@ import { NextResponse } from "next/server";
 import ImageKit from "imagekit";
 import { Variant } from "@prisma/client";
 
+
+export const dynamic = 'force-dynamic'
+
 interface divisions { 
   deletedImagesIds: string[]
   updatedVariants: Variant[]
@@ -81,7 +84,7 @@ export async function POST (req: Request) {
 }
 
 
-export async function PUT(req: Request) {
+export async function PUT (req: Request) {
   try {
     const session = await getAuthSession();
 
