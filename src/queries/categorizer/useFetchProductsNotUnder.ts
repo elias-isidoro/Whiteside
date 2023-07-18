@@ -16,7 +16,7 @@ const useFetchProductsNotUnder = ({categoryId}: Props) => {
       const { data: {products} } = await axios.get('/api/categorizer/not_under',{params: payload});
       return products as (Product & { variants: Variant[] })[];
     },
-    refetchOnMount: true,
+    cacheTime:0
   });
 
   return query

@@ -20,12 +20,14 @@ export type Variant = {
 }
 
 interface UnsavedProductStates {
+  keepStates: boolean
   productName: string
   productCategoryId: string | null
   productDescription: string
   productVariants: Variant[]
   
   resetStates: ()=>void
+  setKeepStates: (input: boolean)=>void
   deleteProductVariant: (id: string) => void
   addProductVariant: (variant: Variant) => void
   
@@ -38,6 +40,7 @@ interface UnsavedProductStates {
 }
 
 export const useUnsavedProductStore = create<UnsavedProductStates>()((set) => ({
+  keepStates: false,
   productName: '',
   productCategoryId: '',
   productDescription: '',
@@ -90,5 +93,6 @@ export const useUnsavedProductStore = create<UnsavedProductStates>()((set) => ({
     const updatedVariants = current.productVariants.filter((variant) => variant.id !== id);
     return { ...current, productVariants: updatedVariants };
   }),
+  setKeepStates: (input: boolean) =>set((current)=>({...current, keepStates: input})),
   resetStates: () => set((current)=>({ ...current, productName: '', productDescription: '', productVariants: [], productCategoryId: '' })),
 }));

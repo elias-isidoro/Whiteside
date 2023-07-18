@@ -24,7 +24,7 @@ const VariantEdit = ({variantId}: Props) => {
   
   const previewRef = useRef<HTMLImageElement>(null)
 
-  const {productVariants, updateProductVariant, deleteProductVariant} = useUnsavedProductStore()
+  const {productVariants, updateProductVariant, deleteProductVariant, setKeepStates} = useUnsavedProductStore()
 
   const {current:originalVariant} = useRef(productVariants.find(({id})=>id===variantId))
 
@@ -55,12 +55,17 @@ const VariantEdit = ({variantId}: Props) => {
       tags: JSON.stringify(tags),
       price: parsePrice(price)
     })
+
+    setKeepStates(true)
     
     router.back()
   }
   
   const handleDelete = () => {
     deleteProductVariant(variantId)
+
+    setKeepStates(true)
+    
     router.back()
   }
 

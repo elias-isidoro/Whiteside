@@ -4,7 +4,6 @@ import { Input } from '@/components/ui/Input'
 import { useCategorizerStore } from '@/hooks/use-categorizer-store'
 import { cn } from '@/lib/utils'
 import useDeleteCategory from '@/queries/categories/useDeleteCategory'
-import useFetchAllCategories from '@/queries/categories/useFetchAllCategories'
 import useFetchCategory from '@/queries/categories/useFetchCategory'
 import useUpdateCategory from '@/queries/categories/useUpdateCategory'
 import useFetchProductsUnder from '@/queries/categorizer/useFetchProductsUnder'
@@ -15,6 +14,7 @@ import { notFound, useRouter } from 'next/navigation'
 import { FC, useEffect, useMemo, useState } from 'react'
 import { Button, buttonVariants, } from '../../ui/Button'
 import CategorizerCard from './CategorizerCard'
+import useFetchAllCategoriesWithProducts from '@/queries/categories/useFetchAllCategoriesWithProducts'
 
 interface Props {
   categoryId: string
@@ -28,7 +28,7 @@ const CategoryEdit: FC<Props> = ({categoryId}) => {
 
   const {resetAllStates, selectedProducts} = useCategorizerStore()
 
-  const {refetch: refetchAllCategories} = useFetchAllCategories()
+  const {refetch: refetchAllCategories} = useFetchAllCategoriesWithProducts()
   
   const { data: products, isLoading: isFetchingProducts, refetch: refetchProducts } = useFetchProductsUnder({categoryId})
 
@@ -36,6 +36,7 @@ const CategoryEdit: FC<Props> = ({categoryId}) => {
     onSuccessCallback: () => {
       resetAllStates()
       refetchProducts()
+      refetchAllCategories()
     }
   })
 
@@ -54,14 +55,14 @@ const CategoryEdit: FC<Props> = ({categoryId}) => {
     }
   })
   
-  const invisibleChildren = useMemo(() => Array.from({length:3},(_, i) => <CategorizerCard key={`invisible_${i}`} isInvisible={true}/>), []);
+  const invisibleChildren = useMemo(() => Array.from({length:4},(_, i) => <CategorizerCard key={`invisible_${i}`} isInvisible={true}/>), []);
 
   useEffect(()=>resetAllStates,[resetAllStates])
   useEffect(()=>category&&setCategoryName(category.name),[category])
 
 
-  if(isFetchingCategory) return <>Loading...</>
-  if(!category) return notFound()
+  if(isFetchingCategory || isFetchingProducts) return <>Loading...</>
+  if(!category || !products) return notFound()
 
   const handleDelete = () => deleteCategory({id: category.id})
   const handleRemove = () => uncategorizeProducts({ selectedProducts })
@@ -102,30 +103,14 @@ const CategoryEdit: FC<Props> = ({categoryId}) => {
           </Button>
         }
         
-          <div className='flex flex-row flex-wrap w-full max-h-[400px] gap-2 overflow-auto'>
-
-            {isFetchingProducts?
-              <p className='w-full text-center border border-black py-2 text-sm'>
-                Fetching Products...
-              </p>
-              :
-              <>
-                {products?
-                  <>
-                    {products.length===0?
-                    <p className='w-full text-center border border-black py-2 px-4 text-sm'>
-                      There are currently no products under this category...
-                    </p>
-                    :
-                    <>{products.map((product)=>(<CategorizerCard key={`edit_${category.id}_${product.id}`} product={product}/>))}
-                    {invisibleChildren}</>
-                    }
-                  </>:
-                  <p className='w-full text-center border border-black py-2 text-sm'>
-                    {`Failed to fetch products...(Please refresh)`}
-                  </p>
-                } 
-              </>
+          <div className='flex flex-row flex-wrap w-full max-h-[450px] gap-2 overflow-auto py-1'>
+            {products.length===0?
+            <p className='w-full text-center border border-black py-2 px-4 text-sm'>
+              There are currently no products under this category...
+            </p>
+            :
+            <>{products.map((product)=>(<CategorizerCard key={`edit_${category.id}_${product.id}`} product={product}/>))}
+            {invisibleChildren}</>
             }
           </div>
 
@@ -152,9 +137,9 @@ const CategoryEdit: FC<Props> = ({categoryId}) => {
         variant='secondary' 
         onClick={handleSave}
         className='text-xs' 
-        disabled={isUpdatingCategory || (categoryName === category.name)} 
+        disabled={isUpdatingCategory} 
         isLoading={isUpdatingCategory}>
-          Save
+          {(categoryName === category.name)?'Done':'Save'}
         </Button>
       </div>
 

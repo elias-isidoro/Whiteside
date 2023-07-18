@@ -31,6 +31,7 @@ const ProductEdit = ({productId}: Props) => {
   const [isFetchingProduct, setIsFetchingProduct] = useState(true)
 
   const {
+    keepStates,
     productName, 
     productDescription, 
     productCategoryId,
@@ -39,6 +40,7 @@ const ProductEdit = ({productId}: Props) => {
     setProductCategoryId,
     setProductDescription, 
     setProductVariants,
+    setKeepStates,
   } = useUnsavedProductStore()
 
   const {data: product, refetch: refetchProduct} = useFetchProduct({productId})
@@ -65,12 +67,16 @@ const ProductEdit = ({productId}: Props) => {
   useEffect(()=> {
     if(!product) return
     const {categoryId, description, name, variants} = product
-    setProductName({value:name, isFirstValue: true})
-    setProductCategoryId({value:categoryId, isFirstValue: true})
-    setProductDescription({value:description, isFirstValue: true})
-    setProductVariants({value: variants.map(({imageUrl,...rest})=>({...rest,image:imageUrl})), isFirstValue: true})
+    setProductName({value:name, isFirstValue: keepStates})
+    setProductCategoryId({value:categoryId, isFirstValue: keepStates})
+    setProductDescription({value:description, isFirstValue: keepStates})
+    setProductVariants({value: variants.map(({imageUrl,...rest})=>({...rest,image:imageUrl})), isFirstValue: keepStates})
     setIsFetchingProduct(false)
-  } , [product, setProductCategoryId, setProductDescription, setProductName,setProductVariants])
+
+    return ()=> { 
+      setKeepStates(false) 
+    }
+  }, [keepStates, product, setKeepStates, setProductCategoryId, setProductDescription, setProductName, setProductVariants])
 
   if(isFetchingCategories || isFetchingProduct){
     return <>Loading</>
@@ -196,7 +202,8 @@ const ProductEdit = ({productId}: Props) => {
             disabled={checkifTwoProductStatesAreEqual({
               productName, 
               productDescription, 
-              productCategoryId
+              productCategoryId,
+              productVariants
             },product as Product) || isUploadingImages|| isDeletingProduct || productName.length === 0 || isUpdatingProduct || productDescription.length === 0}
             className='text-xs'>
               Save
@@ -214,7 +221,7 @@ interface ProductStates {
   productName: string
   productDescription: string
   productCategoryId: string | null
-
+  productVariants: Variant[]
 }
 
 const checkifTwoProductStatesAreEqual = (a: ProductStates, b: Product) => {

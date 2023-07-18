@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import useCreateCategory from "@/queries/categories/useCreateCategory";
-import useFetchAllCategories from "@/queries/categories/useFetchAllCategories";
+import useFetchAllCategoriesWithProducts from "@/queries/categories/useFetchAllCategoriesWithProducts";
 import { Pencil } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -11,7 +11,7 @@ import { useState } from "react";
 const CreateCategory = () => {
   const router = useRouter()
   const [input, setInput] = useState('')
-  const {refetch: refetchCategories} = useFetchAllCategories()
+  const {refetch: refetchCategories} = useFetchAllCategoriesWithProducts()
 
   const { mutate: createCategory, isLoading: isCreatingCategory } = useCreateCategory({
     onSuccessCallback: () => {

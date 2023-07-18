@@ -22,7 +22,7 @@ const VariantCreate = () => {
   const [price, setPrice] = useState('')
   const {addTag, removeTag, setNewTag, tags, newTag} = useTagManager()
   const {handleInputChange, image} = useImageInputManager({previewRef})
-  const {addProductVariant} = useUnsavedProductStore()
+  const {addProductVariant, setKeepStates} = useUnsavedProductStore()
 
   const createVariant = () => {
     if(!checkIfInputIsValidPrice(price)){
@@ -38,6 +38,8 @@ const VariantCreate = () => {
       tags: JSON.stringify(tags),
       imageOrientation: 'Landscape'
     })
+
+    setKeepStates(true)
 
     router.back()
   }

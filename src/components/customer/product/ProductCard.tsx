@@ -23,7 +23,7 @@ const ProductCard: FC<Props> = ({isInvisible=false, product}) => {
               <img 
               alt={'product preview'} 
               src={product.variants[0].imageUrl} 
-              className='w-full h-full object-cover rounded-md group-hover:rounded-b-none'/>
+              className='w-full h-full object-cover rounded-md'/>
             </div>
           </div>
 

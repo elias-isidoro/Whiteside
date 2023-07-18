@@ -12,8 +12,8 @@ const DashNav: FC<Props> = ({focus}) => {
     <div className='w-fit flex flex-row flex-wrap gap-[1px] p-[1px] bg-black mb-4'>
       <DashTab href={'/dashboard/products'} focus={focus} text={'Products'}/>
       <DashTab href={'/dashboard/categories'} focus={focus} text={'Categories'}/>
-      <DashTab href={'/'} focus={focus} text={'Sales'}/>
-      <DashTab href={'/'} focus={focus} text={'Orders'}/>
+      {/* <DashTab href={'/'} focus={focus} text={'Sales'}/>
+      <DashTab href={'/'} focus={focus} text={'Orders'}/> */}
     </div>
   )
 }

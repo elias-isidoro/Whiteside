@@ -1,0 +1,18 @@
+import { db } from "@/lib/db";
+import { NextResponse } from 'next/server';
+
+export const dynamic = 'force-dynamic'
+
+export async function GET () {
+  try {
+    
+    const categories = await db.category.findMany({
+      include:{ products: true }
+    });
+
+    return NextResponse.json({ categories })
+
+  }catch(error){
+    return new Response('Could not fetch categories', {status: 500})
+  }
+}

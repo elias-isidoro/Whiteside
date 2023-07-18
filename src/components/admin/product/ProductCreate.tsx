@@ -12,6 +12,7 @@ import { Pencil } from "lucide-react";
 import { nanoid } from "nanoid";
 import { notFound, useRouter } from "next/navigation";
 import VariantShowcase from "../variant/VariantShowcase";
+import { useEffect } from "react";
 
 const ProductCreate = () => {
 
@@ -30,6 +31,7 @@ const ProductCreate = () => {
     resetStates,
     setProductCategoryId,
     setProductDescription, 
+    setKeepStates,
   } = useUnsavedProductStore()
 
   const handleSubmit = async () => {
@@ -64,6 +66,8 @@ const ProductCreate = () => {
       refetchProductList()
     }
   })
+
+  useEffect(()=>()=>{setKeepStates(false)},[setKeepStates])
 
   if(isFetchingCategories){
     return <>Loading</>

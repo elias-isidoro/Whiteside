@@ -9,10 +9,6 @@ import { buttonVariants } from '@/components/ui/Button';
 import useFetchAllProducts from '@/queries/products/useFetchAllProducts';
 import { useUnsavedProductStore } from '@/hooks/use-unsaved-product-store';
 
-export const dynamic = 'force-dynamic'
-export const revalidate = 0
-export const fetchCache = 'force-no-store'
-
 const ProductShowcase = () => {
 
   const {resetStates} = useUnsavedProductStore()

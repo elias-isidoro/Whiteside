@@ -5,15 +5,20 @@ import { buttonVariants } from '@/components/ui/Button';
 import CategoryCard from './CategoryCard';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
-import useFetchAllCategories from '@/queries/categories/useFetchAllCategories';
-
-export const revalidate = 0
-export const dynamic = 'force-dynamic'
-export const fetchCache = 'force-no-store'
+import useFetchAllCategoriesWithProducts from '@/queries/categories/useFetchAllCategoriesWithProducts';
+import notFound from '@/app/not-found';
 
 const CategoryShowcase = () => {
 
-  const {data: categories, isLoading: isFetchingCategories} = useFetchAllCategories()
+  const {data: categories, isLoading: isFetchingCategories} = useFetchAllCategoriesWithProducts()
+
+  if(isFetchingCategories){
+    return <>Loading...</>
+  }
+
+  if(!categories){
+    return notFound()
+  }
 
   return (
     <div className='w-full pb-12'>
@@ -37,17 +42,7 @@ const CategoryShowcase = () => {
               </tr>
             </thead>
             <tbody>
-              {isFetchingCategories?
-                <tr className='h-[50px]'>
-                  <td colSpan={3} className='relative h-full border border-black text-center'>
-                    <p>{'Fetching categories...'}</p>
-                  </td>
-                </tr>
-              :
-                <>
-                  {categories&&categories.map((category)=>(<CategoryCard key={`${category.id}${category.name}`} category={category}/>))}
-                </>
-              }
+              {categories.map((category)=>(<CategoryCard key={`${category.id}${category.name}`} category={category}/>))}
             </tbody>
           </table>
         </div>
