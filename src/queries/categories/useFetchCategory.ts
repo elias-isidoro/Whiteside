@@ -20,7 +20,6 @@ const useFetchCategory = ({categoryId}:Props) => {
 
       return category as Category;
     },
-    refetchOnMount: true
   });
 
   return query
