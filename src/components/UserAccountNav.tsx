@@ -37,7 +37,7 @@ const UserAccountNav: FC<Props> = ({session}) => {
               name: user.name || null,
               image: user.image || null,
             }}/>
-          <p className='hidden text-sm text-gray-700 font-medium min-[600px]:block'>{user.name}</p>
+          <p className='hidden text-sm text-gray-700 font-medium min-[600px]:block max-w-[55px] overflow-hidden whitespace-nowrap text-ellipsis'>{user.name}</p>
         </div>
       </DropdownMenuTrigger>
 
@@ -56,13 +56,13 @@ const UserAccountNav: FC<Props> = ({session}) => {
           <Link href='/dashboard'>Dashboard</Link>
         </DropdownMenuItem>
 
-        <DropdownMenuItem asChild>
+        {/* <DropdownMenuItem asChild>
           <Link href='/'>Feed</Link>
         </DropdownMenuItem>
 
         <DropdownMenuItem asChild>
           <Link href='/'>Settings</Link>
-        </DropdownMenuItem>
+        </DropdownMenuItem> */}
 
         <DropdownMenuSeparator/>
         
