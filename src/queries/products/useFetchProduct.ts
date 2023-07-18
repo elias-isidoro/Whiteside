@@ -19,6 +19,7 @@ const useFetchProduct = ({productId}: Props) => {
       const { data: {product} } = await axios.get('/api/product',{params:payload})
       return product as (Product & { variants: Variant[] });
     },
+    refetchOnMount: true
   });
 
   return query

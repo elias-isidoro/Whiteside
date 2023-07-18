@@ -19,7 +19,8 @@ const useFetchCategory = ({categoryId}:Props) => {
       const { data: {category} } = await axios.get('/api/category', {params: payload})
 
       return category as Category;
-    }
+    },
+    refetchOnMount: true
   });
 
   return query
