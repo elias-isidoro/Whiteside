@@ -17,6 +17,10 @@ import useFetchProduct from '@/queries/products/useFetchProduct'
 import { Product } from '@prisma/client'
 import useImageUploader from '@/hooks/use-image-uploader'
 
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+export const fetchCache = 'force-no-store'
+
 interface Props {
   productId: string
 }
