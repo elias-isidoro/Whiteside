@@ -24,6 +24,7 @@ const useUpdateProduct = ({onSuccessCallback, onErrorCallback}:Props = {}) => {
           return loginToast()
         }
       }
+      console.log(err)
       onErrorCallback&&onErrorCallback()
       return toastError('There was an error.', 'Could not update product.')
     },
