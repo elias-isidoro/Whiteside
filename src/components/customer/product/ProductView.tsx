@@ -55,7 +55,7 @@ const ProductView: FC<Props> = ({productId}) => {
 
           <div className='flex-grow'></div>
           <div className='w-full flex justify-end'>
-            <Link href={'/'} className={cn(buttonVariants(),'w-fit text-xs min-[400px]:text-md')}>
+            <Link href={'/payment/success'} className={cn(buttonVariants(),'w-fit text-xs min-[400px]:text-md')}>
               Buy now
             </Link>
           </div>
