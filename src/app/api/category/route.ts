@@ -6,11 +6,6 @@ import { NextResponse } from "next/server";
 
 export async function GET (req: Request) {
   try {
-    const session = await getAuthSession()
-
-    if(!session?.user){
-      return new Response('Unauthorized', {status: 401})
-    }
 
     const { searchParams } = new URL(req.url)
     const id = searchParams.get('id') || ''
