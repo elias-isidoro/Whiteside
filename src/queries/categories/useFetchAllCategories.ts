@@ -11,7 +11,8 @@ const useFetchAllCategories = () => {
       const { data: {categories} } = await axios.get('/api/display/categories/all')
       return categories as Category[];
     },
-    refetchOnMount: true
+    refetchOnMount: true,
+    refetchInterval: 0
   });
 
   return query

@@ -11,7 +11,8 @@ const useFetchAllProducts = () => {
       const { data: {products} } = await axios.get('/api/display/products/all')
       return products as (Product & { variants: Variant[] })[];
     },
-    refetchOnMount: true
+    refetchOnMount: true,
+    refetchInterval: 0
   });
 
   return query
