@@ -6,12 +6,7 @@ export async function GET () {
     
     const categories = await db.category.findMany();
 
-    const headers = {
-      'Cache-Control': 'no-store', // Set no-store to prevent caching
-      'Content-Type': 'application/json',
-    };
-
-    return NextResponse.json({ categories }, { headers })
+    return NextResponse.json({ categories })
 
   }catch(error){
     return new Response('Could not fetch categories', {status: 500})
