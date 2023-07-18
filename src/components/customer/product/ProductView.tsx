@@ -1,7 +1,7 @@
 'use client'
 
 import { buttonVariants } from '@/components/ui/Button'
-import { cn } from '@/lib/utils'
+import { cn, numberToPriceFormat } from '@/lib/utils'
 import useFetchProduct from '@/queries/products/useFetchProduct'
 import { Circle } from 'lucide-react'
 import Link from 'next/link'
@@ -51,7 +51,7 @@ const ProductView: FC<Props> = ({productId}) => {
             {JSON.parse(tags).map((tag: string)=><p key={`tag_${tag}`} className={'text-[10px] p-1 min-[400px]:text-xs min-[400px]:p-2 rounded-sm bg-black text-white font-medium'}>{tag}</p>)}
           </div>
           
-          <p className='text-sm'>₱ {price}</p>
+          <p className='text-sm'>₱ {numberToPriceFormat(price)}</p>
 
           <div className='flex-grow'></div>
           <div className='w-full flex justify-end'>
