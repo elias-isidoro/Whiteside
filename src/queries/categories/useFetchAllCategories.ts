@@ -11,7 +11,7 @@ const useFetchAllCategories = () => {
       return categories as Category[];
     },
     refetchOnMount: true,
-    
+    cacheTime:0,
   });
 
   return query

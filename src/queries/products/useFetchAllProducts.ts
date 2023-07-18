@@ -12,7 +12,7 @@ const useFetchAllProducts = () => {
       return products as (Product & { variants: Variant[] })[];
     },
     refetchOnMount: true,
-    refetchInterval: 0
+    cacheTime:0,
   });
 
   return query
