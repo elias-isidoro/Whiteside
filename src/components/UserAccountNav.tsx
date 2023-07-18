@@ -53,7 +53,7 @@ const UserAccountNav: FC<Props> = ({session}) => {
         <DropdownMenuSeparator/>
 
         <DropdownMenuItem asChild>
-          <Link href='/dashboard'>Dashboard</Link>
+          <Link href='/dashboard/products'>Dashboard</Link>
         </DropdownMenuItem>
 
         {/* <DropdownMenuItem asChild>
