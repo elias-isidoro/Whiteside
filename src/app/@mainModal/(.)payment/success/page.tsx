@@ -9,7 +9,7 @@ const page= () => {
         <div className='flex items-center w-full h-4'>
           <CloseModal/>
         </div>
-        <div className='p-4 flex w-full justify-center items-center text-xs'>
+        <div className='p-4 flex flex-row flex-wrap w-full justify-center items-center text-xs'>
           <p>This is a mock success page.</p>
           <p> Thanks for buying!</p>
         </div>
