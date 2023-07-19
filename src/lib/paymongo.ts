@@ -1,8 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import { CreatePaymongoLinkPayload } from "./validators/paymongo";
 
-//make sure you have the env variable
-
 interface PaymongoLink {
   data: {
     id: string;
@@ -47,18 +45,21 @@ export async function createPaymongoLink({amount, description, remarks}:CreatePa
           password: '',
         },
         headers: {
-          Accept: 'application/json',
-          Authorization: 'Basic c2tfdGVzdF9XeVBOYU5RSm84TGVTdnhnZHVDUGtjanM6',
-          'Content-Type': 'application/json',
+          Accept: 'application/json'
         },
       }
-    );
+    ).catch(()=>{
+      return { data: { attributes: { checkout_url: 'post request for paymongo link failed' } } }
+    })
 
     return response.data;
 
-  } catch (error) {
+  } catch (error:any) {
+    if(error instanceof Error){
 
-    throw new Error('Failed to create Paymongo link');
-    
+      return { data: { attributes: { checkout_url: error.message } } }
+    }else{
+      return { data: { attributes: { checkout_url: 'Failed to create Paymongo link' } } }
+    }
   }
 }
