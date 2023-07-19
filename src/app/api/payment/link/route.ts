@@ -13,12 +13,23 @@ export async function POST(req: Request) {
       const { data: { attributes: { checkout_url = '/' } } } = await createPaymongoLink(payload);
       return NextResponse.json({ link: checkout_url }, { status: 200 });
     }catch (err) {
-      return NextResponse.json({ link: err.message }, { status: 200 });
+
+      if(err instanceof Error){
+        return NextResponse.json({ link: err.message }, { status: 200 });
+      }else{
+        return { data: { attributes: { checkout_url: 'Failed to axios Paymongo link' } } }
+      }
+
+      
     }
 
     
   } catch (err) {
+    if(err instanceof Error){
+      return NextResponse.json({ link: err.message }, { status: 500 });
+    }else{
+      return { data: { attributes: { checkout_url: 'Failed at beginning of creation of Paymongo link' } } }
+    }
 
-    return NextResponse.json({ link: err.message }, { status: 500 });
   }
 }

@@ -28,6 +28,8 @@ interface PaymongoLink {
 export async function createPaymongoLink({amount, description, remarks}:CreatePaymongoLinkPayload): Promise<PaymongoLink> {
 
   try {
+    // @ts-ignore 
+    //eslint-disable-next-line no-use-before-define
     const response: AxiosResponse<PaymongoLink> = await axios.post(
       'https://api.paymongo.com/v1/links',
       {
@@ -56,9 +58,12 @@ export async function createPaymongoLink({amount, description, remarks}:CreatePa
 
   } catch (error:any) {
     if(error instanceof Error){
-
+      // @ts-ignore 
+      //eslint-disable-next-line no-use-before-define
       return { data: { attributes: { checkout_url: error.message } } }
     }else{
+      // @ts-ignore 
+      // eslint-disable-next-line no-use-before-define
       return { data: { attributes: { checkout_url: 'Failed to create Paymongo link' } } }
     }
   }
