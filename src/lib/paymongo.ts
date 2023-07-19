@@ -1,6 +1,8 @@
 import axios, { AxiosResponse } from "axios";
 import { CreatePaymongoLinkPayload } from "./validators/paymongo";
 
+//make sure you have the env variable
+
 interface PaymongoLink {
   data: {
     id: string;
