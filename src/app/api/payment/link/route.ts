@@ -28,7 +28,7 @@ interface PaymongoLink {
 
 export async function POST(req: Request) {
   try {
-    
+
     const body = await req.json();
 
     const payload: CreatePaymongoLinkPayload = CreatePaymongoLinkValidator.parse(body);
@@ -36,10 +36,25 @@ export async function POST(req: Request) {
     try{
       const { data: { attributes: { checkout_url = '/' } } }: PaymongoLink = await axios.post(
         'https://api.paymongo.com/v1/links',
-        { data: { attributes: payload } },
+        { 
+          data: { 
+            attributes: {
+              amount: payload.amount,
+              description: payload.description,
+              remarks: payload.remarks
+            }
+          } 
+        },
         {
-          headers: { Accept: 'application/json' },
-          auth: { username: process.env.PAYMONGO_SECRET_KEY!, password: '' },
+          auth: { 
+            username: process.env.PAYMONGO_SECRET_KEY!, 
+            password: ''
+          },
+          headers: { 
+            Accept: 'application/json', 
+            Authorization:'Basic c2tfdGVzdF9XeVBOYU5RSm84TGVTdnhnZHVDUGtjanM6',
+            'Content-Type': 'application/json',
+          },
         }
       )
   
