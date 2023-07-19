@@ -5,6 +5,11 @@ import locale from 'date-fns/locale/en-US'
 import { nanoid } from 'nanoid';
 import { toast } from '@/hooks/use-toast';
 
+export const convertToCents = (dollarAmount: number) => {
+  const centsAmount = dollarAmount * 100;
+  return Math.round(centsAmount);
+}
+
 export const stringToArray = <T>(input: string): T[] => {
   try {
     const array = JSON.parse(input);

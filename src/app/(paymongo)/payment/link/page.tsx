@@ -1,4 +1,4 @@
-import PaymentMethods from '@/components/payment/PaymentMethods'
+import PaymentLink from '@/components/payment/PaymentLink'
 import { FC } from 'react'
 
 interface Props {
@@ -7,7 +7,7 @@ interface Props {
 
 const page: FC<Props> = ({}) => {
   return(
-    <PaymentMethods/>
+    <PaymentLink/>
   )
 }
 

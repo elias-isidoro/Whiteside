@@ -1,11 +1,12 @@
 'use client'
 
-import { buttonVariants } from '@/components/ui/Button'
-import { cn, numberToPriceFormat } from '@/lib/utils'
+import { Button } from '@/components/ui/Button'
+import { convertToCents, numberToPriceFormat } from '@/lib/utils'
+import usePaymentLink from '@/queries/payment/usePaymentLink'
 import useFetchProduct from '@/queries/products/useFetchProduct'
 import { Circle } from 'lucide-react'
-import Link from 'next/link'
-import { notFound } from 'next/navigation'
+import { nanoid } from 'nanoid'
+import { notFound, useRouter } from 'next/navigation'
 import { FC } from 'react'
 
 interface Props {
@@ -15,7 +16,21 @@ interface Props {
 const ProductView: FC<Props> = ({productId}) => {
 
   const {data: product, isLoading: isFetchingProduct} = useFetchProduct({productId})
+  const {mutate: createPaymongoLink, isLoading: isGeneratingLink} = usePaymentLink()
+  const router = useRouter()
 
+  const handleBuy = async () => {
+    if(!product) return
+
+    createPaymongoLink({
+      amount: convertToCents(product.variants[0].price),
+      description: product.name,
+      remarks: nanoid(),
+      callback:(link: string)=>{
+        router.push(link)
+      }
+    })
+  }
 
   if(isFetchingProduct){
     return <>Loading...</>
@@ -55,9 +70,9 @@ const ProductView: FC<Props> = ({productId}) => {
 
           <div className='flex-grow'></div>
           <div className='w-full flex justify-end'>
-            <Link href={'/payment/success'} className={cn(buttonVariants(),'w-fit text-xs min-[400px]:text-md')}>
+            <Button disabled={isGeneratingLink} isLoading={isGeneratingLink} onClick={handleBuy} className={'w-fit text-xs min-[400px]:text-md'}>
               Buy now
-            </Link>
+            </Button>
           </div>
           
         </div>
