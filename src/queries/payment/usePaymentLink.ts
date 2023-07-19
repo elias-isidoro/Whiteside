@@ -19,7 +19,8 @@ const usePaymentLink = ({onSuccessCallback, onErrorCallback}:Props = {}) => {
   const query = useMutation({
     mutationFn: async ({callback, ...payload}: CreatePaymongoLinkPayload & ({callback:(link: string)=>void})) => {
       const { data:{ link } } = await axios.post('/api/payment/link', payload)
-      callback(link)
+      console.log(link)
+      // callback(link)
       return 
     },
     onError: () => {
