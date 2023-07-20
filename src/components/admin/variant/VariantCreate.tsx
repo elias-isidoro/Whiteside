@@ -12,7 +12,7 @@ import { FileUploader } from 'react-drag-drop-files';
 import { faPesoSign } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useImageInputManager from "@/hooks/use-image-input-manager";
-import { useUnsavedProductStore } from "@/hooks/use-unsaved-product-store";
+import { useUnsavedProductStore } from "@/stores/use-unsaved-product-store";
 import { checkIfInputIsValidPrice, stringToPriceFormat, parsePrice, toastError } from "@/lib/utils";
 
 const VariantCreate = () => {
@@ -26,8 +26,11 @@ const VariantCreate = () => {
 
   const createVariant = () => {
     if(!checkIfInputIsValidPrice(price)){
-      toastError('Invalid Price', 'Please follow the proper price format.')
-      return
+      return toastError('Invalid Price', 'Please follow the proper price format.')
+    }
+
+    if(parsePrice(price)<100){
+      return toastError('Invalid Price', 'Price should be a minimum of 100')
     }
 
     addProductVariant({

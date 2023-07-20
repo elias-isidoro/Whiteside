@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/Button";
 import { ComboBox } from "@/components/ui/ComboBox";
 import { Input } from "@/components/ui/Input";
 import useImageUploader from "@/hooks/use-image-uploader";
-import { useUnsavedProductStore } from "@/hooks/use-unsaved-product-store";
+import { useUnsavedProductStore } from "@/stores/use-unsaved-product-store";
 import useFetchAllCategories from "@/queries/categories/useFetchAllCategories";
 import useCreateProduct from '@/queries/products/useCreateProduct';
 import useFetchAllProducts from "@/queries/products/useFetchAllProducts";

@@ -1,3 +1,4 @@
+import { getAuthSession } from '@/lib/auth';
 import { CreatePaymongoLinkValidator, CreatePaymongoLinkPayload } from '@/lib/validators/paymongo';
 import axios, { AxiosResponse } from 'axios';
 import { NextResponse } from 'next/server';
@@ -31,6 +32,12 @@ export async function POST(req: Request) {
 
   try {
 
+    const session = await getAuthSession()
+
+    if(!session?.user){
+      return new Response('Unauthorized', {status: 401})
+    }
+
     const body = await req.json();
 
     const payload: CreatePaymongoLinkPayload = CreatePaymongoLinkValidator.parse(body);
@@ -59,7 +66,7 @@ export async function POST(req: Request) {
       }
     )
   
-    return NextResponse.json({ link: checkout_url })
+    return NextResponse.json({ link: checkout_url }, { status:200 })
 
   } catch (error) {
     

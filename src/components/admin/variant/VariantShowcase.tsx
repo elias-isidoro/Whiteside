@@ -1,5 +1,5 @@
 import { buttonVariants } from '@/components/ui/Button'
-import { Variant } from '@/hooks/use-unsaved-product-store'
+import { Variant } from '@/stores/use-unsaved-product-store'
 import { Plus } from 'lucide-react'
 import Link from 'next/link'
 import VariantCard from './VariantCard'

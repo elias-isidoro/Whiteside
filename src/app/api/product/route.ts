@@ -70,7 +70,7 @@ export async function POST (req: Request) {
     await db.variant.createMany({ data: variantsData });
 
     
-    return new Response(product.name)
+    return new Response(product.name, { status: 200 })
     
   }catch(error){
 

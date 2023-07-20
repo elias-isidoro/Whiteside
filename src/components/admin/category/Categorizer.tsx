@@ -4,7 +4,7 @@ import { FC, useEffect, useMemo } from 'react';
 import CategorizerCard from './CategorizerCard';
 import { Button } from '@/components/ui/Button';
 import { Check, Pointer } from 'lucide-react';
-import { useCategorizerStore } from '@/hooks/use-categorizer-store';
+import { useCategorizerStore } from '@/stores/use-categorizer-store';
 import useCategorizeProducts from '@/queries/categorizer/useCategorizeProducts';
 import useFetchProductsNotUnder from '@/queries/categorizer/useFetchProductsNotUnder';
 import useFetchCategory from '@/queries/categories/useFetchCategory';

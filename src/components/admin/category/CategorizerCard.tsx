@@ -1,6 +1,6 @@
 'use client'
 
-import { useCategorizerStore } from '@/hooks/use-categorizer-store'
+import { useCategorizerStore } from '@/stores/use-categorizer-store'
 import { numberToPriceFormat } from '@/lib/utils'
 import { Product, Variant } from '@prisma/client'
 import { CheckCircle2 } from 'lucide-react'

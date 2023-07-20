@@ -1,7 +1,7 @@
 'use client'
 
 import { Input } from '@/components/ui/Input'
-import { useCategorizerStore } from '@/hooks/use-categorizer-store'
+import { useCategorizerStore } from '@/stores/use-categorizer-store'
 import { cn } from '@/lib/utils'
 import useDeleteCategory from '@/queries/categories/useDeleteCategory'
 import useFetchCategory from '@/queries/categories/useFetchCategory'

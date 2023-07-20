@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import useImageInputManager from "@/hooks/use-image-input-manager";
 import useTagManager from "@/hooks/use-tag-manager";
-import { useUnsavedProductStore } from "@/hooks/use-unsaved-product-store";
+import { useUnsavedProductStore } from "@/stores/use-unsaved-product-store";
 import { checkIfInputIsValidPrice, numberToPriceFormat, parsePrice, stringToArray, stringToPriceFormat, toastError } from "@/lib/utils";
 import { faPesoSign } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

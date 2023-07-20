@@ -7,7 +7,7 @@ import { Plus } from 'lucide-react';
 import ProductCard from './ProductCard';
 import { buttonVariants } from '@/components/ui/Button';
 import useFetchAllProducts from '@/queries/products/useFetchAllProducts';
-import { useUnsavedProductStore } from '@/hooks/use-unsaved-product-store';
+import { useUnsavedProductStore } from '@/stores/use-unsaved-product-store';
 
 const ProductShowcase = () => {
 

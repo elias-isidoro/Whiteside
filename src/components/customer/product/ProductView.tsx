@@ -1,13 +1,13 @@
 'use client'
 
 import { Button } from '@/components/ui/Button'
-import { convertToCents, numberToPriceFormat } from '@/lib/utils'
-import usePaymentLink from '@/queries/payment/usePaymentLink'
+import { numberToPriceFormat, toastDefault } from '@/lib/utils'
 import useFetchProduct from '@/queries/products/useFetchProduct'
-import { Circle } from 'lucide-react'
+import { useCartStore } from '@/stores/use-cart-store'
+import { Circle, Minus, Plus, ShoppingCart } from 'lucide-react'
 import { nanoid } from 'nanoid'
-import { notFound, useRouter } from 'next/navigation'
-import { FC } from 'react'
+import { notFound } from 'next/navigation'
+import { FC, useMemo } from 'react'
 
 interface Props {
   productId: string
@@ -16,21 +16,32 @@ interface Props {
 const ProductView: FC<Props> = ({productId}) => {
 
   const {data: product, isLoading: isFetchingProduct} = useFetchProduct({productId})
-  const {mutate: createPaymongoLink, isLoading: isGeneratingLink} = usePaymentLink()
-  const router = useRouter()
+  const { isInCart, toggleItem } = useCartStore()
+  const itemId = useMemo(()=>{
+    if(!product) return nanoid()
+    return `${product.id}${product.variants[0].id}`
+  },[product])
 
-  const handleBuy = async () => {
+  const handleAddToCart = () => {
     if(!product) return
+    
+    const {variants, id, ...rest} = product
 
-    createPaymongoLink({
-      amount: convertToCents(product.variants[0].price),
-      description: product.name,
-      remarks: nanoid(),
-      callback:(link: string)=>{
-        router.push(link)
-      }
+    const action = toggleItem({ 
+      ...rest,
+      quantity: 1,
+      variant: variants[0],
+      productId: id,
+      id: `${id}${variants[0].id}`,
     })
+
+    if(action==='+'){
+      toastDefault('','Item has been added to Cart')
+    }else{
+      toastDefault('','Item has been removed to Cart')
+    }
   }
+
 
   if(isFetchingProduct){
     return <>Loading...</>
@@ -70,11 +81,15 @@ const ProductView: FC<Props> = ({productId}) => {
 
           <div className='flex-grow'></div>
           <div className='w-full flex justify-end'>
-            <Button disabled={isGeneratingLink} isLoading={isGeneratingLink} onClick={handleBuy} className={'w-fit text-xs min-[400px]:text-md'}>
-              Buy now
+            <Button variant={!isInCart(itemId)?'secondary':'destructive'} onClick={handleAddToCart} className={'flex w-fit gap-1'}>
+              {!isInCart(itemId)?(
+                <Plus className='h-5 w-5'/>
+              ):(
+                <Minus className='h-5 w-5'/>
+              )}
+              <ShoppingCart className='h-5 w-5'/>
             </Button>
           </div>
-          
         </div>
       </div>
      

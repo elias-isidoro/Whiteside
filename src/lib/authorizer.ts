@@ -7,7 +7,7 @@ const checkAuthorization = async () => {
 
   if(!session?.user) return notFound()
 
-  return
+  return session.user
 }
 
 export default checkAuthorization

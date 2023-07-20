@@ -1,4 +1,4 @@
-import { Variant } from '@/hooks/use-unsaved-product-store'
+import { Variant } from '@/stores/use-unsaved-product-store'
 import Link from 'next/link'
 import { FC } from 'react'
 

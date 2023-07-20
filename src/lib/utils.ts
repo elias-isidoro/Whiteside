@@ -5,6 +5,15 @@ import locale from 'date-fns/locale/en-US'
 import { nanoid } from 'nanoid';
 import { toast } from '@/hooks/use-toast';
 
+export const isValidWholeNumber = (input: string): boolean => {
+  return /^\d+$/.test(input);
+};
+
+export const openInNewTab = (url: string): void => {
+  const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
+  if (newWindow) newWindow.opener = null
+}
+
 export const convertToCents = (dollarAmount: number) => {
   const centsAmount = dollarAmount * 100;
   return Math.round(centsAmount);
