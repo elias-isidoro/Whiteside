@@ -22,7 +22,7 @@ const CategoryShowcase = () => {
 
   return (
     <div className='w-full pb-12'>
-      <div className='flex flex-col w-full p-4 border border-black gap-4'>
+      <div className='flex flex-col w-full py-4 gap-4'>
         <div className='flex flex-row w-full'>
           <Link href={'/dashboard/categories/create'} className={cn(buttonVariants(),'gap-2 pl-2')}>
             <Plus className='h-6 w-6'/>
