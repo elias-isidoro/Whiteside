@@ -10,7 +10,7 @@ import notFound from '@/app/not-found';
 
 const CategoryShowcase = () => {
 
-  const {data: categories, isLoading: isFetchingCategories} = useFetchAllCategoriesWithProducts()
+  const {data: categories, isLoading: isFetchingCategories, refetch} = useFetchAllCategoriesWithProducts()
 
   if(isFetchingCategories){
     return <>Loading...</>
@@ -30,19 +30,17 @@ const CategoryShowcase = () => {
           </Link>
         </div>
 
-        <span className='h-[1px] bg-gray-300'/>
-
         <div className='w-full text-sm'>
-          <table className='w-full border-collapse'>
+          <table className='w-full border-collapse border border-gray-300'>
             <thead>
-              <tr className='h-[35px]'>
-                <td width={'50%'} className='h-full font-semibold text-center border border-black'>Name</td>
-                <td width={'30%'} className='hidden h-full font-semibold text-center border border-black min-[455px]:table-cell'>Product Count</td>
-                <td width={'20%'} className='h-full font-semibold text-center border border-black'>Action</td>
+              <tr className='h-[50px]'>
+                <td width={'70%'} className='px-4 h-full text-xs font-semibold border-b border-gray-300'>Name</td>
+                <td width={'20%'} className='px-2 h-full text-xs font-semibold text-center border-b border-gray-300'>Products</td>
+                <td width={'10%'} className='px-2 h-full text-xs font-semibold text-center border-b border-gray-300'>Action</td>
               </tr>
             </thead>
             <tbody>
-              {categories.map((category)=>(<CategoryCard key={`${category.id}${category.name}`} category={category}/>))}
+              {categories.map((category)=>(<CategoryCard key={`${category.id}${category.name}`} category={category} onDelete={()=>refetch()}/>))}
             </tbody>
           </table>
         </div>

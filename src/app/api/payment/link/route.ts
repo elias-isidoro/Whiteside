@@ -1,4 +1,5 @@
 import { getAuthSession } from '@/lib/auth';
+import { convertToCents } from '@/lib/utils';
 import { CreatePaymongoLinkValidator, CreatePaymongoLinkPayload } from '@/lib/validators/paymongo';
 import axios, { AxiosResponse } from 'axios';
 import { NextResponse } from 'next/server';
@@ -47,7 +48,7 @@ export async function POST(req: Request) {
       {
         "data": {
           "attributes": {
-            "amount": payload.amount,
+            "amount": convertToCents(payload.amount),
             "description": payload.description,
             "remarks": payload.remarks
           }

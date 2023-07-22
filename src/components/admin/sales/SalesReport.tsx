@@ -1,7 +1,7 @@
 'use client'
 
 import SalesNumbers from "./SalesNumbers"
-import SalesChart from "./components/SalesChart"
+import SalesChart from "./SalesChart"
 
 
 const SalesReport = () => {

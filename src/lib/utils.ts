@@ -5,6 +5,25 @@ import locale from 'date-fns/locale/en-US'
 import { nanoid } from 'nanoid';
 import { toast } from '@/hooks/use-toast';
 
+export const capitalizeFirstLetter = (string: string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+export const convertEpochToLocalTime = (
+  epoch: number,
+  options: Intl.DateTimeFormatOptions = {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric'
+  }
+) => {
+  const localTime = new Date(epoch * 1000);
+  
+  return localTime.toLocaleString(undefined, options);
+};
+
 export const isValidWholeNumber = (input: string): boolean => {
   return /^\d+$/.test(input);
 };
@@ -17,6 +36,11 @@ export const openInNewTab = (url: string): void => {
 export const convertToCents = (dollarAmount: number) => {
   const centsAmount = dollarAmount * 100;
   return Math.round(centsAmount);
+}
+
+export const convertFromCents = (dollarAmount: number) => {
+  const centsAmount = dollarAmount / 100;
+  return centsAmount
 }
 
 export const stringToArray = <T>(input: string): T[] => {
