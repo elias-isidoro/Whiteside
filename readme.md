@@ -21,14 +21,16 @@ This is an e-commerce website that focuses on selling clothes. It provides users
 ## Technologies Used
 
 - Front-end:
-  - HTML, CSS, JavaScript
+  - Javascript
   - React.js
-  - Zustand (for state management)
   - Next.js
+  - Tailwind
+  - Zustand (for state management)
 - Back-end:
-  - Node.js (with Express.js or similar framework)
+  - Node.js
   - MySQL
-  - NextAuth
+  - NextAuth 
+  - Prisma (ORM)
 - Dashboard:
   - Shadcn UI Components
   - recharts
