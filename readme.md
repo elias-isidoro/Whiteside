@@ -1,7 +1,5 @@
 # Whiteside
 
-![Logo](favicon.ico) (You can add a logo image here if you have one)
-
 ## Introduction
 
 This is an e-commerce website that focuses on selling clothes. It provides users with a convenient platform to browse and purchase a wide range of clothing items. The website also includes a robust dashboard system to manage various aspects of the e-commerce business, such as inventory management, order processing, and customer support.
