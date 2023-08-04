@@ -47,6 +47,22 @@ const VariantCreate = () => {
     router.back()
   }
 
+
+  const [isKeyPressed, setIsKeyPressed] = useState(false);
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && !isKeyPressed) {
+      setIsKeyPressed(true);
+      addTag();
+    }
+  };
+
+  const handleKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      setIsKeyPressed(false);
+    }
+  };
+
   return(
     <div className="flex flex-col w-full items-center justify-center gap-2 px-4">
 
@@ -71,6 +87,8 @@ const VariantCreate = () => {
           <Input 
           value={newTag}
           onChange={(e)=>{ setNewTag(e.target.value) }}
+          onKeyDown={handleKeyDown}
+          onKeyUp={handleKeyUp}
           placeholder="Maroon, XL, etc.."
           className='border-2 border-slate-700 h-[40px] rounded-none pr-[50px]'/>
 
