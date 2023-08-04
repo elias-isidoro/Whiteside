@@ -5,7 +5,7 @@ import axios from "axios";
 const useFetchAllUsers = () => {
   
   const query = useQuery({
-    queryKey:[`fetch_all_products`],
+    queryKey:[`fetch_all_users`],
     queryFn: async () => {
       const { data: {users} } = await axios.get('/api/display/users/all')
       return users as (User & { role: Role })[];

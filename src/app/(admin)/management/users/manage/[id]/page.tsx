@@ -12,7 +12,7 @@ const page = async ({params: {id}}: Props) => {
   await checkAuthorization()
 
   return (
-    <>id</>
+    <>{id}</>
   )
 }
 
