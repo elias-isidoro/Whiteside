@@ -11,7 +11,7 @@ export const dynamic = 'force-dynamic'
 
 interface divisions { 
   deletedImagesIds: string[]
-  updatedVariants: Variant[]
+  variantsWithNewData: Variant[]
   deletedVariantsIds: string[]
 }
 
@@ -104,21 +104,25 @@ export async function PUT (req: Request) {
 
     const newVariants = incomingVariants.filter((variant) => !existingVariants.some(({ id }) => id === variant.id));
 
-    const { deletedVariantsIds, deletedImagesIds, updatedVariants } = existingVariants.reduce(
+    const { 
+      deletedImagesIds, 
+      deletedVariantsIds, 
+      variantsWithNewData,
+    } = existingVariants.reduce(
       (acc: divisions, existingVariant) => {
         const stayingVariant = incomingVariants.find((variant) => variant.id === existingVariant.id);
         if (stayingVariant) {
           if(stayingVariant.imageSignature !== existingVariant.imageSignature){
             acc.deletedImagesIds.push(existingVariant.imageSignature);
-            acc.updatedVariants.push({ ...stayingVariant, id: existingVariant.id, productId: id });
           }
+          acc.variantsWithNewData.push({ ...stayingVariant, id: existingVariant.id, productId: id });
         }else{
           acc.deletedVariantsIds.push(existingVariant.id);
           acc.deletedImagesIds.push(existingVariant.imageSignature);
         }
         return acc;
       },
-      { deletedVariantsIds: [], deletedImagesIds: [], updatedVariants: [] }
+      { deletedVariantsIds: [], deletedImagesIds: [], variantsWithNewData: [] }
     );
 
     try{
@@ -129,11 +133,11 @@ export async function PUT (req: Request) {
 
     await db.variant.createMany({ data: newVariants.map((variant) => ({ ...variant, productId: id })) });
 
-    for (const {id, imageSignature, imageUrl} of updatedVariants) {
-      await db.variant.update({ where: { id }, data: { imageSignature, imageUrl } });
+    for (const { id, ...newVariantData } of variantsWithNewData) {
+      await db.variant.update({ where: { id }, data: { ...newVariantData } });
     }
 
-    return new Response('Product updated successfully:');
+    return new Response('Product updated successfully', { status: 200 });
 
   } catch (error) {
     return new Response('Error', { status: 500 });
