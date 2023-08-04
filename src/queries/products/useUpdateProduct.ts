@@ -23,12 +23,6 @@ const useUpdateProduct = ({onSuccessCallback, onErrorCallback}:Props = {}) => {
         if(err.response?.status === 401){
           return loginToast()
         }
-        if(err.response?.status === 405){
-          onSuccessCallback&&onSuccessCallback()
-          toastDefault('Cheers!','Product has been successfully updated!')
-          console.log(err)
-          return
-        }
       }
       
       onErrorCallback&&onErrorCallback()
