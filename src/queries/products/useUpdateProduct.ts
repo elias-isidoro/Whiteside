@@ -15,7 +15,7 @@ const useUpdateProduct = ({onSuccessCallback, onErrorCallback}:Props = {}) => {
 
   const query = useMutation({
     mutationFn: async (payload:UpdateProductPayload) => {
-      const {data} = await axios.put('/api/product', payload)
+      const {data} = await axios.post('/api/product', payload)
       return data as string
     },
     onError: (err) => {
@@ -26,6 +26,7 @@ const useUpdateProduct = ({onSuccessCallback, onErrorCallback}:Props = {}) => {
         if(err.response?.status === 405){
           onSuccessCallback&&onSuccessCallback()
           toastDefault('Cheers!','Product has been successfully updated!')
+          console.log(err)
           return
         }
       }
