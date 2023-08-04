@@ -152,7 +152,7 @@ const ProductEdit = ({productId}: Props) => {
               className='w-full border border-slate-500 text-xs h-fit p-2 rounded-sm'
               value={productCategoryId || nanoid()}
               onUpdate={handleCategoryChange}
-              boxPlaceholder="Select Category"
+              boxPlaceholder={product.Category ? product.Category.name : "Select Category"}
               searchPlaceholder="Search Category"
               emptyPlaceholder="No categories found."
               itemset={categories.map(({id,name})=>({ value: id, label:name }))}/>

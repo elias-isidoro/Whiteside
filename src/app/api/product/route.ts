@@ -29,7 +29,7 @@ export async function GET (req: Request) {
 
     const product = await db.product.findFirst({ 
       where: { id },
-      include: { variants: true }
+      include: { variants: true, Category: true }
     });
 
     if(product){
