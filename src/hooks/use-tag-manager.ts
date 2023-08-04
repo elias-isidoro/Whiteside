@@ -12,14 +12,12 @@ const useTagManager = ({value=[]}:Props = {}) => {
 
   const addTag = () => {
     const lowerCaseTags = tags.map(tag => tag.toLowerCase());
-    const lowerCaseTagHolder = newTag.toLowerCase();
-
-    if (lowerCaseTags.includes(lowerCaseTagHolder)) {
-      return toastError('Error', 'Tag already exists')
-    }
-
-    setTags((current) => [...current, newTag ])
-    setNewTag(()=>'')
+    const newTagsArray = newTag.split(',').map(tag => tag.trim().toLowerCase());
+  
+    const filteredTags = newTagsArray.filter(tag => !lowerCaseTags.includes(tag));
+  
+    setTags(current => [...current, ...filteredTags]);
+    setNewTag('');
   }
 
   const removeTag = (tag: string) => {
