@@ -12,7 +12,7 @@ import { nanoid } from 'nanoid'
 import useUpdateProduct from '@/queries/products/useUpdateProduct'
 import useFetchAllProducts from '@/queries/products/useFetchAllProducts'
 import useDeleteProduct from '@/queries/products/useDeleteProduct'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import useFetchProduct from '@/queries/products/useFetchProduct'
 import { Product } from '@prisma/client'
 import useImageUploader from '@/hooks/use-image-uploader'
@@ -28,7 +28,6 @@ interface Props {
 const ProductEdit = ({productId}: Props) => {
 
   const router = useRouter();
-  const [isFetchingProduct, setIsFetchingProduct] = useState(true)
 
   const {
     keepStates,
@@ -43,7 +42,7 @@ const ProductEdit = ({productId}: Props) => {
     setKeepStates,
   } = useUnsavedProductStore()
 
-  const {data: product, refetch: refetchProduct} = useFetchProduct({productId})
+  const {data: product, refetch: refetchProduct, isLoading: isFetchingProduct} = useFetchProduct({productId})
   const {data: categories, isLoading: isFetchingCategories} = useFetchAllCategories()
   const {uploadImages, isUploading: isUploadingImages} = useImageUploader({toastOnSuccess:false})
   const {refetch: refetchAllProducts} = useFetchAllProducts()
@@ -71,7 +70,6 @@ const ProductEdit = ({productId}: Props) => {
     setProductCategoryId({value:categoryId, isFirstValue: keepStates})
     setProductDescription({value:description, isFirstValue: keepStates})
     setProductVariants({value: variants.map(({imageUrl,...rest})=>({...rest,image:imageUrl})), isFirstValue: keepStates})
-    setIsFetchingProduct(false)
 
     return ()=> { 
       setKeepStates(false) 

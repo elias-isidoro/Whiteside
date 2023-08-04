@@ -53,7 +53,7 @@ const CartItem: FC<Props> = ({item}: Props) => {
         </div>  
       </div>
 
-      <div className='flex justify-center items-center pl-2 min-[500px]:pl-10 '>
+      <div className='flex justify-center items-center pl-2 min-[500px]:pl-10'>
         <MinusCircle onClick={handleRemoveFromCart} className={cn(buttonVariants({variant:'destructive'}),'rounded-full p-0 h-auto w-auto cursor-pointer')}/>
       </div>
     </div> 

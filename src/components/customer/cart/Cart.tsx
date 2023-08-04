@@ -44,7 +44,7 @@ const Cart = ({user}:Props) => {
           <hr/>
 
           <div className="w-full flex flex-row">
-            <div className='relative min-w-[100px] flex-grow h-[40px]'>
+            <div className='relative flex-grow h-[40px]'>
               <div className='absolute inset-0 flex items-center'>
                 <p className='text-xs min-[455px]:text-sm overflow-hidden whitespace-nowrap text-ellipsis my-auto group-hover:underline cursor-pointer'>
                   Total
@@ -52,7 +52,7 @@ const Cart = ({user}:Props) => {
               </div>  
             </div>
 
-            <div className='text-xs flex justify-center items-center min-w-[95px] max-w-[95px] min-[455px]:text-sm whitespace-nowrap'>
+            <div className='text-xs flex items-center min-w-[95px] max-w-[95px] min-[455px]:text-sm whitespace-nowrap'>
               {`₱ ${numberToPriceFormat(items.reduce((acc,item)=>(acc+(item.variant.price*item.quantity)),0))}`}
             </div>
 

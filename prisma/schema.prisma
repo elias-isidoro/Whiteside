@@ -45,17 +45,15 @@ model Session {
   @@index([userId])
 }
 
-enum UserRoles {
-  Admin
-  Owner
-  Employee
-  Customer
-  Moderator
-  Analyst
-  Support
-  Salesperson
-  Developer
-  Manager
+model Role {
+  id                       String  @id @default(cuid())
+  name                     String
+  User                     User[]
+
+  canManageOrders          Boolean @default(false)
+  canManageProducts        Boolean @default(false)
+  canManageCategories      Boolean @default(false)
+  canViewSalesAndAnalytics Boolean @default(false)
 }
 
 model User {
@@ -63,13 +61,17 @@ model User {
   name          String?
   email         String?   @unique
   emailVerified DateTime?
-  role          UserRoles @default(Customer)
   username      String?   @unique
 
   image    String?
   accounts Account[]
   sessions Session[]
   Orders   Orders[]
+
+  Role   Role? @relation(fields: [roleId], references: [id])
+  roleId String?
+
+  @@index([roleId])
 }
 
 // ----------------------- Inventory
@@ -115,8 +117,8 @@ model Variant {
 // ----------------------- Sales
 
 model Orders {
-  id     String @id @default(cuid())
-  
+  id String @id @default(cuid())
+
   user   User   @relation(fields: [userId], references: [id])
   userId String
 

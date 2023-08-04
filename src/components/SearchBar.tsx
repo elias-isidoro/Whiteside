@@ -6,7 +6,7 @@ import { SearchIcon } from "lucide-react"
 
 const SearchBar = () => {
   const [input, setInput] = useState('')
-
+  
   return(
     <div className='relative flex h-full flex-grow items-center pr-2'>
       <Input 

@@ -1,7 +1,7 @@
 import { getAuthSession } from "@/lib/auth";
+import SearchBar from "./SearchBar";
 import StoreLogo from "./StoreLogo";
 import UserAccountNav from "./UserAccountNav";
-import SearchBar from "./SearchBar";
 
 interface Props {};
 
@@ -15,7 +15,6 @@ const NavBar = async ({}: Props) => {
       <div className="container max-w-7xl h-[55px] mx-auto flex items-center justify-between gap-2">
         
         <StoreLogo/>
-        {/* <MenuBar/> */}
         <SearchBar/>
         <UserAccountNav session={session}/>
 
