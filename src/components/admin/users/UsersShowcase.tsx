@@ -1,7 +1,7 @@
 'use client'
 
 import notFound from '@/app/not-found';
-import useFetchAllUsers from '@/queries/user/useFetchAllProducts';
+import useFetchAllUsers from '@/queries/user/useFetchAllUsers';
 import UserCard from './components/UserCard';
 
 const UsersShowcase = () => {
