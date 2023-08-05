@@ -105,7 +105,8 @@ const ProductCreate = () => {
               className='w-full border border-slate-500 text-xs h-fit p-2 rounded-sm'
               value={productCategoryId || nanoid()}
               onUpdate={handleCategoryChange}
-              boxPlaceholder="Select Category"
+              boxPlaceholder={"Select Category"}
+              defaultPlaceHolder={"Select Category"}
               searchPlaceholder="Search Category"
               emptyPlaceholder="No categories found."
               itemset={categories.map(({id,name})=>({ value: id, label:name }))}/>

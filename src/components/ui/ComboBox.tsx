@@ -19,8 +19,9 @@ import {
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   boxPlaceholder: string;
-  searchPlaceholder: string;
   emptyPlaceholder: string;
+  searchPlaceholder: string;
+  defaultPlaceHolder: string;
   itemset: {
     value: string;
     label: string;
@@ -36,6 +37,7 @@ export const ComboBox = forwardRef<HTMLButtonElement, Props>(({
   boxPlaceholder, 
   emptyPlaceholder,
   searchPlaceholder, 
+  defaultPlaceHolder,
   onUpdate,
   className,
   ...props
@@ -62,8 +64,8 @@ export const ComboBox = forwardRef<HTMLButtonElement, Props>(({
           {...props}
         >
           {selectedValue
-            ? itemset.find((item) => item.value === selectedValue)?.label || boxPlaceholder
-            : boxPlaceholder}
+            ? itemset.find((item) => item.value === selectedValue)?.label || 'No label'
+            : defaultPlaceHolder || boxPlaceholder }
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>

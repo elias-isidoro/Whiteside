@@ -153,6 +153,7 @@ const ProductEdit = ({productId}: Props) => {
               value={productCategoryId || nanoid()}
               onUpdate={handleCategoryChange}
               boxPlaceholder={product.Category ? product.Category.name : "Select Category"}
+              defaultPlaceHolder={'Select Category'}
               searchPlaceholder="Search Category"
               emptyPlaceholder="No categories found."
               itemset={categories.map(({id,name})=>({ value: id, label:name }))}/>

@@ -23,8 +23,8 @@ const UsersShowcase = () => {
           <table className='w-full border-collapse border border-gray-300'>
             <thead>
               <tr className='h-[50px]'>
-                <td width={'60%'} className='px-4 h-full text-xs font-semibold border-b border-gray-300'>Name</td>
-                <td width={'30%'} className='px-2 h-full text-xs font-semibold hidden min-[350px]:table-cell border-b border-gray-300'>Role</td>
+                <td width={'45%'} className='px-4 h-full text-xs font-semibold border-b border-gray-300'>Name</td>
+                <td width={'45%'} className='px-2 text-center h-full text-xs font-semibold hidden min-[350px]:table-cell border-b border-gray-300'>Role</td>
                 <td width={'10%'} className='px-2 h-full text-xs font-semibold text-center border-b border-gray-300'>Action</td>
               </tr>
             </thead>

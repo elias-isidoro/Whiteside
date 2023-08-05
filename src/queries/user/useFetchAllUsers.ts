@@ -8,7 +8,7 @@ const useFetchAllUsers = () => {
     queryKey:[`fetch_all_users`],
     queryFn: async () => {
       const { data: {users} } = await axios.get('/api/display/users/all')
-      return users as (User & { role: Role })[];
+      return users as (User & { Role: Role })[];
     },
   });
 
