@@ -1,4 +1,4 @@
-import { buttonVariants } from './ui/Button'
+import { buttonVariants } from '../ui/Button'
 import Link from 'next/link'
 
 const LoginButtons = () => {

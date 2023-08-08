@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { Icons } from './Icons'
+import { Icons } from '../ui/Icons'
 import { usePathname } from 'next/navigation'
 
 const StoreLogo = () => {

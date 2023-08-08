@@ -1,6 +1,6 @@
 'use client'
 
-import { Icons } from '@/components/Icons'
+import { Icons } from '@/components/ui/Icons'
 import { capitalizeFirstLetter, convertEpochToLocalTime, convertFromCents, numberToPriceFormat } from '@/lib/utils'
 import useSpecificPayment from '@/queries/payment/useSpecificPayment'
 import { CalendarDays, Mail, Phone } from 'lucide-react'

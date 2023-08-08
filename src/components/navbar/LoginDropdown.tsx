@@ -1,6 +1,6 @@
 import { UserCircle2 } from "lucide-react"
-import { buttonVariants } from "./ui/Button"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/DropdownMenu"
+import { buttonVariants } from "../ui/Button"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../ui/DropdownMenu"
 import Link from "next/link"
 import {cn} from "@/lib/utils"
 

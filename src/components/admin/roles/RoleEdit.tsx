@@ -89,7 +89,7 @@ const RoleEdit = ({roleId}: Props) => {
     <div className='flex flex-col w-full max-w-xs gap-5 px-4'>
       <div className='flex flex-row gap-2 items-center '>
         <Pencil/>
-        <p className='text-lg font-semibold'>Create a Role</p>
+        <p className='text-lg font-semibold'>Edit a Role</p>
       </div>
       <hr className='bg-zinc-500 h-px'/>
 

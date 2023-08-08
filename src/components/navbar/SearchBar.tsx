@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from "react"
-import { Input } from "./ui/Input"
+import { Input } from "../ui/Input"
 import { SearchIcon } from "lucide-react"
 
 const SearchBar = () => {

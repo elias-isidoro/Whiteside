@@ -1,7 +1,7 @@
 import { getAuthSession } from "@/lib/auth";
 import SearchBar from "./SearchBar";
 import StoreLogo from "./StoreLogo";
-import UserAccountNav from "./UserAccountNav";
+import UserAccountNav from "../user/UserAccountNav";
 
 interface Props {};
 

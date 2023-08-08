@@ -1,5 +1,5 @@
-import NavBar from '@/components/NavBar'
-import Providers from '@/components/Providers'
+import NavBar from '@/components/navbar/NavBar'
+import Providers from '@/components/reactquery/Providers'
 import { Toaster } from '@/components/ui/Toaster'
 import { cn } from '@/lib/utils'
 import '@/styles/globals.css'

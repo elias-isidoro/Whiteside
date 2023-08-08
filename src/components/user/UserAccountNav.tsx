@@ -5,9 +5,9 @@ import { signOut } from 'next-auth/react'
 import Link from 'next/link'
 import { FC } from 'react'
 import UserAvatar from './UserAvatar'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from './ui/DropdownMenu'
-import LoginButtons from './LoginButtons'
-import LoginDropdown from './LoginDropdown'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '../ui/DropdownMenu'
+import LoginButtons from '../navbar/LoginButtons'
+import LoginDropdown from '../navbar/LoginDropdown'
 
 interface Props {
   session?: Session | null

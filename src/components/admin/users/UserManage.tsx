@@ -1,6 +1,6 @@
 'use client'
 
-import UserAvatar from '@/components/UserAvatar'
+import UserAvatar from '@/components/user/UserAvatar'
 import { ComboBox } from '@/components/ui/ComboBox'
 import { Label } from '@/components/ui/Label'
 import { Switch } from '@/components/ui/Switch'

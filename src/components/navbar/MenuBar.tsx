@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { Button, buttonVariants } from "./ui/Button"
+import { Button, buttonVariants } from "../ui/Button"
 import { MenuIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
 
