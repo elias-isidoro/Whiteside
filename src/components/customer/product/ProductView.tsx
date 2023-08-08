@@ -1,30 +1,38 @@
 'use client'
 
 import { Button } from '@/components/ui/Button'
-import { numberToPriceFormat, toastDefault } from '@/lib/utils'
+import { useCustomToast } from '@/hooks/use-custom-toast'
+import { numberToPriceFormat } from '@/lib/utils'
 import useFetchProduct from '@/queries/products/useFetchProduct'
 import { useCartStore } from '@/stores/use-cart-store'
 import { Circle, Minus, Plus, ShoppingCart } from 'lucide-react'
 import { nanoid } from 'nanoid'
+import { Session } from 'next-auth'
 import { notFound } from 'next/navigation'
 import { FC, useMemo } from 'react'
 
 interface Props {
   productId: string
+  session: Session | null
 }
 
-const ProductView: FC<Props> = ({productId}) => {
+const ProductView: FC<Props> = ({productId, session}) => {
 
   const {data: product, isLoading: isFetchingProduct} = useFetchProduct({productId})
   const { isInCart, toggleItem } = useCartStore()
+  const { loginToast, cartToast } = useCustomToast()
   const itemId = useMemo(()=>{
     if(!product) return nanoid()
     return `${product.id}${product.variants[0].id}`
   },[product])
 
-  const handleAddToCart = () => {
+  const handleAddToCart = async () => {
     if(!product) return
     
+    if(!session){
+      return loginToast()
+    }
+
     const {variants, id, ...rest} = product
 
     const action = toggleItem({ 
@@ -36,9 +44,9 @@ const ProductView: FC<Props> = ({productId}) => {
     })
 
     if(action==='+'){
-      toastDefault('','Item has been added to Cart')
+      cartToast('Item has been added to Cart')
     }else{
-      toastDefault('','Item has been removed to Cart')
+      cartToast('Item has been removed to Cart')
     }
   }
 

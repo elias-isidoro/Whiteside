@@ -16,11 +16,12 @@ const SignIn = () => {
   const { toast } = useToast()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoggingInWithGoogle, setIsLoggingInWithGoogle] = useState(false)
+  const [isLoggingInWithCredentials, setIsLoggingInWithCredentials] = useState(false)
 
   const loginWithGoogle = async () => {
     
-    setIsLoading(true)
+    setIsLoggingInWithGoogle(true)
     try {
       await signIn('google')
     } catch (error) {
@@ -30,12 +31,12 @@ const SignIn = () => {
         variant: 'destructive',
       })
     } finally {
-      setIsLoading(false)
+      setIsLoggingInWithGoogle(false)
     }
   }
 
   const loginWithCrendentials = async () => {
-    setIsLoading(true)
+    setIsLoggingInWithCredentials(true)
     try {
       await signIn("credentials",{ 
         email, 
@@ -71,7 +72,7 @@ const SignIn = () => {
         variant: 'destructive',
       })
     } finally {
-      setIsLoading(false)
+      setIsLoggingInWithCredentials(false)
     }
   }
 
@@ -84,14 +85,14 @@ const SignIn = () => {
       <div className='flex flex-col justify-center gap-4'>
         <div className='flex flex-col gap-2 justify-center'>
           <Input 
-          disabled={isLoading}
+          disabled={isLoggingInWithGoogle || isLoggingInWithCredentials}
           placeholder={'Email'}
           value={email}
           onChange={(e)=>{ setEmail(e.target.value) }}
           className='border border-slate-700 text-xs'/>
 
           <Input 
-          disabled={isLoading}
+          disabled={isLoggingInWithGoogle || isLoggingInWithCredentials}
           placeholder={'Password'}
           value={password}
           type='password'
@@ -99,12 +100,12 @@ const SignIn = () => {
           className='border border-slate-700 text-xs'/>
 
           <Button
-            isLoading={isLoading}
+            isLoading={isLoggingInWithCredentials}
             type='button'
             size='sm'
             className='w-full'
             onClick={loginWithCrendentials}
-            disabled={isLoading}>
+            disabled={isLoggingInWithGoogle || isLoggingInWithCredentials}>
             Login
           </Button>
         </div>
@@ -112,13 +113,13 @@ const SignIn = () => {
         <p className='text-center text-gray-600 text-sm'>or</p>
 
         <Button
-          isLoading={isLoading}
+          isLoading={isLoggingInWithGoogle}
           type='button'
           size='sm'
           className='w-full'
           onClick={loginWithGoogle}
-          disabled={isLoading}>
-          {isLoading ? null : <Icons.google className='h-4 w-4 mr-2' />}
+          disabled={isLoggingInWithGoogle || isLoggingInWithCredentials}>
+          {isLoggingInWithGoogle ? null : <Icons.google className='h-4 w-4 mr-2' />}
           Sign In with Google
         </Button>
       </div>

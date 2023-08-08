@@ -130,16 +130,17 @@ const ProductCreate = () => {
           {/* -------------- Submit Buttons -------------- */}
 
           <div className="flex justify-center md:justify-end gap-4 ">
+            <div className="flex-grow"/>
             <Button 
             variant='subtle' 
-            className="text-sm"
+            className="text-xs"
             onClick={()=>router.back()}
             disabled={isCreatingProduct || isUploadingImages}>
               Cancel
             </Button>
             <Button 
             type='submit'
-            className="text-sm"
+            className="text-xs"
             onClick={()=>handleSubmit()}
             isLoading={isCreatingProduct || isUploadingImages} 
             disabled={productName.length === 0 || isUploadingImages || isCreatingProduct || productVariants.length === 0 || productDescription.length === 0}>

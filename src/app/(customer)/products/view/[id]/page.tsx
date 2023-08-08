@@ -1,4 +1,5 @@
 import ProductView from '@/components/customer/product/ProductView'
+import { getAuthSession } from '@/lib/auth'
 
 interface Props {
   params: {
@@ -6,9 +7,12 @@ interface Props {
   }
 }
 
-const page = ({params: {id}}: Props) => {
+const page = async ({params: {id}}: Props) => {
+  
+  const session = await getAuthSession()
+
   return(
-    <ProductView productId={id}/>
+    <ProductView productId={id} session={session}/>
   )
 }
 

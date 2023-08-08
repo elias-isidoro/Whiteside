@@ -64,7 +64,7 @@ export const ComboBox = forwardRef<HTMLButtonElement, Props>(({
           {...props}
         >
           {selectedValue
-            ? itemset.find((item) => item.value === selectedValue)?.label || 'No label'
+            ? itemset.find((item) => item.value === selectedValue)?.label || defaultPlaceHolder || 'No label'
             : defaultPlaceHolder || boxPlaceholder }
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>

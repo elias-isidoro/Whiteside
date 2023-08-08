@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 
+import checkAuthorization from '@/lib/authorizer';
 import { Variant } from '@prisma/client';
 import { create } from 'zustand'
 
@@ -33,7 +34,7 @@ export const useCartStore = create<CartStates>((set,get) => ({
     set({ items: [] });
   },
 
-  addItem: (item) => {
+  addItem: async (item) => {
     set((state) => ({ items: [...state.items, item] }));
   },
 
