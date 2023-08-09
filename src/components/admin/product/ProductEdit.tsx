@@ -41,6 +41,7 @@ const ProductEdit = ({ userId, productId }: Props) => {
     setProductDescription, 
     setProductVariants,
     setKeepStates,
+    resetStates
   } = useUnsavedProductStore()
 
   const {data: product, refetch: refetchProduct, isLoading: isFetchingProduct} = useFetchProduct({productId})
@@ -53,6 +54,7 @@ const ProductEdit = ({ userId, productId }: Props) => {
       router.back()
       refetchProduct()
       refetchAllProducts()
+      resetStates()
     }
   })
 
@@ -60,6 +62,7 @@ const ProductEdit = ({ userId, productId }: Props) => {
     onSuccessCallback: () => {
       router.back()
       refetchAllProducts()
+      resetStates()
     }
   })
 
