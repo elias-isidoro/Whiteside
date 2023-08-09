@@ -9,11 +9,11 @@ interface Props {
 
 const page = async ({params: {id}}:Props) => {
 
-  await isLoggedIn()
+  const user = await isLoggedIn()
 
   return(
     <div className='flex w-full justify-center pb-12'>
-      <Categorizer key={`categorizer_${id}`} categoryId={id}/>
+      <Categorizer key={`categorizer_${id}`} categoryId={id} userId={user!.id}/>
     </div>
   )
 }

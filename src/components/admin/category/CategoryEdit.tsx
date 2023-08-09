@@ -94,12 +94,26 @@ const CategoryEdit: FC<Props> = ({ userId, categoryId }) => {
 
       <div className='flex flex-col w-full gap-2'>
         {selectedProducts.length===0?
-          <Link href={`/dashboard/categories/edit/${category.id}/categorizer`} className={cn(buttonVariants(),'w-fit pl-2 gap-1')}>
-            <Plus className='h-5 w-5'/>
-            <p className='text-xs'>Add products</p>
-          </Link>
+          (category.authorId === userId?
+            <Link 
+            href={`/dashboard/categories/edit/${category.id}/categorizer`} 
+            className={cn(buttonVariants(),'w-fit pl-2 gap-1')}>
+              <Plus className='h-5 w-5'/>
+              <p className='text-xs'>Add products</p>
+            </Link>
+            :
+            <Button disabled={true} className='w-fit pl-2 gap-1'>
+              <Plus className='h-5 w-5'/>
+              <p className='text-xs'>Add products</p>
+            </Button>
+          )
         :
-          <Button onClick={handleRemove} variant={'destructive'} className={'w-fit pl-2 gap-1'} isLoading={isUncategorizing}>
+          <Button 
+          disabled={category.authorId !== userId}
+          onClick={handleRemove} 
+          variant={'destructive'} 
+          className={'w-fit pl-2 gap-1'} 
+          isLoading={isUncategorizing}>
             {!isUncategorizing&&<MinusCircle className='h-5 w-5'/>}
             <p className='text-xs'>Remove selected</p>
           </Button>

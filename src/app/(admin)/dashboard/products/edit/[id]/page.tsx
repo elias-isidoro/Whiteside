@@ -9,10 +9,10 @@ interface Props {
 
 const page = async ({params: {id}}: Props) => {
 
-  await isLoggedIn()
+  const user = await isLoggedIn()
 
   return (
-    <ProductEdit productId={id} userId={id}/>
+    <ProductEdit productId={id} userId={user!.id}/>
   )
 }
 

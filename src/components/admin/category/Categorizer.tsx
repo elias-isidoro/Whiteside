@@ -13,10 +13,11 @@ import useFetchAllCategoriesWithProducts from '@/queries/categories/useFetchAllC
 import Loading from '@/components/ui/Loading';
 
 interface Props {
+  userId: string
   categoryId: string
 }
 
-const Categorizer: FC<Props> = ({categoryId}) => {
+const Categorizer: FC<Props> = ({categoryId, userId}) => {
 
   const { selectedProducts, resetAllStates } = useCategorizerStore()
   const { data: category, isLoading: isFetchingCategory} = useFetchCategory({categoryId});
@@ -55,7 +56,7 @@ const Categorizer: FC<Props> = ({categoryId}) => {
         onClick={handleClick}
         isLoading={isCategorizing}
         variant={'secondary'}
-        disabled={selectedProducts.length===0 || isCategorizing}
+        disabled={selectedProducts.length===0 || isCategorizing || category.authorId !== userId}
         className='w-fit gap-1 pl-[9px] text-xs'>
           {!isCategorizing&&<Check className='h-5 w-5'/>}
           {`List under ${category.name}`}

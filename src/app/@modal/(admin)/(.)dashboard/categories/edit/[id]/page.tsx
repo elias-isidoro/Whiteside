@@ -9,7 +9,7 @@ interface Props {
 
 const page = async ({params: {id}}:Props) => {
 
-  await isLoggedIn()
+  const user = await isLoggedIn()
 
   return(
     <div className='fixed inset-0 flex p-4 bg-zinc-900/20 z-10 min-w-[280px] overflow-y-auto overflow-x-hidden'>
@@ -17,7 +17,7 @@ const page = async ({params: {id}}:Props) => {
         <div className='flex items-center w-full h-4'>
           <CloseModal />
         </div>
-        <CategoryEdit key={`category_edit_${id}`} categoryId={id}/>
+        <CategoryEdit key={`category_edit_${id}`} categoryId={id} userId={user!.id}/>
       </div>
     </div>
   )
