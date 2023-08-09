@@ -7,7 +7,7 @@ import { Switch } from '@/components/ui/Switch'
 import useFetchAllRoles from '@/queries/role/useFetchAllRoles'
 import useFetchAllUsers from '@/queries/user/useFetchAllUsers'
 import useFetchUser from '@/queries/user/useFetchUser'
-import useUpdateUserRole from '@/queries/user/useUpdateUserRole'
+import useUpdateUserProfile from '@/queries/user/useUpdateUserProfile'
 import { Edit2 } from 'lucide-react'
 import { notFound, useRouter } from 'next/navigation'
 import { FC, useEffect, useState } from 'react'
@@ -44,9 +44,10 @@ const UserManage: FC<Props> = ({userId, guestId}) => {
   const {data: users, isLoading: isFetchingAllUsers, refetch: refetchAllUsers} = useFetchAllUsers()
   const {data: roles, isLoading: isFetchingAllRoles} = useFetchAllRoles()
   
-  const [userRole, setUserRole] = useState<RoleValue>(user ? user.Role : NO_ROLE_VALUE)
+  const [userRole, setUserRole] = useState<RoleValue>(user ? (user.Role || NO_ROLE_VALUE) : NO_ROLE_VALUE)
+  const [username, setUsername] = useState((user) ? (user.username || user.name || 'Anonymous') : 'Anonymous')
 
-  const {mutate: updateUserRole, isLoading: isUpdatingUserRole} = useUpdateUserRole({
+  const {mutate: updateUserRole, isLoading: isUpdatingUserRole} = useUpdateUserProfile({
     onSuccessCallback: () => {
       router.back()
       refetchUser()
@@ -55,9 +56,10 @@ const UserManage: FC<Props> = ({userId, guestId}) => {
   })
   
   useEffect(()=>{
-    if(!user || !user.Role) return
-    setUserRole(user.Role)
-  },[user])
+    if(!user) return
+    setUserRole(user.Role || NO_ROLE_VALUE)
+    setUsername(user.username || user.name || 'Anonymous')
+  },[user, isFetchingUser])
   
   const handleRoleChange = (roleId: string) => {
     if(!roles) return
@@ -71,7 +73,7 @@ const UserManage: FC<Props> = ({userId, guestId}) => {
   if(isFetchingUser || isFetchingAllUsers || isFetchingAllRoles) return <Loading/>
   if(!user || !users || !roles) return notFound()
 
-  const handleUpdateRole = () => updateUserRole({id: userId, roleId: userRole.id})
+  const handleUpdateRole = () => updateUserRole({id: userId, roleId: userRole.id, username})
 
   return(
     <div className='flex flex-col w-full gap-5 p-2 pb-0 max-w-sm'>

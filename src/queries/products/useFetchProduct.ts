@@ -1,4 +1,4 @@
-import { Category, Product, Variant } from "@prisma/client";
+import { Category, Product, User, Variant } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
@@ -17,7 +17,7 @@ const useFetchProduct = ({productId}: Props) => {
     queryFn: async () => {
       const payload: FetchByIdPayload = { id: productId }
       const { data: {product} } = await axios.get('/api/product',{params:payload})
-      return product as (Product & { variants: Variant[], Category: Category });
+      return product as (Product & { variants: Variant[], Category: Category, author: User });
     },
   });
 

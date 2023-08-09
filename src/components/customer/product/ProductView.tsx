@@ -77,8 +77,11 @@ const ProductView: FC<Props> = ({productId, session}) => {
           </div>
         </div>
         
-        <div className='flex flex-col w-full min-[350px]:basis-1/3 gap-1 pb-4'>
-          <p className='text-md font-semibold'>{product.name}</p>
+        <div className='flex flex-col w-full min-[350px]:basis-1/3 gap-1 pb-4 overflow-y-auto'>
+          <div className='flex flex-col pb-2'>
+            <p className='text-md font-semibold'>{product.name}</p>
+            <p className='text-[10px] text-gray-500'>Posted by {product.author.name}</p>
+          </div>
           <p className='text-xs text-gray-500'>{product.description}</p>
           <div className='flex flex-row flex-wrap gap-1'>
             <p className={'text-[10px] p-1 min-[400px]:text-xs min-[400px]:p-2 rounded-sm bg-black text-white font-medium'}>Tags:</p>

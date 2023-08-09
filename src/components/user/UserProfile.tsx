@@ -7,7 +7,7 @@ import { Switch } from '@/components/ui/Switch'
 import UserAvatar from '@/components/user/UserAvatar'
 import useFetchAllRoles from '@/queries/role/useFetchAllRoles'
 import useFetchUser from '@/queries/user/useFetchUser'
-import useUpdateUserRole from '@/queries/user/useUpdateUserRole'
+import useUpdateUserProfile from '@/queries/user/useUpdateUserProfile'
 import { notFound, useRouter } from 'next/navigation'
 import { FC, useEffect, useState } from 'react'
 import Loading from '../ui/Loading'
@@ -40,9 +40,10 @@ const UserProfile: FC<Props> = ({userId}) => {
   const {data: user, isLoading: isFetchingUser, refetch: refetchUser} = useFetchUser({userId})
   const {data: roles, isLoading: isFetchingAllRoles} = useFetchAllRoles()
   
-  const [userRole, setUserRole] = useState<RoleValue>(user ? user.Role : NO_ROLE_VALUE)
+  const [userRole, setUserRole] = useState<RoleValue>(user ? (user.Role || NO_ROLE_VALUE) : NO_ROLE_VALUE)
+  const [username, setUsername] = useState(user ? (user.username || user.name || 'Anonymous') : 'Anonymous')
 
-  const {mutate: updateUserRole, isLoading: isUpdatingUserRole} = useUpdateUserRole({
+  const {mutate: updateUserRole, isLoading: isUpdatingUserRole} = useUpdateUserProfile({
     onSuccessCallback: () => {
       router.back()
       refetchUser()
@@ -50,9 +51,10 @@ const UserProfile: FC<Props> = ({userId}) => {
   })
   
   useEffect(()=>{
-    if(!user || !user.Role) return
-    setUserRole(user.Role)
-  },[user])
+    if(!user) return
+    setUserRole(user.Role || NO_ROLE_VALUE)
+    setUsername(user.username || user.name || 'Anonymous')
+  },[user, isFetchingUser])
   
   const handleRoleChange = (roleId: string) => {
     if(!roles) return
@@ -66,24 +68,28 @@ const UserProfile: FC<Props> = ({userId}) => {
   if(isFetchingUser || isFetchingAllRoles) return <Loading/>
   if(!user || !roles) return notFound()
 
-  const handleUpdateRole = () => updateUserRole({id: userId, roleId: userRole.id})
+  const handleUpdateRole = () => updateUserRole({id: userId, roleId: userRole.id, username})
 
   return(
     <div className='flex flex-col w-full gap-5 p-2 pb-0 max-w-sm'>
 
       <div className='flex flex-col w-full items-center justify-center'>
         <UserAvatar 
-          id={`${user.id}_avatar`}
           className='h-16 w-16 border border-black'
           user={{
             name: user.username || user.name || 'No name',
             image: user.image || null,
           }}/>
-        <Label 
-        htmlFor={`${user.id}_avatar`} 
-        className='p-2 text-md font-medium'>
-          {user.username || user.name || 'No name'}
-        </Label>
+
+        <input
+        onChange={(e) => {
+          const input = e.target.value;
+          const filteredInput = input.replace(/[^a-zA-Z0-9]/g, '').slice(0, 21);
+          setUsername(filteredInput);
+        }}
+        value={username}
+        className="w-full text-sm font-medium text-center border-none outline-none p-2"/>
+          
 
         <ComboBox
         id='role-changer'

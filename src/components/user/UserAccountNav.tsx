@@ -37,7 +37,9 @@ const UserAccountNav: FC<Props> = ({session}) => {
               name: user.name || null,
               image: user.image || null,
             }}/>
-          <p className='hidden text-sm text-gray-700 font-medium min-[600px]:block max-w-[55px] overflow-hidden whitespace-nowrap text-ellipsis'>{user.name}</p>
+          <p className='hidden text-sm text-gray-700 font-medium min-[600px]:block max-w-[55px] overflow-hidden whitespace-nowrap text-ellipsis'>
+            {user.username || user.name || 'Anonymous'}
+          </p>
         </div>
       </DropdownMenuTrigger>
 

@@ -6,9 +6,11 @@ export const FetchUserValidator = z.object({
 
 export type FetchUserPayload = z.infer<typeof FetchUserValidator>
 
-export const UpdateUserRoleValidator = z.object({
+export const UpdateUserProfileValidator = z.object({
   id: z.string(),
-  roleId: z.string().nullable()
+  roleId: z.string().nullable(),
+  username: z.string().max(21,'Username should not exceed 21 characters')
 });
 
-export type UpdateUserRolePayload = z.infer<typeof UpdateUserRoleValidator>
+export type UpdateUserProfilePayload = z.infer<typeof UpdateUserProfileValidator>
+

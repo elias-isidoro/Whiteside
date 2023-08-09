@@ -1,6 +1,6 @@
 import { useCustomToast } from "@/hooks/use-custom-toast";
 import { toastDefault, toastError } from "@/lib/utils"
-import { UpdateUserRolePayload } from "@/lib/validators/user";
+import { UpdateUserProfilePayload } from "@/lib/validators/user";
 import { useMutation } from "@tanstack/react-query"
 import axios, { AxiosError } from "axios";
 
@@ -9,12 +9,12 @@ interface Props {
   onErrorCallback?: () => void
 }
 
-const useUpdateUserRole = ({onSuccessCallback, onErrorCallback}:Props = {}) => {
+const useUpdateUserProfile = ({onSuccessCallback, onErrorCallback}:Props = {}) => {
   
   const {loginToast} = useCustomToast();
 
   const query = useMutation({
-    mutationFn: async (payload:UpdateUserRolePayload) => {
+    mutationFn: async (payload:UpdateUserProfilePayload) => {
       const {data} = await axios.put('/api/user', payload)
       return data as string
     },
@@ -31,7 +31,7 @@ const useUpdateUserRole = ({onSuccessCallback, onErrorCallback}:Props = {}) => {
       }
       
       onErrorCallback&&onErrorCallback()
-      return toastError('There was an error.', "Could not update the user's role.")
+      return toastError('There was an error.', "Could not update the user's profile.")
     },
 
     onSuccess: () => {
@@ -45,4 +45,4 @@ const useUpdateUserRole = ({onSuccessCallback, onErrorCallback}:Props = {}) => {
 
 }
 
-export default useUpdateUserRole
+export default useUpdateUserProfile

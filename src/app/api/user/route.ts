@@ -1,6 +1,6 @@
 import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { UpdateUserRoleValidator } from "@/lib/validators/user";
+import { UpdateUserProfileValidator } from "@/lib/validators/user";
 import { NextResponse } from "next/server";
 
 export async function GET (req: Request) {
@@ -33,7 +33,7 @@ export async function PUT (req: Request) {
     }
 
     const body = await req.json();
-    const { id, roleId } = UpdateUserRoleValidator.parse(body);
+    const { id, ...newUserData } = UpdateUserProfileValidator.parse(body);
 
     if(session.user.id !== id /* && is not owner */){
       return new Response('Unauthorized', { status: 401 });
@@ -41,7 +41,7 @@ export async function PUT (req: Request) {
 
     await db.user.update({
       where: { id },
-      data: { roleId },
+      data: { ...newUserData },
     });
 
     return new Response("User's role has been updated successfully!", { status: 200 });
