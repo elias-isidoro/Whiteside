@@ -54,7 +54,7 @@ const UserProfile: FC<Props> = ({userId}) => {
     if(!user) return
     setUserRole(user.Role || NO_ROLE_VALUE)
     setUsername(user.username || user.name || 'Anonymous')
-  },[user, isFetchingUser])
+  },[user])
   
   const handleRoleChange = (roleId: string) => {
     if(!roles) return

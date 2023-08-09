@@ -3,7 +3,7 @@
 const Footer = () => {
   return (
     <footer>
-      <div className="mt-10 flex flex-col gap-5 text-[11px] min-[300px]:text-xs">
+      <div className="flex flex-col gap-5 text-[11px] min-[300px]:text-xs py-10">
         <hr/>
         <div className="flex flex-col gap-2">
           <div className="flex flex-row">
