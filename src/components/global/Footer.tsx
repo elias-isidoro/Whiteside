@@ -10,9 +10,9 @@ const Footer = () => {
             <p>&copy; {new Date().getFullYear()} Dean Kudou. All rights reserved.</p>
           </div>
           <div className="flex flex-col gap-2 min-[400px]:flex-row">
-            <p>Email: naed221@gmail.com</p>
+            <p>naed221@gmail.com</p>
             <p className="hidden min-[400px]:block">|</p>
-            <p>Phone: +63 915-451-1087</p>
+            <p>+63 915-451-1087</p>
           </div>
         </div>
       </div>
