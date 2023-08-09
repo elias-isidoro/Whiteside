@@ -93,7 +93,7 @@ export async function PUT (req: Request) {
     }
 
     const body = await req.json();
-    const { id, name, categoryId, description, variants: incomingVariants } = UpdateProductValidator.parse(body);
+    const { id, variants: incomingVariants, ...newProductData } = UpdateProductValidator.parse(body);
 
     const authoredProduct = await db.product.findFirst({
       where: {
@@ -108,7 +108,7 @@ export async function PUT (req: Request) {
     try{
       await db.product.update({
         where: { id, authorId: session.user.id },
-        data: { name, categoryId, description },
+        data: { ...newProductData },
       });
     }catch(err){
       return new Response('Failed to update product', { status: 500 });
@@ -169,6 +169,11 @@ export async function PUT (req: Request) {
     return new Response('Product updated successfully', { status: 200 });
 
   } catch (error) {
+
+    if(error instanceof z.ZodError){
+      return new Response(error.message, { status: 422 })
+    }
+
     return new Response('Error', { status: 500 });
   }
 }

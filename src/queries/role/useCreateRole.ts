@@ -25,7 +25,8 @@ const useCreateRole = ({onSuccessCallback, onErrorCallback}:Props = {}) => {
         }
 
         if(err.response?.status === 422){
-          return toastError('Invalid role name',err.response.data[0].message || 'Please choose a different role name.')
+          return toastError('Invalid input.', 
+            err.response.data[0].message || 'Please make sure that your inputs are valid.')
         }
 
         if(err.response?.status === 401){

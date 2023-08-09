@@ -96,6 +96,11 @@ export async function PUT (req: Request) {
     return new Response('Role updated successfully:');
 
   } catch (error) {
+    
+    if(error instanceof z.ZodError){
+      return new Response(error.message, { status: 422 })
+    }
+
     return new Response('Error', { status: 500 });
   }
 }

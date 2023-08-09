@@ -98,6 +98,11 @@ export async function PUT (req: Request) {
     return new Response('Category updated successfully:');
 
   } catch (error) {
+    
+    if(error instanceof z.ZodError){
+      return new Response(error.message, { status: 422 })
+    }
+
     return new Response('Error', { status: 500 });
   }
 }

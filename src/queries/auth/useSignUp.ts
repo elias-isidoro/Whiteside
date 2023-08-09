@@ -29,8 +29,8 @@ const useSignUp = ({onSuccessCallback, onErrorCallback}:Props = {}) => {
         }
 
         if(err.response?.status === 422){
-          return toastError('Invalid email', 
-            err.response.data[0].message || 'Please enter a valid email.')
+          return toastError('Invalid input', 
+            err.response.data[0].message || 'Please make sure that your inputs are valid.')
         }
 
         if(err.response?.status === 401){
