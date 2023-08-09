@@ -51,7 +51,7 @@ export async function POST (req: Request) {
       return new Response('Role already exists', {status: 409})
     }
 
-    await db.role.create({ data:{ name, ...roleData } })
+    await db.role.create({ data:{ name, ...roleData, authorId: session.user.id } })
 
     return new Response('Role has been created', { status: 200 })
     
@@ -78,8 +78,18 @@ export async function PUT (req: Request) {
     const body = await req.json();
     const { id, name, ...newRoleData } = UpdateRoleValidator.parse(body);
 
+    const role = await db.role.findFirst({where:{ id }})
+
+    if(!role){
+      return new Response('Role does not exist.', {status: 200})
+    }
+
+    if(role?.authorId !== session.user.id){
+      return new Response('Unauthorized', { status: 401 });
+    }
+
     await db.role.update({
-      where: { id },
+      where: { id, authorId: session.user.id },
       data: { name, ...newRoleData },
     });
 
@@ -105,13 +115,27 @@ export async function DELETE (req: Request) {
     
     const roleExists = await db.role.findFirst({ where: { id } })
 
-    if(roleExists){
-      await db.user.updateMany({ where:{roleId: id}, data:{ roleId: null } })
-      await db.role.delete({ where: { id }});
-      return new Response('Role deleted.', {status: 200})
-    }else{
+    if(!roleExists){
       return new Response('Role does not exist.', {status: 200})
     }
+
+    if(roleExists.authorId !== session.user.id){
+      return new Response('Unauthorized', {status: 401})
+    }
+    
+    try{
+      await db.user.updateMany({ where:{roleId: id}, data:{ roleId: null } })
+    }catch(err){
+      return new Response('Could not remove role from users.', {status: 500})
+    }
+
+    try{
+      await db.role.delete({ where: { id }});
+    }catch(err){
+      return new Response('Could not delete role.', {status: 500})
+    }
+
+    return new Response('Role deleted.', {status: 200})
 
   }catch(error){
 

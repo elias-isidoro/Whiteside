@@ -15,10 +15,11 @@ import { notFound, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 interface Props {
+  userId: string
   roleId: string
 }
 
-const RoleEdit = ({roleId}: Props) => {
+const RoleEdit = ({roleId, userId}: Props) => {
 
   const router = useRouter()
   const [roleName, setRoleName] = useState('')
@@ -146,14 +147,19 @@ const RoleEdit = ({roleId}: Props) => {
         
       </div>
    
-      
+      {(role.authorId!==userId)&&(
+        <div className='text-xs p-4 border-2 border-orange-600 bg-orange-200 text-orange-600'>
+          You cannot edit this role. Only role that you have created can be edited.
+        </div>
+      )}
+
       <hr className='bg-zinc-500 h-px'/>
 
       <div className="flex justify-center md:justify-end gap-2">
         <Button 
         variant={'ghost'} 
         onClick={handleDelete} 
-        disabled={isDeletingRole || isUpdatingRole}
+        disabled={isDeletingRole || isUpdatingRole || role.authorId !== userId}
         isLoading={isDeletingRole}>
           {!isDeletingRole&&<Trash2 color='red' className='h-5 w-5 sm:h-6 sm:w-6'/>}
         </Button>
@@ -171,7 +177,7 @@ const RoleEdit = ({roleId}: Props) => {
         type='submit'
         variant={'secondary'}
         isLoading={isUpdatingRole} 
-        disabled={roleName.length === 0 || isUpdatingRole || isDeletingRole}
+        disabled={roleName.length === 0 || isUpdatingRole || isDeletingRole || role.authorId !== userId}
         onClick={handleSubmit}
         className="text-xs">
           Update

@@ -16,6 +16,7 @@ import Loading from '@/components/ui/Loading'
 
 interface Props {
   userId: string
+  guestId: string
 }
 
 interface RoleValue {
@@ -36,7 +37,7 @@ const NO_ROLE_VALUE = {
   canViewSalesAndAnalytics: false
 }
 
-const UserManage: FC<Props> = ({userId}) => {
+const UserManage: FC<Props> = ({userId, guestId}) => {
 
   const router = useRouter();
   const {data: user, isLoading: isFetchingUser, refetch: refetchUser} = useFetchUser({userId})
@@ -151,6 +152,12 @@ const UserManage: FC<Props> = ({userId}) => {
         
       </div>
 
+      {(guestId!==userId)&&(
+        <div className='text-xs p-4 border-2 border-orange-600 bg-orange-200 text-orange-600'>
+          You cannot edit this user. Only your own profile can be edited.
+        </div>
+      )}
+
       <hr className='bg-zinc-500 h-px'/>
 
       <div className='flex flex-row w-full gap-2 items-center'>
@@ -166,7 +173,7 @@ const UserManage: FC<Props> = ({userId}) => {
         variant='secondary' 
         onClick={handleUpdateRole}
         className='text-xs' 
-        disabled={isUpdatingUserRole} 
+        disabled={isUpdatingUserRole || userId !== guestId} 
         isLoading={isUpdatingUserRole}>
           Save
         </Button>

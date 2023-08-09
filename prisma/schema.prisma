@@ -48,12 +48,16 @@ model Session {
 model Role {
   id   String @id @default(cuid())
   name String
-  User User[]
+  User User[] @relation("UserRole")
 
   canManageOrders          Boolean @default(false)
   canManageProducts        Boolean @default(false)
   canManageCategories      Boolean @default(false)
   canViewSalesAndAnalytics Boolean @default(false)
+
+  authorId String
+
+  @@index([authorId])
 }
 
 model User {
@@ -64,14 +68,14 @@ model User {
   emailVerified DateTime?
   username      String?   @unique
 
-  image    String?
+  image String?
 
-  Role     Role?      @relation(fields: [roleId], references: [id])
-  roleId   String?
+  Role   Role?   @relation("UserRole", fields: [roleId], references: [id])
+  roleId String?
 
   accounts Account[]
   sessions Session[]
-  Orders   Orders[]
+  Orders   Order[]
   Product  Product[]
   Category Category[]
 
@@ -129,7 +133,7 @@ model Variant {
 
 // ----------------------- Sales
 
-model Orders {
+model Order {
   id String @id @default(cuid())
 
   user   User   @relation(fields: [userId], references: [id])

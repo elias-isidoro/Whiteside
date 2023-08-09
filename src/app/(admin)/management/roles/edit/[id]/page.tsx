@@ -10,10 +10,10 @@ interface Props {
 
 const page = async ({params: {id}}: Props) => {
 
-  await isLoggedIn()
+  const user = await isLoggedIn()
 
   return (
-    <RoleEdit roleId={id}/>
+    <RoleEdit roleId={id} userId={user!.id}/>
   )
 }
 

@@ -10,11 +10,11 @@ interface Props {
 
 const page = async ({params: {id}}: Props) => {
 
-  await isLoggedIn()
+  const user = await isLoggedIn()
 
   return (
     <div className='w-full flex justify-center'>
-      <UserManage userId={id}/>
+      <UserManage userId={id} guestId={user!.id}/>
     </div>
   )
 }

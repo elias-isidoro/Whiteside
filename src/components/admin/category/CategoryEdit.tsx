@@ -140,7 +140,7 @@ const CategoryEdit: FC<Props> = ({ userId, categoryId }) => {
 
       {/* -------------- Submit Buttons -------------- */}
 
-      {/* <hr className='bg-zinc-500 h-px'/> */}
+      <hr className='bg-zinc-500 h-px'/>
 
       <div className='flex flex-row w-full gap-2 items-center'>
         <Button 

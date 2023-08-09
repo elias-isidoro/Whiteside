@@ -35,6 +35,10 @@ export async function PUT (req: Request) {
     const body = await req.json();
     const { id, roleId } = UpdateUserRoleValidator.parse(body);
 
+    if(session.user.id !== id /* && is not owner */){
+      return new Response('Unauthorized', { status: 401 });
+    }
+
     await db.user.update({
       where: { id },
       data: { roleId },
