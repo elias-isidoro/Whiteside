@@ -1,6 +1,6 @@
-import UserManage from '@/components/admin/users/UserManage';
 import CloseModal from '@/components/ui/CloseModal';
-import isLoggedIn from '@/lib/authorization/isLoggedIn';
+import UserProfile from '@/components/user/UserProfile';
+import isOwnerOfId from '@/lib/authorization/isOwnerOfId';
 
 interface Props {
   params: { id: string }
@@ -8,7 +8,7 @@ interface Props {
 
 const page = async ({params: {id}}:Props) => {
 
-  await isLoggedIn()
+  await isOwnerOfId({id})
 
   return(
     <div className='fixed inset-0 flex p-4 bg-zinc-900/20 z-10 min-w-[280px] overflow-y-auto overflow-x-hidden'>
@@ -16,7 +16,7 @@ const page = async ({params: {id}}:Props) => {
         <div className='flex items-center w-full h-4'>
           <CloseModal/>
         </div>
-          <UserManage userId={id}/>
+          <UserProfile userId={id}/>
       </div>
     </div>
   )

@@ -7,13 +7,14 @@ import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import useFetchAllCategoriesWithProducts from '@/queries/categories/useFetchAllCategoriesWithProducts';
 import notFound from '@/app/not-found';
+import Loading from '@/components/ui/Loading';
 
 const CategoryShowcase = () => {
 
   const {data: categories, isLoading: isFetchingCategories, refetch} = useFetchAllCategoriesWithProducts()
 
   if(isFetchingCategories){
-    return <>Loading...</>
+    return <Loading/>
   }
 
   if(!categories){
@@ -22,7 +23,7 @@ const CategoryShowcase = () => {
 
   return (
     <div className='w-full pb-12'>
-      <div className='flex flex-col w-full py-4 gap-4'>
+      <div className='flex flex-col w-full gap-4'>
         <div className='flex flex-row w-full'>
           <Link href={'/dashboard/categories/create'} className={cn(buttonVariants(),'gap-2 pl-2')}>
             <Plus className='h-6 w-6'/>

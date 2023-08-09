@@ -1,5 +1,5 @@
 import Categorizer from '@/components/admin/category/Categorizer';
-import checkAuthorization from '@/lib/authorizer';
+import isLoggedIn from '@/lib/authorization/isLoggedIn';
 
 interface Props {
   params: {
@@ -9,7 +9,7 @@ interface Props {
 
 const page = async ({params: {id}}:Props) => {
 
-  await checkAuthorization()
+  await isLoggedIn()
 
   return(
     <div className='flex w-full justify-center pb-12'>

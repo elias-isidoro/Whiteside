@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 
-import checkAuthorization from '@/lib/authorizer';
+import isLoggedIn from '@/lib/authorization/isLoggedIn';
 import { Variant } from '@prisma/client';
 import { create } from 'zustand'
 

@@ -1,5 +1,5 @@
 import OrderView from "@/components/admin/orders/OrderView";
-import checkAuthorization from "@/lib/authorizer";
+import isLoggedIn from "@/lib/authorization/isLoggedIn";
 
 interface Props {
   params: { 
@@ -9,7 +9,7 @@ interface Props {
 
 const page  = async ({params:{id}}: Props) => {
 
-  await checkAuthorization()
+  await isLoggedIn()
   
   return(
     <OrderView orderId={id}/>

@@ -57,9 +57,12 @@ const UserAccountNav: FC<Props> = ({session}) => {
         </DropdownMenuItem>
 
         <DropdownMenuItem asChild>
-          <Link href='/cart'>Cart</Link>
+          <Link href={`/profile/${session.user.id}`}>Profile</Link>
         </DropdownMenuItem>
 
+        <DropdownMenuItem asChild>
+          <Link href='/cart'>My Cart</Link>
+        </DropdownMenuItem>
 
         <DropdownMenuItem asChild>
           <Link href='/dashboard/sales'>Dashboard</Link>

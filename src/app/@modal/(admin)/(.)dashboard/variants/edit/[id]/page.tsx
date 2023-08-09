@@ -1,5 +1,5 @@
 import CloseModal from '@/components/ui/CloseModal'
-import checkAuthorization from '@/lib/authorizer'
+import isLoggedIn from '@/lib/authorization/isLoggedIn'
 import VariantEdit from '@/components/admin/variant/VariantEdit'
 
 interface Props {
@@ -10,7 +10,7 @@ interface Props {
 
 const page = async ({params: {id}}: Props) => {
 
-  await checkAuthorization()
+  await isLoggedIn()
   
   return(
     <div className='fixed inset-0 flex p-4 bg-zinc-900/20 z-10 min-w-[280px] overflow-y-auto overflow-x-hidden'>

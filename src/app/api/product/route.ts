@@ -65,7 +65,7 @@ export async function POST (req: Request) {
       return new Response('Product Already Exists', {status: 409})
     }
 
-    const product = await db.product.create({ data:{ name, description, id, categoryId } })
+    const product = await db.product.create({ data:{ name, description, id, categoryId, authorId: session.user.id } })
 
     await db.variant.createMany({ data: variantsData });
 
@@ -95,9 +95,19 @@ export async function PUT (req: Request) {
     const body = await req.json();
     const { id, name, categoryId, description, variants: incomingVariants } = UpdateProductValidator.parse(body);
 
+    const authoredProduct = await db.product.findFirst({
+      where: {
+        id, authorId: session.user.id
+      }
+    })
+
+    if(!authoredProduct){
+      return new Response('Unauthorized', { status: 401 });
+    }
+
     try{
       await db.product.update({
-        where: { id },
+        where: { id, authorId: session.user.id },
         data: { name, categoryId, description },
       });
     }catch(err){
@@ -175,16 +185,30 @@ export async function DELETE (req: Request) {
 
     const { searchParams } = new URL(req.url)
     const id = searchParams.get('id') || ''
-    
+
     const productExists = await db.product.findFirst({ where: { id } })
 
-    if(productExists){
-      await db.variant.deleteMany({ where:{productId: id} })
-      await db.product.delete({ where: { id }});
-      return new Response('Product deleted.', {status: 200})
-    }else{
+    if(!productExists){
       return new Response('Product does not exist.', {status: 200})
     }
+
+    if(productExists.authorId !== session.user.id){
+      return new Response('Unauthorized', { status: 401 });
+    }
+
+    try{
+      await db.variant.deleteMany({ where:{productId: id} })
+    }catch(err){
+      return new Response('Could not delete variants.', {status: 500})
+    }
+
+    try{
+      await db.product.delete({ where: { id }})
+    }catch(err){
+      return new Response('Could not delete product.', {status: 500})
+    }
+
+    return new Response('Product deleted.', {status: 200})
 
   }catch(error){
 

@@ -22,10 +22,11 @@ export const revalidate = 0
 export const fetchCache = 'force-no-store'
 
 interface Props {
+  userId: string
   productId: string
 }
 
-const ProductEdit = ({productId}: Props) => {
+const ProductEdit = ({ userId, productId }: Props) => {
 
   const router = useRouter();
 
@@ -173,11 +174,18 @@ const ProductEdit = ({productId}: Props) => {
             <VariantShowcase productId={productId} variants={productVariants}/>
           </div>
 
+          {(product.authorId!==userId)&&(
+            <div className='text-xs p-4 border-2 border-orange-600 bg-orange-200 text-orange-600'>
+              You cannot edit this product. Only products that you have created can be edited.
+            </div>
+          )}
+
           
           {/* -------------- Submit Buttons -------------- */}
 
           <div className="flex flex-row w-full gap-2 items-center">
             <Button 
+            disabled={isUpdatingProduct || isDeletingProduct || isUploadingImages || product.authorId !== userId}
             variant={'ghost'} 
             onClick={handleDelete} 
             isLoading={isDeletingProduct}>
@@ -203,7 +211,14 @@ const ProductEdit = ({productId}: Props) => {
               productDescription, 
               productCategoryId,
               productVariants
-            },product as Product) || isUploadingImages|| isDeletingProduct || productName.length === 0 || isUpdatingProduct || productDescription.length === 0}
+            },product as Product) 
+              || isUploadingImages
+              || isDeletingProduct 
+              || productName.length === 0 
+              || isUpdatingProduct 
+              || productDescription.length === 0
+              || product.authorId !== userId
+            }
             className='text-xs'>
               Save
             </Button>

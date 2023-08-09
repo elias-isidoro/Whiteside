@@ -1,6 +1,7 @@
 'use client'
 
 import { Button } from '@/components/ui/Button'
+import Loading from '@/components/ui/Loading'
 import { useCustomToast } from '@/hooks/use-custom-toast'
 import { numberToPriceFormat } from '@/lib/utils'
 import useFetchProduct from '@/queries/products/useFetchProduct'
@@ -52,7 +53,7 @@ const ProductView: FC<Props> = ({productId, session}) => {
 
 
   if(isFetchingProduct){
-    return <>Loading...</>
+    return <Loading/>
   }
 
   if(!product || product.variants.length===0){

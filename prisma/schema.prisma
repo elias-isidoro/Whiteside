@@ -65,12 +65,15 @@ model User {
   username      String?   @unique
 
   image    String?
+
+  Role     Role?      @relation(fields: [roleId], references: [id])
+  roleId   String?
+
   accounts Account[]
   sessions Session[]
   Orders   Orders[]
-
-  Role   Role?   @relation(fields: [roleId], references: [id])
-  roleId String?
+  Product  Product[]
+  Category Category[]
 
   @@index([roleId])
 }
@@ -81,6 +84,11 @@ model Category {
   id       String    @id @default(cuid())
   name     String    @unique
   products Product[]
+
+  author   User   @relation(fields: [authorId], references: [id])
+  authorId String
+
+  @@index([authorId])
 }
 
 model Product {
@@ -92,7 +100,11 @@ model Product {
   Category   Category? @relation(fields: [categoryId], references: [id])
   categoryId String?
 
+  author   User   @relation(fields: [authorId], references: [id])
+  authorId String
+
   @@index([categoryId])
+  @@index([authorId])
 }
 
 enum ImageOrientation {

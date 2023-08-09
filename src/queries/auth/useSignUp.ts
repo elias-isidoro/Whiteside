@@ -3,6 +3,7 @@ import { toastDefault, toastError } from "@/lib/utils"
 import { RegisterUserPayload } from "@/lib/validators/auth";
 import { useMutation } from "@tanstack/react-query"
 import axios, { AxiosError } from "axios";
+import { delay } from "../../lib/utils";
 interface Props {
   onSuccessCallback?: () => void,
   onErrorCallback?: () => void
@@ -40,9 +41,11 @@ const useSignUp = ({onSuccessCallback, onErrorCallback}:Props = {}) => {
       return toastError('There was an error.','Could not register user.')
     },
 
-    onSuccess: () => {
+    onSuccess: async () => {
       onSuccessCallback&&onSuccessCallback()
-      toastDefault('Cheers!','A new user has been successfully registered!')
+      const { dismiss } = toastDefault('Cheers!','A new user has been successfully registered!')
+      await delay(2000)
+      dismiss()
     }
 
   })

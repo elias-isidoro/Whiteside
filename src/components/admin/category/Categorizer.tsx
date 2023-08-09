@@ -10,6 +10,7 @@ import useFetchProductsNotUnder from '@/queries/categorizer/useFetchProductsNotU
 import useFetchCategory from '@/queries/categories/useFetchCategory';
 import { notFound } from 'next/navigation';
 import useFetchAllCategoriesWithProducts from '@/queries/categories/useFetchAllCategoriesWithProducts';
+import Loading from '@/components/ui/Loading';
 
 interface Props {
   categoryId: string
@@ -29,7 +30,7 @@ const Categorizer: FC<Props> = ({categoryId}) => {
   useEffect(()=>resetAllStates,[resetAllStates])
 
   if(isFetchingProducts||isFetchingCategory){
-    return <>Loading...</>
+    return <Loading/>
   }
 
   if(!category||!products) return notFound()

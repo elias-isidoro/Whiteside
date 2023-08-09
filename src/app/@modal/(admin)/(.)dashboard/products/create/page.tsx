@@ -1,10 +1,10 @@
 import CloseModal from '@/components/ui/CloseModal'
 import CreateProduct from "@/components/admin/product/ProductCreate"
-import checkAuthorization from '@/lib/authorizer'
+import isLoggedIn from '@/lib/authorization/isLoggedIn'
 
 const page = async () => {
 
-  await checkAuthorization()
+  await isLoggedIn()
 
   return(
     <div className='fixed inset-0 flex p-4 bg-zinc-900/20 z-10 min-w-[280px] overflow-y-auto overflow-x-hidden'>

@@ -1,11 +1,11 @@
 import Cart from '@/components/customer/cart/Cart'
 import CloseModal from '@/components/ui/CloseModal'
-import checkAuthorization from '@/lib/authorizer'
+import isLoggedIn from '@/lib/authorization/isLoggedIn'
 
 
 const page = async () => {
 
-  const user = await checkAuthorization()
+  const user = await isLoggedIn()
 
   return (
     <div className='fixed inset-0 flex p-4 bg-zinc-900/20 z-[50] min-w-[280px] overflow-y-hidden overflow-x-hidden'>

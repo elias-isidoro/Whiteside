@@ -5,6 +5,7 @@ import ProductCard from './ProductCard';
 import useFetchAllProducts from '@/queries/products/useFetchAllProducts';
 import notFound from '@/app/not-found';
 import { useSearchStore } from '@/stores/use-search-store';
+import Loading from '@/components/ui/Loading';
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
@@ -17,7 +18,7 @@ const ProductShowcase = () => {
   const invisibleChildren = useMemo(() => Array.from({length:4},(_, i) => <ProductCard key={`invisible_${i}`} isInvisible={true}/>), []);
 
   if(isFetchingAllProducts){
-    return <>Loading...</>
+    return <Loading/>
   }
 
   if(!products){
@@ -26,7 +27,7 @@ const ProductShowcase = () => {
 
   return(
     <div className='flex flex-col w-full p-4 gap-4'>
-      <h1 className='text-lg font-semibold'>Recommended for you</h1>
+      <h1 className='text-md min-[305px]:text-lg font-semibold'>Discover Our Collection</h1>
       <hr className='w-full mb-4'/>
       <div className='flex flex-wrap w-full h-full gap-4'>
         {products.filter(({ name }) => name.toLowerCase().includes(searchInput.toLowerCase())).map((product)=>(

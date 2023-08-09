@@ -1,10 +1,10 @@
 import Cart from '@/components/customer/cart/Cart'
-import checkAuthorization from '@/lib/authorizer'
+import isLoggedIn from '@/lib/authorization/isLoggedIn'
 
 
 const page = async () => {
 
-  const user = await checkAuthorization()
+  const user = await isLoggedIn()
   
   return <Cart user={user}/>
 }

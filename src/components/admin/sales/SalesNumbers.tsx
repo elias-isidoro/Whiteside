@@ -21,13 +21,13 @@ const SalesNumbers: FC<Props> = ({}) => {
       <SalesCard
         title={'Total Revenue'}
         mainContent={`+${numberToPriceFormat(MOCK_REVENUE)}`}
-        description={`+${Math.floor(Math.random() * 40) + 2}% from last month`}
+        description={`+${Math.floor(Math.random() * 40) + 2}% from last month. This is mock data for graph simulation`}
         logo={<FontAwesomeIcon icon={faPesoSign} className='w-4 h-4 text-muted-foreground'/>}/>
 
       <SalesCard
         title="Recent Sales"
         mainContent={`+${numberToPriceFormat(Math.floor(Math.random() * MOCK_REVENUE) + 1000)}`}
-        description={`+${Math.floor(Math.random() * 40) + 2}% from last month`}
+        description={`+${Math.floor(Math.random() * 40) + 2}% from last month. This is mock data for graph simulation`}
         logo={<CreditCard className='w-5 h-5 text-muted-foreground'/>}/>
 
     </div>

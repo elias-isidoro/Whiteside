@@ -5,6 +5,8 @@ import locale from 'date-fns/locale/en-US'
 import { nanoid } from 'nanoid';
 import { toast } from '@/hooks/use-toast';
 
+export const delay = async (milliseconds:number) => new Promise(res=>setTimeout(res, milliseconds))
+
 export const capitalizeFirstLetter = (string: string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
@@ -129,7 +131,7 @@ export const toastError = (title: string, description: string) => {
 };
 
 export const toastDefault = (title: string, description: string) => {
-  toast({title, description, variant: 'default'});
+  return toast({title, description, variant: 'default'});
 };
 
 export const generateProductId = async () => {

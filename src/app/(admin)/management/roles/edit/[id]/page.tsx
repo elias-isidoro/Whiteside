@@ -1,6 +1,6 @@
 
 import RoleEdit from '@/components/admin/roles/RoleEdit'
-import checkAuthorization from '@/lib/authorizer'
+import isLoggedIn from '@/lib/authorization/isLoggedIn'
 
 interface Props {
   params:{
@@ -10,7 +10,7 @@ interface Props {
 
 const page = async ({params: {id}}: Props) => {
 
-  await checkAuthorization()
+  await isLoggedIn()
 
   return (
     <RoleEdit roleId={id}/>

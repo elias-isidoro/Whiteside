@@ -1,9 +1,9 @@
 import VariantCreate from '@/components/admin/variant/VariantCreate'
-import checkAuthorization from '@/lib/authorizer'
+import isLoggedIn from '@/lib/authorization/isLoggedIn'
 
 const page = async () => {
 
-  await checkAuthorization()
+  await isLoggedIn()
   
   return <VariantCreate/>
 }

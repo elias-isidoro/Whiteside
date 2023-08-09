@@ -1,10 +1,10 @@
 import CreateCategory from '@/components/admin/category/CategoryCreate'
 import CrudModal from '@/layouts/CrudModal'
-import checkAuthorization from '@/lib/authorizer'
+import isLoggedIn from '@/lib/authorization/isLoggedIn'
 
 const page = async () => {
 
-  await checkAuthorization()
+  await isLoggedIn()
 
   return(
     <CrudModal>

@@ -1,5 +1,5 @@
 import ProductEdit from '@/components/admin/product/ProductEdit'
-import checkAuthorization from '@/lib/authorizer'
+import isLoggedIn from '@/lib/authorization/isLoggedIn'
 
 interface Props {
   params:{
@@ -9,10 +9,10 @@ interface Props {
 
 const page = async ({params: {id}}: Props) => {
 
-  await checkAuthorization()
+  await isLoggedIn()
 
   return (
-    <ProductEdit productId={id}/>
+    <ProductEdit productId={id} userId={id}/>
   )
 }
 

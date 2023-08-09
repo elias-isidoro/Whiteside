@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
+import Loading from "@/components/ui/Loading";
 import { Switch } from "@/components/ui/Switch";
 import { UpdateRolePayload } from "@/lib/validators/role";
 import useUpdateRole from "@/queries/role/uesUpdateRole";
@@ -78,7 +79,7 @@ const RoleEdit = ({roleId}: Props) => {
   },[role])
 
   if(isFetchingRole){
-    return <>Loading...</>
+    return <Loading/>
   }
 
   if(!role){
@@ -153,7 +154,7 @@ const RoleEdit = ({roleId}: Props) => {
         variant={'ghost'} 
         onClick={handleDelete} 
         disabled={isDeletingRole || isUpdatingRole}
-        isLoading={isDeletingRole || isUpdatingRole}>
+        isLoading={isDeletingRole}>
           {!isDeletingRole&&<Trash2 color='red' className='h-5 w-5 sm:h-6 sm:w-6'/>}
         </Button>
 

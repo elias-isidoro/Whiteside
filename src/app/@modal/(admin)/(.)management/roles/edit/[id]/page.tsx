@@ -1,7 +1,7 @@
 
 import RoleEdit from '@/components/admin/roles/RoleEdit';
 import CloseModal from '@/components/ui/CloseModal';
-import checkAuthorization from '@/lib/authorizer';
+import isLoggedIn from '@/lib/authorization/isLoggedIn';
 
 interface Props {
   params: { id: string }
@@ -9,7 +9,7 @@ interface Props {
 
 const page = async ({params: {id}}:Props) => {
 
-  await checkAuthorization()
+  await isLoggedIn()
 
   return(
     <div className='fixed inset-0 flex p-4 bg-zinc-900/20 z-10 min-w-[280px] overflow-y-auto overflow-x-hidden'>

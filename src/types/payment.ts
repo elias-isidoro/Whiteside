@@ -42,12 +42,34 @@ export interface Payment {
     metadata: {
       pm_reference_number: string;
     };
-    refunds: any[];
+    refunds: Refund[];
     taxes: any[];
     available_at: number;
     created_at: number;
     credited_at: number;
     paid_at: number;
+    updated_at: number;
+  };
+}
+
+
+export interface Refund {
+  id: string;
+  type: string;
+  attributes: {
+    amount: number;
+    balance_transaction_id: string;
+    currency: string;
+    livemode: boolean;
+    metadata: any;
+    notes: any;
+    payment_id: string;
+    payout_id: any;
+    reason: string;
+    status: string;
+    available_at: number;
+    created_at: number;
+    refunded_at: number;
     updated_at: number;
   };
 }

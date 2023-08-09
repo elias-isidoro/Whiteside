@@ -1,11 +1,11 @@
 import ManagementNav from "@/components/admin/navbar/ManagementNav"
 import UsersShowcase from "@/components/admin/users/UsersShowcase"
-import checkAuthorization from "@/lib/authorizer"
+import isLoggedIn from "@/lib/authorization/isLoggedIn"
 
 
 const page  = async () => {
 
-  await checkAuthorization()
+  await isLoggedIn()
   
   return(
     <>

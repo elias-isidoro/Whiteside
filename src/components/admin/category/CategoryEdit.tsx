@@ -15,12 +15,14 @@ import { FC, useEffect, useMemo, useState } from 'react'
 import { Button, buttonVariants, } from '../../ui/Button'
 import CategorizerCard from './CategorizerCard'
 import useFetchAllCategoriesWithProducts from '@/queries/categories/useFetchAllCategoriesWithProducts'
+import Loading from '@/components/ui/Loading'
 
 interface Props {
+  userId: string
   categoryId: string
 }
 
-const CategoryEdit: FC<Props> = ({categoryId}) => {
+const CategoryEdit: FC<Props> = ({ userId, categoryId }) => {
 
   const router = useRouter();
   const [categoryName, setCategoryName] = useState('')
@@ -61,7 +63,7 @@ const CategoryEdit: FC<Props> = ({categoryId}) => {
   useEffect(()=>category&&setCategoryName(category.name),[category])
 
 
-  if(isFetchingCategory || isFetchingProducts) return <>Loading...</>
+  if(isFetchingCategory || isFetchingProducts) return <Loading/>
   if(!category || !products) return notFound()
 
   const handleDelete = () => deleteCategory({id: category.id})
@@ -116,10 +118,19 @@ const CategoryEdit: FC<Props> = ({categoryId}) => {
 
       </div>
 
-      <hr className='bg-zinc-500 h-px'/>
+      {(category.authorId!==userId)&&(
+        <div className='text-xs p-4 border-2 border-orange-600 bg-orange-200 text-orange-600'>
+          You cannot edit this category. Only categories that you have created can be edited.
+        </div>
+      )}
+
+      {/* -------------- Submit Buttons -------------- */}
+
+      {/* <hr className='bg-zinc-500 h-px'/> */}
 
       <div className='flex flex-row w-full gap-2 items-center'>
         <Button 
+        disabled={isUpdatingCategory || category.authorId !== userId}
         variant={'ghost'} 
         onClick={handleDelete} 
         isLoading={isDeletingCategory}>
@@ -137,7 +148,7 @@ const CategoryEdit: FC<Props> = ({categoryId}) => {
         variant='secondary' 
         onClick={handleSave}
         className='text-xs' 
-        disabled={isUpdatingCategory} 
+        disabled={isUpdatingCategory || category.authorId !== userId} 
         isLoading={isUpdatingCategory}>
           {(categoryName === category.name)?'Done':'Save'}
         </Button>

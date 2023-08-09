@@ -1,4 +1,4 @@
-import checkAuthorization from '@/lib/authorizer'
+import isLoggedIn from '@/lib/authorization/isLoggedIn'
 
 interface Props {
   searchParams: {
@@ -8,7 +8,7 @@ interface Props {
 
 const page = async ({searchParams: {categoryId}}: Props) => {
 
-  await checkAuthorization()
+  await isLoggedIn()
 
   return(
     <div className=''>

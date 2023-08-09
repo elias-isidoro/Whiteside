@@ -1,10 +1,10 @@
 import DashNav from "@/components/admin/navbar/DashNav";
 import ProductShowcase from "@/components/admin/product/ProductShowcase";
-import checkAuthorization from "@/lib/authorizer";
+import isLoggedIn from "@/lib/authorization/isLoggedIn";
 
 const page  = async () => {
 
-  await checkAuthorization()
+  await isLoggedIn()
   
   return(
     <div className="w-full pb-12">

@@ -1,5 +1,5 @@
 import VariantEdit from "@/components/admin/variant/VariantEdit"
-import checkAuthorization from "@/lib/authorizer"
+import isLoggedIn from "@/lib/authorization/isLoggedIn"
 
 interface Props {
   params: {
@@ -9,7 +9,7 @@ interface Props {
 
 const page = async ({params: { variantId}}: Props) => {
 
-  await checkAuthorization()
+  await isLoggedIn()
   
   return(
     <VariantEdit variantId={variantId}/> 

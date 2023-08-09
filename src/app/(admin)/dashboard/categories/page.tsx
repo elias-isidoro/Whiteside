@@ -1,10 +1,10 @@
 import CategoryShowcase from "@/components/admin/category/CategoryShowcase";
 import DashNav from "@/components/admin/navbar/DashNav";
-import checkAuthorization from "@/lib/authorizer";
+import isLoggedIn from "@/lib/authorization/isLoggedIn";
 
 const page  = async () => {
 
-  await checkAuthorization()
+  await isLoggedIn()
   
   return(
     <>

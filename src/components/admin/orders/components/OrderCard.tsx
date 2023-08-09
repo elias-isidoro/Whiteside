@@ -13,7 +13,6 @@ interface Props {
 
 const OrderCard: FC<Props> = ({order}) => {
 
-
   return(
     <tr className='group h-[50px]'>
       <td className='relative h-full border-b border-gray-300'>
@@ -27,8 +26,10 @@ const OrderCard: FC<Props> = ({order}) => {
         </div>  
       </td>
 
-      <td className='h-full pl-2 min-[400px]:pl-5 text-xs border-b border-gray-300 whitespace-nowrap text-ellipsis'>
-        ₱ {numberToPriceFormat(convertFromCents(order.attributes.amount))}
+      <td className='h-full text-xs border-b border-gray-300 whitespace-nowrap text-ellipsis'>
+        ₱ {numberToPriceFormat(convertFromCents(order.attributes.amount)
+        -(order.attributes.refunds.length>0 ? convertFromCents(order.attributes.refunds[0].attributes.amount):0)
+        -(order.attributes.fee ? convertFromCents(order.attributes.fee) : 0))}
       </td>
 
       <td className='hidden min-[350px]:table-cell h-full text-xs text-center border-b border-gray-300'>

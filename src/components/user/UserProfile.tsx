@@ -1,18 +1,16 @@
 'use client'
 
-import UserAvatar from '@/components/user/UserAvatar'
+import { Button } from '@/components/ui/Button'
 import { ComboBox } from '@/components/ui/ComboBox'
 import { Label } from '@/components/ui/Label'
 import { Switch } from '@/components/ui/Switch'
+import UserAvatar from '@/components/user/UserAvatar'
 import useFetchAllRoles from '@/queries/role/useFetchAllRoles'
-import useFetchAllUsers from '@/queries/user/useFetchAllUsers'
 import useFetchUser from '@/queries/user/useFetchUser'
 import useUpdateUserRole from '@/queries/user/useUpdateUserRole'
-import { Edit2 } from 'lucide-react'
 import { notFound, useRouter } from 'next/navigation'
 import { FC, useEffect, useState } from 'react'
-import { Button } from '@/components/ui/Button'
-import Loading from '@/components/ui/Loading'
+import Loading from '../ui/Loading'
 
 interface Props {
   userId: string
@@ -36,11 +34,10 @@ const NO_ROLE_VALUE = {
   canViewSalesAndAnalytics: false
 }
 
-const UserManage: FC<Props> = ({userId}) => {
+const UserProfile: FC<Props> = ({userId}) => {
 
   const router = useRouter();
   const {data: user, isLoading: isFetchingUser, refetch: refetchUser} = useFetchUser({userId})
-  const {data: users, isLoading: isFetchingAllUsers, refetch: refetchAllUsers} = useFetchAllUsers()
   const {data: roles, isLoading: isFetchingAllRoles} = useFetchAllRoles()
   
   const [userRole, setUserRole] = useState<RoleValue>(user ? user.Role : NO_ROLE_VALUE)
@@ -49,7 +46,6 @@ const UserManage: FC<Props> = ({userId}) => {
     onSuccessCallback: () => {
       router.back()
       refetchUser()
-      refetchAllUsers()
     }
   })
   
@@ -67,19 +63,13 @@ const UserManage: FC<Props> = ({userId}) => {
     })
   }
 
-  if(isFetchingUser || isFetchingAllUsers || isFetchingAllRoles) return <Loading/>
-  if(!user || !users || !roles) return notFound()
+  if(isFetchingUser || isFetchingAllRoles) return <Loading/>
+  if(!user || !roles) return notFound()
 
   const handleUpdateRole = () => updateUserRole({id: userId, roleId: userRole.id})
 
   return(
     <div className='flex flex-col w-full gap-5 p-2 pb-0 max-w-sm'>
-      <div className='flex flex-row gap-2 items-center '>
-        <Edit2/>
-        <p className='text-lg font-semibold'>Manage a User</p>
-      </div>
-
-      <hr className='bg-zinc-500 h-px'/>
 
       <div className='flex flex-col w-full items-center justify-center'>
         <UserAvatar 
@@ -148,7 +138,11 @@ const UserManage: FC<Props> = ({userId}) => {
           onCheckedChange={()=>{}}/>
           <Label htmlFor="allow-view-sales-and-analytics">View Sales & Analytics</Label>
         </div>
-        
+
+        <div className='flex flex-col justify-center p-4 border-2 border-blue-500 text-blue-700 bg-blue-200'>
+          <p className='text-sm font-semibold'>Full Access for Guests</p>
+          <p className='text-xs text-justify'>You have full access to explore the store, dashboard, and management pages. Any changes to your permissions will not affect your exploration rights.</p>
+        </div>
       </div>
 
       <hr className='bg-zinc-500 h-px'/>
@@ -176,4 +170,4 @@ const UserManage: FC<Props> = ({userId}) => {
   )
 }
 
-export default UserManage
+export default UserProfile

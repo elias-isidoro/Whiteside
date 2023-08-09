@@ -1,6 +1,5 @@
-
-import UserManage from '@/components/admin/users/UserManage'
-import isLoggedIn from '@/lib/authorization/isLoggedIn'
+import UserProfile from '@/components/user/UserProfile'
+import isOwnerOfId from '@/lib/authorization/isOwnerOfId'
 
 interface Props {
   params:{
@@ -10,11 +9,11 @@ interface Props {
 
 const page = async ({params: {id}}: Props) => {
 
-  await isLoggedIn()
+  await isOwnerOfId({id})
 
   return (
     <div className='w-full flex justify-center'>
-      <UserManage userId={id}/>
+      <UserProfile userId={id}/>
     </div>
   )
 }

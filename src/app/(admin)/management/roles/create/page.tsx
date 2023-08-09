@@ -1,10 +1,10 @@
 
 import RoleCreate from "@/components/admin/roles/RoleCreate";
-import checkAuthorization from "@/lib/authorizer";
+import isLoggedIn from "@/lib/authorization/isLoggedIn";
 
 const page = async () => {
 
-  await checkAuthorization()
+  await isLoggedIn()
   
   return (
     <div className="flex w-full justify-center">

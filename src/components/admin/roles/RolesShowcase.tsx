@@ -7,13 +7,14 @@ import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { buttonVariants } from '@/components/ui/Button';
 import { Plus } from 'lucide-react';
+import Loading from '@/components/ui/Loading';
 
 const RolesShowcase = () => {
 
   const {data: roles, isLoading: isFetchingRoles} = useFetchAllRoles()
 
   if(isFetchingRoles){
-    return <>Loading...</>
+    return <Loading/>
   }
 
   if(!roles){

@@ -46,7 +46,7 @@ export async function POST (req: Request) {
       return new Response('Category Already Exists', {status: 409})
     }
 
-    const category = await db.category.create({ data:{ name } })
+    const category = await db.category.create({ data:{ name, authorId: session.user.id } })
 
     return new Response(category.name)
     
@@ -80,10 +80,20 @@ export async function PUT (req: Request) {
       return new Response('Category name already exists. Please choose a different name.', { status: 400 });
     }
 
-    await db.category.update({
-      where: { id },
-      data: { name },
-    });
+    const authoredCategory= await db.category.findFirst({ where: { id, authorId: session.user.id } })
+
+    if(!authoredCategory){
+      return new Response('Unauthorized', { status: 401 });
+    }
+
+    try{
+      await db.category.update({
+        where: { id },
+        data: { name },
+      });
+    }catch(err){
+      return new Response('Failed to update category', { status: 500 });
+    }
 
     return new Response('Category updated successfully:');
 
@@ -104,16 +114,30 @@ export async function DELETE (req: Request) {
 
     const { searchParams } = new URL(req.url)
     const id = searchParams.get('id') || ''
-    
+
     const categoryExists = await db.category.findFirst({ where: { id } })
 
-    if(categoryExists){
-      await db.product.updateMany({ where: { categoryId: id }, data: { categoryId: null } });
-      await db.category.delete({ where: { id }});
-      return new Response('Category deleted.', {status: 200})
-    }else{
+    if(!categoryExists){
       return new Response('Category does not exist.', {status: 200})
     }
+
+    if(categoryExists.authorId !== session.user.id){
+      return new Response('Unauthorized', { status: 401 });
+    }
+
+    try{
+      await db.product.updateMany({ where: { categoryId: id, authorId: session.user.id }, data: { categoryId: null } });
+    }catch(err){
+      return new Response('Could not remove category from products.', {status: 500})
+    }
+
+    try{
+      await db.category.delete({ where: { id }});
+    }catch(err){
+      return new Response('Could not delete category.', {status: 500})
+    }
+    
+    return new Response('Category deleted.', {status: 200})
 
   }catch(error){
 

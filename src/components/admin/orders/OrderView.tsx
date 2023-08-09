@@ -1,6 +1,7 @@
 'use client'
 
 import { Icons } from '@/components/ui/Icons'
+import Loading from '@/components/ui/Loading'
 import { capitalizeFirstLetter, convertEpochToLocalTime, convertFromCents, numberToPriceFormat } from '@/lib/utils'
 import useSpecificPayment from '@/queries/payment/useSpecificPayment'
 import { CalendarDays, Mail, Phone } from 'lucide-react'
@@ -16,7 +17,7 @@ const OrderView: FC<Props> = ({orderId}) => {
   const {data:payment, isLoading: isFetchingPayment} = useSpecificPayment({paymentId:orderId})
 
   if(isFetchingPayment){
-    return <>Loading...</>
+    return <Loading/>
   }
 
   if(!payment){
@@ -49,9 +50,9 @@ const OrderView: FC<Props> = ({orderId}) => {
 
   return(
     <div className='w-full flex flex-col gap-2'>
-      <h1 className='text-sm font-semibold min-[400px]:text-lg'>{payment.id}</h1>
+      <h1 className='text-sm font-semibold min-[400px]:text-lg overflow-hidden whitespace-nowrap text-ellipsis'>{payment.id}</h1>
       <hr/>
-      <div className='w-full h-full flex flex-col min-[650px]:flex-row gap-2 text-sm min-[650px]:text-xs'>
+      <div className='w-full flex flex-col justify-items-center min-[650px]:flex-row gap-2 text-sm min-[650px]:text-xs'>
 
         {/* ---------------- Card 1 ---------------- */}
 
@@ -75,16 +76,31 @@ const OrderView: FC<Props> = ({orderId}) => {
               <p className='text-gray-600'>{`₱ ${numberToPriceFormat(convertFromCents(payment.attributes.amount))}`}</p>
             </div>
 
+            {payment.attributes.refunds.length>0&&(
+              payment.attributes.refunds.map((refund,i)=>{
+                return (
+                  <div key={refund.id} className='flex flex-row w-full justify-between'>
+                    <p>Refund {i+1}</p>
+                    <p className='text-red-500'>{`- ₱ ${numberToPriceFormat(convertFromCents(refund.attributes.amount))}`}</p>
+                  </div>
+                )
+              })
+            )}
+
             <div className='flex flex-row w-full justify-between'>
               <p>Fees</p>
-              <p>{`- ₱ ${numberToPriceFormat(convertFromCents(payment.attributes.fee))}`}</p>
+              <p className='text-red-500'>{`- ₱ ${numberToPriceFormat(convertFromCents(payment.attributes.fee))}`}</p>
             </div>
 
             <hr/>
 
             <div className='flex flex-row w-full justify-between'>
               <p>Net Amount</p>
-              <p>{`₱ ${numberToPriceFormat(convertFromCents(payment.attributes.amount-payment.attributes.fee))}`}</p>
+              <p className='text-green-600'>
+                ₱ {numberToPriceFormat(convertFromCents(payment.attributes.amount)
+                -(payment.attributes.refunds.length>0 ? convertFromCents(payment.attributes.refunds[0].attributes.amount):0)
+                -(payment.attributes.fee ? convertFromCents(payment.attributes.fee) : 0))}
+              </p>
             </div>
           </div>
 
@@ -97,7 +113,7 @@ const OrderView: FC<Props> = ({orderId}) => {
 
         {/* ---------------- Card 2 ---------------- */}
 
-        <div className='flex flex-col flex-grow basis-[220px] p-4 gap-2 h-auto'>
+        <div className='flex flex-col p-4 gap-2 min-[650px]:max-w-[220px]'>
 
           <div className='w-full flex flex-row gap-1 items-center'>
 
@@ -117,7 +133,6 @@ const OrderView: FC<Props> = ({orderId}) => {
             </div>
             <p className='text-xs'>{`You'll receive this payment in your bank account on or before ${convertEpochToLocalTime(payment.attributes.credited_at)}`}</p>
           </div>
-
         </div>
 
         {/* ---------------- Card 3 ---------------- */}

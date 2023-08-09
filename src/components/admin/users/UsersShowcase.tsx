@@ -3,13 +3,14 @@
 import notFound from '@/app/not-found';
 import useFetchAllUsers from '@/queries/user/useFetchAllUsers';
 import UserCard from './components/UserCard';
+import Loading from '@/components/ui/Loading';
 
 const UsersShowcase = () => {
 
   const {data: users, isLoading: isFetchingUsers} = useFetchAllUsers()
 
   if(isFetchingUsers){
-    return <>Loading...</>
+    return <Loading/>
   }
 
   if(!users){
