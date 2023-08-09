@@ -1,3 +1,4 @@
+import Footer from '@/components/global/Footer'
 import NavBar from '@/components/navbar/NavBar'
 import Providers from '@/components/reactquery/Providers'
 import { Toaster } from '@/components/ui/Toaster'
@@ -30,10 +31,10 @@ export default function RootLayout({
 
           <div className={cn('container max-w-7xl mx-auto h-full pt-10 min-w-[280px]')}>
             {children}
+            <Footer/>
           </div>
 
-          <Toaster />
-
+          <Toaster/>
         </Providers>
       </body>
     </html>
