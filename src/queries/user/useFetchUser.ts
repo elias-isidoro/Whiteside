@@ -1,4 +1,4 @@
-import { Orders, Role, User } from "@prisma/client";
+import { Order, Role, User } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
@@ -17,7 +17,7 @@ const useFetchUser = ({userId}: Props) => {
     queryFn: async () => {
       const payload: FetchByIdPayload = { id: userId }
       const { data: {user} } = await axios.get('/api/user',{params:payload})
-      return user as (User & { Role: Role, Orders: Orders });
+      return user as (User & { Role: Role, Orders: Order[] });
     },
   });
 
