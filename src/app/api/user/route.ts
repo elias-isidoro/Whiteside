@@ -46,11 +46,10 @@ export async function PUT (req: Request) {
     if(session.user.id !== id /* && is not owner */){
       return new Response('Unauthorized', { status: 401 });
     }
-    
 
     await db.user.update({
       where: { id },
-      data: { ...newUserData },
+      data: { username, ...newUserData },
     });
 
     return new Response("User's role has been updated successfully!", { status: 200 });

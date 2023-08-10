@@ -45,8 +45,9 @@ const UserProfile: FC<Props> = ({userId}) => {
 
   const {mutate: updateUserRole, isLoading: isUpdatingUserRole} = useUpdateUserProfile({
     onSuccessCallback: () => {
-      router.back()
       refetchUser()
+      router.back()
+      router.refresh()
     }
   })
   
@@ -82,13 +83,14 @@ const UserProfile: FC<Props> = ({userId}) => {
           }}/>
 
         <input
-        onChange={(e) => {
-          const input = e.target.value;
-          const filteredInput = input.replace(/[^a-zA-Z0-9]/g, '').slice(0, 21);
-          setUsername(filteredInput);
-        }}
-        value={username}
-        className="w-full text-sm font-medium text-center border-none outline-none p-2"/>
+          onChange={(e) => {
+            const input = e.target.value;
+            const filteredInput = input.replace(/[^a-zA-Z0-9\s]/g, '').slice(0, 21);
+            setUsername(filteredInput);
+          }}
+          value={username}
+          className="w-full text-sm font-medium text-center border-none outline-none p-2"
+        />
           
 
         <ComboBox
