@@ -48,9 +48,17 @@ const VariantEdit = ({variantId}: Props) => {
 
   const handleSave = async () => {
     if(!checkIfInputIsValidPrice(price)){
-      toastError('Invalid Price', 'Please follow the proper price format.')
-      return
+      return toastError('Invalid Price', 'Please follow the proper price format.')
     }
+
+    if(parsePrice(price)<100){
+      return toastError('Invalid Price', 'Price should be a minimum of 100')
+    }
+
+    if(parsePrice(price)>9999999.99){
+      return toastError('Invalid Price', 'Price should not exceed ₱ 9,999,999.99')
+    }
+    
    
     updateProductVariant(variantId,{
       image: image!,
@@ -96,7 +104,7 @@ const VariantEdit = ({variantId}: Props) => {
           <Input 
           value={price}
           onChange={(e)=>{ setPrice(stringToPriceFormat(e.target.value)) }}
-          placeholder="99.99"
+          placeholder="100.00"
           className='border-2 border-slate-700 h-[40px] rounded-none pr-[50px]'/>
           <div
           className="absolute right-0 aspect-square h-[40px] w-[40px] rounded-none bg-black flex items-center justify-center">

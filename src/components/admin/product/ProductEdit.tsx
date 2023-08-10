@@ -76,7 +76,7 @@ const ProductEdit = ({ userId, productId }: Props) => {
     setProductVariants({value: variants.map(({imageUrl,...rest})=>({...rest,image:imageUrl})), isFirstValue: keepStates})
 
     return ()=> { 
-      resetStates() 
+      setKeepStates(false) 
     }
   }, [keepStates, product, resetStates, setKeepStates, setProductCategoryId, setProductDescription, setProductName, setProductVariants])
 

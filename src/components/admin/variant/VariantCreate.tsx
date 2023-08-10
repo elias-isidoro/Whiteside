@@ -33,6 +33,10 @@ const VariantCreate = () => {
       return toastError('Invalid Price', 'Price should be a minimum of 100')
     }
 
+    if(parsePrice(price)>9999999.99){
+      return toastError('Invalid Price', 'Price should not exceed ₱ 9,999,999.99')
+    }
+
     addProductVariant({
       id: nanoid(),
       image: image!,
