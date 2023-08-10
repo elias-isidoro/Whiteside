@@ -42,7 +42,7 @@ interface UnsavedProductStates {
 export const useUnsavedProductStore = create<UnsavedProductStates>()((set) => ({
   keepStates: false,
   productName: '',
-  productCategoryId: '',
+  productCategoryId: null,
   productDescription: '',
   productVariants: [],
   
@@ -94,5 +94,13 @@ export const useUnsavedProductStore = create<UnsavedProductStates>()((set) => ({
     return { ...current, productVariants: updatedVariants };
   }),
   setKeepStates: (input: boolean) =>set((current)=>({...current, keepStates: input})),
-  resetStates: () => set((current)=>({ ...current, productName: '', productDescription: '', productVariants: [], productCategoryId: '' })),
+  resetStates: () => set((current)=>({ 
+    ...current, 
+    keepStates: false,
+
+    productName: '', 
+    productVariants: [], 
+    productCategoryId: '',
+    productDescription: '', 
+  })),
 }));

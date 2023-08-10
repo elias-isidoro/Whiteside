@@ -76,7 +76,7 @@ export async function PUT (req: Request) {
     }
 
     const body = await req.json();
-    const { id, ...newRoleData } = UpdateRoleValidator.parse(body);
+    const { id, name, ...newRoleData } = UpdateRoleValidator.parse(body);
 
     const role = await db.role.findFirst({where:{ id }})
 
@@ -86,6 +86,12 @@ export async function PUT (req: Request) {
 
     if(role?.authorId !== session.user.id){
       return new Response('Unauthorized', { status: 401 });
+    }
+
+    const roleNameAlreadyExists = await db.role.findFirst({where: { name }})
+
+    if (roleNameAlreadyExists && roleNameAlreadyExists.id !== id) {
+      return new Response('Role name is already taken', { status: 409 });
     }
 
     await db.role.update({

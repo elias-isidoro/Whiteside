@@ -33,11 +33,20 @@ export async function PUT (req: Request) {
     }
 
     const body = await req.json();
-    const { id, ...newUserData } = UpdateUserProfileValidator.parse(body);
+    const { id, username, ...newUserData } = UpdateUserProfileValidator.parse(body);
+
+    const existingUser = await db.user.findUnique({
+      where: { username },
+    });
+
+    if (existingUser && existingUser.id !== id) {
+      return new Response('Username is already taken', { status: 409 });
+    }
 
     if(session.user.id !== id /* && is not owner */){
       return new Response('Unauthorized', { status: 401 });
     }
+    
 
     await db.user.update({
       where: { id },

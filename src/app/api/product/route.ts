@@ -92,7 +92,7 @@ export async function PUT (req: Request) {
     }
 
     const body = await req.json();
-    const { id, variants: incomingVariants, ...newProductData } = UpdateProductValidator.parse(body);
+    const { id, variants: incomingVariants, name, ...newProductData } = UpdateProductValidator.parse(body);
 
     const authoredProduct = await db.product.findFirst({
       where: {
@@ -102,6 +102,12 @@ export async function PUT (req: Request) {
 
     if(!authoredProduct){
       return new Response('Unauthorized', { status: 401 });
+    }
+
+    const productNameAlreadyExists = await db.product.findUnique({where: { name }})
+
+    if (productNameAlreadyExists && productNameAlreadyExists.id !== id) {
+      return new Response('Product name is already taken', { status: 409 });
     }
 
     try{

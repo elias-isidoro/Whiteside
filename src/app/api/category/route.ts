@@ -70,14 +70,14 @@ export async function PUT (req: Request) {
     }
 
     const body = await req.json();
-    const { id, name } = UpdateCategoryValidator.parse(body);
+    const { id, name, ...newCategoryData } = UpdateCategoryValidator.parse(body);
 
     const existingCategory = await db.category.findUnique({
-      where: { name }, // Check if a category with the same name already exists
+      where: { name }, 
     });
 
     if (existingCategory && existingCategory.id !== id) {
-      return new Response('Category name already exists. Please choose a different name.', { status: 400 });
+      return new Response('Category name already exists. Please choose a different name.', { status: 409 });
     }
 
     const authoredCategory= await db.category.findFirst({ where: { id, authorId: session.user.id } })
@@ -86,10 +86,11 @@ export async function PUT (req: Request) {
       return new Response('Unauthorized', { status: 401 });
     }
 
+
     try{
       await db.category.update({
         where: { id },
-        data: { name },
+        data: { name, ...newCategoryData },
       });
     }catch(err){
       return new Response('Failed to update category', { status: 500 });

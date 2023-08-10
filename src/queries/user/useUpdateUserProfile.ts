@@ -23,7 +23,11 @@ const useUpdateUserProfile = ({onSuccessCallback, onErrorCallback}:Props = {}) =
         if(err.response?.status === 401){
           return loginToast()
         }
-        
+
+        if(err.response?.status === 409){
+          return toastError('Username is already taken','Please use a different username.')
+        }
+
         if(err.response?.status === 422){
           return toastError('Invalid input.', 
             err.response.data[0].message || 'Please make sure that your inputs are valid.')

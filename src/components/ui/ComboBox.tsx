@@ -1,4 +1,4 @@
-import { ButtonHTMLAttributes, forwardRef, useState } from "react"
+import { ButtonHTMLAttributes, forwardRef, useEffect, useState } from "react"
 import { Check, ChevronsUpDown } from "lucide-react"
 
 import { cn } from "@/lib/utils"
@@ -51,6 +51,10 @@ export const ComboBox = forwardRef<HTMLButtonElement, Props>(({
     setSelectedValue(valueHolder)
     onUpdate(valueHolder);
   };
+
+  useEffect(()=>{
+    setSelectedValue(value)
+  },[value])
 
   return (
     <Popover open={open} onOpenChange={setOpen}>

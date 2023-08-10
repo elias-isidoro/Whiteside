@@ -76,9 +76,9 @@ const ProductEdit = ({ userId, productId }: Props) => {
     setProductVariants({value: variants.map(({imageUrl,...rest})=>({...rest,image:imageUrl})), isFirstValue: keepStates})
 
     return ()=> { 
-      setKeepStates(false) 
+      resetStates() 
     }
-  }, [keepStates, product, setKeepStates, setProductCategoryId, setProductDescription, setProductName, setProductVariants])
+  }, [keepStates, product, resetStates, setKeepStates, setProductCategoryId, setProductDescription, setProductName, setProductVariants])
 
   if(isFetchingCategories || isFetchingProduct){
     return <>Loading</>

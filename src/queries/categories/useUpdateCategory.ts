@@ -25,6 +25,10 @@ const useUpdateCategory = ({onSuccessCallback, onErrorCallback}:Props = {}) => {
           return loginToast()
         }
 
+        if(err.response?.status === 409){
+          return toastError('Category name already exists',  'Please choose a different category name.')
+        }
+
         if(err.response?.status === 422){
           return toastError('Invalid input.', 
             err.response.data[0].message || 'Please make sure that your inputs are valid.')
