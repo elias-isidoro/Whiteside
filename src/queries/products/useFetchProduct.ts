@@ -10,14 +10,24 @@ type FetchByIdPayload = {
   id: string
 }
 
+interface AxiosResult {
+  data: {
+    product: Product & {
+      author: User,
+      category: Category,
+      variants: Variant[],
+    }
+  }
+}
+
 const useFetchProduct = ({productId}: Props) => {
   
   const query = useQuery({
     queryKey:[`fetch_product_${productId}`],
     queryFn: async () => {
       const payload: FetchByIdPayload = { id: productId }
-      const { data: {product} } = await axios.get('/api/product',{params:payload})
-      return product as (Product & { variants: Variant[], Category: Category, author: User });
+      const { data: {product} }: AxiosResult = await axios.get('/api/product',{params:payload})
+      return product
     },
   });
 

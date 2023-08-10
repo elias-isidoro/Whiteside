@@ -10,14 +10,22 @@ type FetchByIdPayload = {
   id: string
 }
 
+interface AxiosResult {
+  data: {
+    role: Role & {
+      users: User[]
+    }
+  }
+}
+
 const useFetchRole = ({roleId}: Props) => {
   
   const query = useQuery({
     queryKey:[`fetch_role_${roleId}`],
     queryFn: async () => {
       const payload: FetchByIdPayload = { id: roleId }
-      const { data: {role} } = await axios.get('/api/role',{params:payload})
-      return role as (Role & { users: User[] });
+      const { data: {role} }: AxiosResult = await axios.get('/api/role',{params:payload})
+      return role
     },
   });
 

@@ -5,7 +5,7 @@ export const dynamic = 'force-dynamic'
 
 export async function GET () {
   try {
-    const products = await db.product.findMany({ include:{ variants: true } });
+    const products = await db.product.findMany({ include:{ variants: true, author: true } });
 
     return NextResponse.json({ products })
 

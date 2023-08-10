@@ -5,7 +5,7 @@ export const dynamic = 'force-dynamic'
 
 export async function GET () {
   try {
-    const users = await db.user.findMany({ include:{ Role: true } });
+    const users = await db.user.findMany({ include:{ role: true } });
 
     return NextResponse.json({ users })
 

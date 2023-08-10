@@ -73,7 +73,7 @@ export const authOptions: NextAuthOptions = {
           email: token.email,
         },
         include:{
-          Role: true
+          role: true
         }
       })
 
@@ -88,7 +88,7 @@ export const authOptions: NextAuthOptions = {
         email: dbUser.email,
         picture: dbUser.image,
         username: dbUser.username,
-        role: dbUser.Role
+        role: dbUser.role
       }
 
       return result

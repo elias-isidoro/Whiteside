@@ -156,7 +156,7 @@ const ProductEdit = ({ userId, productId }: Props) => {
               className='w-full border border-slate-500 text-xs h-fit p-2 rounded-sm'
               value={productCategoryId || nanoid()}
               onUpdate={handleCategoryChange}
-              boxPlaceholder={product.Category ? product.Category.name : "Select Category"}
+              boxPlaceholder={product.category ? product.category.name : "Select Category"}
               defaultPlaceHolder={'Select Category'}
               searchPlaceholder="Search Category"
               emptyPlaceholder="No categories found."

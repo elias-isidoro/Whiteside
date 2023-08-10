@@ -6,7 +6,6 @@ import { NextResponse } from "next/server";
 import ImageKit from "imagekit";
 import { Variant } from "@prisma/client";
 
-
 export const dynamic = 'force-dynamic'
 
 interface divisions { 
@@ -29,7 +28,7 @@ export async function GET (req: Request) {
 
     const product = await db.product.findFirst({ 
       where: { id },
-      include: { variants: true, Category: true, author: true }
+      include: { variants: true, category: true, author: true }
     });
 
     if(product){
@@ -55,7 +54,7 @@ export async function POST (req: Request) {
 
     const body = await req.json()
 
-    const { id, name, description, variants, categoryId } = CreateProductValidator.parse(body)
+    const { id, name, variants, ...productData } = CreateProductValidator.parse(body)
 
     const variantsData = variants.map((variant)=>({...variant, productId:id}))
 
@@ -65,7 +64,7 @@ export async function POST (req: Request) {
       return new Response('Product Already Exists', {status: 409})
     }
 
-    const product = await db.product.create({ data:{ name, description, id, categoryId, authorId: session.user.id } })
+    const product = await db.product.create({ data:{  id, name, authorId: session.user.id, ...productData } })
 
     await db.variant.createMany({ data: variantsData });
 

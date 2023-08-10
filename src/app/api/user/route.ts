@@ -10,7 +10,7 @@ export async function GET (req: Request) {
 
     const user = await db.user.findFirst({ 
       where: { id },
-      include: { Role: true, Orders: true }
+      include: { role: true, ordersCreated: true }
     });
 
     if(user){

@@ -40,7 +40,7 @@ const UserProfile: FC<Props> = ({userId}) => {
   const {data: user, isLoading: isFetchingUser, refetch: refetchUser} = useFetchUser({userId})
   const {data: roles, isLoading: isFetchingAllRoles} = useFetchAllRoles()
   
-  const [userRole, setUserRole] = useState<RoleValue>(user ? (user.Role || NO_ROLE_VALUE) : NO_ROLE_VALUE)
+  const [userRole, setUserRole] = useState<RoleValue>(user ? (user.role || NO_ROLE_VALUE) : NO_ROLE_VALUE)
   const [username, setUsername] = useState(user ? (user.username || user.name || 'Anonymous') : 'Anonymous')
 
   const {mutate: updateUserRole, isLoading: isUpdatingUserRole} = useUpdateUserProfile({
@@ -52,7 +52,7 @@ const UserProfile: FC<Props> = ({userId}) => {
   
   useEffect(()=>{
     if(!user) return
-    setUserRole(user.Role || NO_ROLE_VALUE)
+    setUserRole(user.role || NO_ROLE_VALUE)
     setUsername(user.username || user.name || 'Anonymous')
   },[user])
   

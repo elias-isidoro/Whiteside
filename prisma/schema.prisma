@@ -48,7 +48,7 @@ model Session {
 model Role {
   id   String @id @default(cuid())
   name String
-  User User[] @relation("UserRole")
+  users User[]
 
   canManageOrders          Boolean @default(false)
   canManageProducts        Boolean @default(false)
@@ -70,14 +70,14 @@ model User {
 
   image String?
 
-  Role   Role?   @relation("UserRole", fields: [roleId], references: [id])
+  role   Role?   @relation(fields: [roleId], references: [id])
   roleId String?
 
   accounts Account[]
   sessions Session[]
-  Orders   Order[]
-  Product  Product[]
-  Category Category[]
+  ordersCreated   Order[]
+  productsCreated  Product[]
+  categoriesCreated Category[]
 
   @@index([roleId])
 }
@@ -101,7 +101,7 @@ model Product {
   description String
   variants    Variant[]
 
-  Category   Category? @relation(fields: [categoryId], references: [id])
+  category   Category? @relation(fields: [categoryId], references: [id])
   categoryId String?
 
   author   User   @relation(fields: [authorId], references: [id])

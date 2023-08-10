@@ -16,7 +16,7 @@ export async function GET (req: Request) {
 
     const role = await db.role.findFirst({ 
       where: { id },
-      include: { User: true }
+      include: { users: true }
     });
 
     if(role){
@@ -76,7 +76,7 @@ export async function PUT (req: Request) {
     }
 
     const body = await req.json();
-    const { id, name, ...newRoleData } = UpdateRoleValidator.parse(body);
+    const { id, ...newRoleData } = UpdateRoleValidator.parse(body);
 
     const role = await db.role.findFirst({where:{ id }})
 
@@ -90,7 +90,7 @@ export async function PUT (req: Request) {
 
     await db.role.update({
       where: { id, authorId: session.user.id },
-      data: { name, ...newRoleData },
+      data: { ...newRoleData },
     });
 
     return new Response('Role updated successfully:');

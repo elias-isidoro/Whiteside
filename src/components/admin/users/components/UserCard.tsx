@@ -8,7 +8,7 @@ import { Role, User } from '@prisma/client'
 import { buttonVariants } from '@/components/ui/Button'
 
 interface Props {
-  user: User & {Role: Role}
+  user: User & {role: Role}
 }
 
 const UserCard: FC<Props> = ({user}) => {
@@ -28,7 +28,7 @@ const UserCard: FC<Props> = ({user}) => {
       </td>
 
       <td className='hidden min-[350px]:table-cell h-full text-center text-xs border-b border-gray-300'>
-        {user.Role?.name || 'No Role'}
+        {user.role?.name || 'No Role'}
       </td>
 
       <td className='h-full text-center border-b border-gray-300'>
