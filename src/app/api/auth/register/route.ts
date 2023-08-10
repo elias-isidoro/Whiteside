@@ -17,7 +17,7 @@ export async function POST (req: Request) {
       return new Response('Email Already Used', {status: 409})
     }
 
-    const nameExists = await db.user.findFirst({ where: { name } })
+    const nameExists = await db.user.findFirst({ where: { OR: [{ name }, { username: name }] } })
 
     if(nameExists){
       return new Response('Name Already Used', {status: 410})

@@ -35,8 +35,8 @@ export async function PUT (req: Request) {
     const body = await req.json();
     const { id, username, ...newUserData } = UpdateUserProfileValidator.parse(body);
 
-    const existingUser = await db.user.findUnique({
-      where: { username },
+    const existingUser = await db.user.findFirst({
+      where: { OR: [{ username }, { name: username }] },
     });
 
     if (existingUser && existingUser.id !== id) {
