@@ -33,7 +33,7 @@ export const useCustomToast = () => {
         <Link 
         href={'/cart'} 
         onClick={()=>dismiss()}
-        className={cn(buttonVariants(),'text-[10px] min-[400px]:text-xs')}>
+        className={cn(buttonVariants(),'text-[10px] min-[400px]:text-xs flex justify-center items-center')}>
           View Cart
         </Link>
       ),
