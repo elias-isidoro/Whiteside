@@ -5,16 +5,14 @@ import locale from 'date-fns/locale/en-US'
 import { nanoid } from 'nanoid';
 import { toast } from '@/hooks/use-toast';
 
-const PRODUCT_VARIANT_CONNECTOR = '_CFr23gh_';
+const PRODUCT_VARIANT_CONNECTOR = nanoid()
 
 export const productVariantIdConnector = ({ productId, variantId }: { productId: string, variantId: string }) => {
   return `${productId}${PRODUCT_VARIANT_CONNECTOR}${variantId}`;
 };
 
 export const productVariantIdSeparator = (productVariantId: string) => {
-  const separatorIndex = productVariantId.lastIndexOf(PRODUCT_VARIANT_CONNECTOR);
-  const productId = productVariantId.slice(0, separatorIndex);
-  const variantId = productVariantId.slice(separatorIndex + 11);
+  const [productId, variantId] = productVariantId.split(PRODUCT_VARIANT_CONNECTOR)
   return { productId, variantId };
 };
 

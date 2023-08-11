@@ -22,8 +22,8 @@ const ProductView: FC<Props> = ({productVariantId, session}) => {
   const {data: product, isLoading: isFetchingProduct} = useFetchProduct({productId})
   const { isInCart, toggleItem } = useCartStore()
   const { loginToast, cartToast } = useCustomToast()
-  const [variantIndex, setVariantIndex] = useState(product ? product.variants.findIndex(({id})=>id === variantId) || 0 : 0)
-
+  const [variantIndex, setVariantIndex] = useState(product ? (product.variants.findIndex(({id})=>id === variantId) || 0) : 0)
+  
   useEffect(()=>{
     if(!product) return
     const variantIndex = product.variants.findIndex(({id})=>id === variantId) || 0
