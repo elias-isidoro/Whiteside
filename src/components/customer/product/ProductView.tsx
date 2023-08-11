@@ -68,7 +68,7 @@ const ProductView: FC<Props> = ({productVariantId, session}) => {
   return(
     <div className={`flex flex-col h-full w-fit max-w-[250px] min-[600px]:max-w-lg min-w-[100px] gap-4 pt-3 px-2`}>
       <div className='w-full flex flex-row flex-wrap gap-2'>
-        <div className='flex flex-col flex-grow items-center gap-2 basis-1/2 min-[600px]:basis-1/3 pt-1'>
+        <div className='flex flex-col flex-grow items-center gap-2 basis-1/2 min-[600px]:basis-1/3 pt-1 pb-4'>
           <div className={`aspect-square w-full max-h-[250px] min-[600px]:max-h-[300px]`}>
             <img
             alt={`${product.name}'s image`}
