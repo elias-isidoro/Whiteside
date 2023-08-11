@@ -23,7 +23,9 @@ const useUpdateProduct = ({onSuccessCallback, onErrorCallback}:Props = {}) => {
         if(err.response?.status === 401){
           return loginToast()
         }
-
+        if(err.response?.status === 402){
+          return toastError('Unauthorized',  'You are not allowed to perform this action.')
+        }
         if(err.response?.status === 422){
           return toastError('Invalid input.', 
             err.response.data[0].message || 'Please make sure that your inputs are valid.')

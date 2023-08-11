@@ -24,6 +24,10 @@ const useUpdateCategory = ({onSuccessCallback, onErrorCallback}:Props = {}) => {
         if(err.response?.status === 401){
           return loginToast()
         }
+        
+        if(err.response?.status === 402){
+          return toastError('Unauthorized',  'You are not allowed to perform this action.')
+        }
 
         if(err.response?.status === 409){
           return toastError('Category name already exists',  'Please choose a different category name.')

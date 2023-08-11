@@ -83,7 +83,7 @@ export async function PUT (req: Request) {
     const authoredCategory= await db.category.findFirst({ where: { id, authorId: session.user.id } })
 
     if(!authoredCategory){
-      return new Response('Unauthorized', { status: 401 });
+      return new Response('Unauthorized', { status: 402 });
     }
 
 
@@ -128,7 +128,7 @@ export async function DELETE (req: Request) {
     }
 
     if(categoryExists.authorId !== session.user.id){
-      return new Response('Unauthorized', { status: 401 });
+      return new Response('Unauthorized', { status: 402 });
     }
 
     try{

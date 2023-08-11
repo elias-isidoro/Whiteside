@@ -9,6 +9,7 @@ import { Input } from '../ui/Input'
 import Link from 'next/link'
 import useSignUp from '@/queries/auth/useSignUp'
 import { useRouter } from 'next/navigation'
+import { toastError } from '@/lib/utils'
 
 const SignUp = () => {
 
@@ -16,6 +17,7 @@ const SignUp = () => {
   const { toast } = useToast()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [rePassword, setRePassword] = useState('')
   const [username, setUsername] = useState('')
   const [isSigningInWithGoogle, setIsSigningInWithGoogle] = useState(false)
 
@@ -41,6 +43,11 @@ const SignUp = () => {
   }
 
   const signUpWithCredentials = async () => {
+
+    if(rePassword !== password){
+      return toastError('Passwords does not match', 'Please review your inputs.')
+    }
+
     registerUser({
       email,
       password,
@@ -78,6 +85,14 @@ const SignUp = () => {
           onChange={(e)=>{ setPassword(e.target.value) }}
           className='border border-slate-700 text-xs'/>
 
+          <Input 
+          disabled={isSigningInWithGoogle || isRegisteringUser}
+          placeholder={'Confirm Password'}
+          value={rePassword}
+          type='password'
+          onChange={(e)=>{ setRePassword(e.target.value) }}
+          className='border border-slate-700 text-xs'/>
+
           <Button
             isLoading={isRegisteringUser}
             type='button'
@@ -85,7 +100,7 @@ const SignUp = () => {
             className='w-full'
             onClick={signUpWithCredentials}
             disabled={isSigningInWithGoogle || isRegisteringUser}>
-            Register
+            <p className='text-xs min-[400px]:text-sm'>Register</p>
           </Button>
         </div>
         
@@ -99,7 +114,7 @@ const SignUp = () => {
           onClick={loginWithGoogle}
           disabled={isSigningInWithGoogle || isRegisteringUser}>
           {isSigningInWithGoogle ? null : <Icons.google className='h-4 w-4 mr-2' />}
-          Sign In with Google
+          <p className='text-xs min-[400px]:text-sm'>Sign In with Google</p>
         </Button>
       </div>
 

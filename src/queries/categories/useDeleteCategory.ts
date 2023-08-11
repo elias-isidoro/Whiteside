@@ -27,6 +27,9 @@ const useDeleteCategory = ({onSuccessCallback, onErrorCallback}:Props = {}) => {
         if(err.response?.status === 401){
           return loginToast()
         }
+        if(err.response?.status === 402){
+          return toastError('Unauthorized',  'You are not allowed to perform this action.')
+        }
       }
       onErrorCallback&&onErrorCallback()
       return toastError('There was an error.', 'Could not delete category.')

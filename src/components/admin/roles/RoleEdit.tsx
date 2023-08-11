@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/Label";
 import Loading from "@/components/ui/Loading";
 import { Switch } from "@/components/ui/Switch";
 import { UpdateRolePayload } from "@/lib/validators/role";
-import useUpdateRole from "@/queries/role/uesUpdateRole";
+import useUpdateRole from "@/queries/role/useUpdateRole";
 import useDeleteRole from "@/queries/role/useDeleteRole";
 import useFetchAllRoles from "@/queries/role/useFetchAllRoles";
 import useFetchRole from "@/queries/role/useFetchRole";

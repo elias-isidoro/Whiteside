@@ -101,7 +101,7 @@ export async function PUT (req: Request) {
     })
 
     if(!authoredProduct){
-      return new Response('Unauthorized', { status: 401 });
+      return new Response('Unauthorized', { status: 402 });
     }
 
     const productNameAlreadyExists = await db.product.findUnique({where: { name }})
@@ -203,7 +203,7 @@ export async function DELETE (req: Request) {
     }
 
     if(productExists.authorId !== session.user.id){
-      return new Response('Unauthorized', { status: 401 });
+      return new Response('Unauthorized', { status: 402 });
     }
 
     try{

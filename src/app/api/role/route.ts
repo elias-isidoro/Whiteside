@@ -85,7 +85,7 @@ export async function PUT (req: Request) {
     }
 
     if(role?.authorId !== session.user.id){
-      return new Response('Unauthorized', { status: 401 });
+      return new Response('Unauthorized', { status: 402 });
     }
 
     const roleNameAlreadyExists = await db.role.findFirst({where: { name }})
@@ -131,7 +131,7 @@ export async function DELETE (req: Request) {
     }
 
     if(roleExists.authorId !== session.user.id){
-      return new Response('Unauthorized', {status: 401})
+      return new Response('Unauthorized', {status: 402})
     }
     
     try{
