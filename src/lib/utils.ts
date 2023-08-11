@@ -5,6 +5,17 @@ import locale from 'date-fns/locale/en-US'
 import { nanoid } from 'nanoid';
 import { toast } from '@/hooks/use-toast';
 
+export const productVariantIdConnector = ({ productId, variantId }: { productId: string, variantId: string }) => {
+  return `${productId}_connector_${variantId}`;
+};
+
+export const productVariantIdSeparator = (productVariantId: string) => {
+  const separatorIndex = productVariantId.lastIndexOf('_connector_');
+  const productId = productVariantId.slice(0, separatorIndex);
+  const variantId = productVariantId.slice(separatorIndex + 11);
+  return { productId, variantId };
+};
+
 export const delay = async (milliseconds:number) => new Promise(res=>setTimeout(res, milliseconds))
 
 export const capitalizeFirstLetter = (string: string) => {

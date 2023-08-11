@@ -12,7 +12,7 @@ const page = async ({params: {id}}: Props) => {
   const session = await getAuthSession()
 
   return(
-    <ProductView productId={id} session={session}/>
+    <ProductView productVariantId={id} session={session}/>
   )
 }
 

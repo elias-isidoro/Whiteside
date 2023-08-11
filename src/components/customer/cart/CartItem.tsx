@@ -37,7 +37,7 @@ const CartItem: FC<Props> = ({item}: Props) => {
           value={item.quantity}
           onChange={changeQuantity}
           className='w-10 h-auto p-1 text-xs text-center '/>
-          <Link href={`/products/view/${item.productId}`} className='text-xs min-[455px]:text-sm overflow-hidden whitespace-nowrap text-ellipsis my-auto group-hover:underline cursor-pointer'>
+          <Link href={`/products/view/${item.id}`} className='text-xs min-[455px]:text-sm overflow-hidden whitespace-nowrap text-ellipsis my-auto group-hover:underline cursor-pointer'>
             {item.name}
           </Link>
           <p className='text-xs hidden min-[400px]:block overflow-hidden whitespace-nowrap text-ellipsis pr-4'>{`(${JSON.parse(item.variant.tags).join(', ')})`}</p>

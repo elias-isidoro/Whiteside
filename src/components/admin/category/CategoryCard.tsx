@@ -1,10 +1,9 @@
 'use client'
 
-import { Button, buttonVariants } from '@/components/ui/Button'
+import { buttonVariants } from '@/components/ui/Button'
 import { cn } from '@/lib/utils'
-import useDeleteCategory from '@/queries/categories/useDeleteCategory'
 import { Category, Product } from '@prisma/client'
-import { Pencil, Trash2 } from 'lucide-react'
+import { Pencil } from 'lucide-react'
 import Link from 'next/link'
 import { FC } from 'react'
 
@@ -15,16 +14,8 @@ interface Props {
   onDelete: ()=> void
 }
 
-const CategoryCard: FC<Props> = ({category,onDelete}) => {
+const CategoryCard: FC<Props> = ({category}) => {
 
-
-  const {mutate: deleteCategory, isLoading: isDeletingCategory} = useDeleteCategory({
-    onSuccessCallback: () => {
-      onDelete()
-    }
-  })
-
-  const handleDelete = () => deleteCategory({id: category.id})
 
   return(
     <tr className='group h-[50px]'>
@@ -47,13 +38,6 @@ const CategoryCard: FC<Props> = ({category,onDelete}) => {
           className={cn(buttonVariants({variant:'ghost'}),'p-1 h-auto w-auto')}>
             <Pencil color={'blue'} strokeWidth={'1.5px'}/>
           </Link>
-          <Button 
-          isLoading={isDeletingCategory}
-          onClick={handleDelete}
-          variant={'ghost'} 
-          className='p-1 h-auto w-auto'>
-            {!isDeletingCategory&&<Trash2 color={'red'} strokeWidth={'1.5px'}/>}
-          </Button>
         </div>
       </td>
     </tr>

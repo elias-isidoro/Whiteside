@@ -18,7 +18,7 @@ const page = async ({params: {id}}: Props) => {
         <div className='flex items-center w-full h-4'>
           <CloseModal/>
         </div>
-        <ProductView productId={id} session={session}/>
+        <ProductView productVariantId={id} session={session}/>
       </div>
     </div>
     
